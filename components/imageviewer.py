@@ -24,8 +24,7 @@ class ImageViewer(Element):
         self.tag = "div"
         self.id = id
         self.value_name = None
-        if id is not None:
-            self.id = id
+        if id is not None:            
             connection.queue_for_send(self.id, self.value, "init-seadragon")
         if value is not None:
             connection.queue_for_send(self.id, self.value_to_command("open"), "seadragon")

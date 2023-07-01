@@ -95,6 +95,9 @@ class Element:
         self.events[event_name] = action
         return self
     
+    def get_client_handler_str(self, event_name):
+        return f" on{event_name}='clientEmit(this.id,this.{self.value_name},\"{event_name}\")'"
+
     def render(self):
         str = f"<{self.tag}"
         if self.id is not None:
@@ -110,7 +113,7 @@ class Element:
         for attr_name, attr_value in self.attrs.items():
             str += f" {attr_name}='{attr_value}'"
         for event_name, action in self.events.items():
-            str += f" on{event_name}='clientEmit(this.id,this.{self.value_name},\"{event_name}\")'"
+            str += self.get_client_handler_str(event_name)
         if self.has_content:
             str +=">"
             str +=f"{self.value if self.value is not None and self.value_name is not None else ''}"
