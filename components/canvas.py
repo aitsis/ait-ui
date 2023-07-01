@@ -5,16 +5,12 @@ import components.scripts as scripts
 
 
 scripts.add_script("canvas", """
-    event_handlers["init-canvas"] = function(id, value, event_name){
-            console.log("init-canvas");
+    event_handlers["init-canvas"] = function(id, value, event_name){            
             canvas = document.getElementById(id);
-            
             elements[id] = {canvas: canvas, ctx: canvas.getContext('2d')};            
         }
-    event_handlers["canvas"] = function(id, value, event_name){
-        console.log("canvas", id, value, event_name);
-        if (value.action == "fillRect"){
-            console.log("fillRect", value.params,elements[id].ctx);
+    event_handlers["canvas"] = function(id, value, event_name){        
+        if (value.action == "fillRect"){            
             elements[id].ctx.fillRect(value.params.x, value.params.y, value.params.width, value.params.height);
         }
     }
