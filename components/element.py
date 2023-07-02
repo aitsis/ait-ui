@@ -67,6 +67,13 @@ class Element:
 
     def toggle_class(self, class_name):
         connection.send(self.id, class_name, "toggle-class")
+    
+    def set_attr(self, attr_name, attr_value):
+        connection.send(self.id, attr_value, "change-"+attr_name)
+    
+    def set_style(self, attr_name, attr_value):
+        connection.send(self.id, attr_value, "set-"+attr_name)
+
     def add_child(self, child):        
         self.children.append(child)
 

@@ -33,6 +33,11 @@ add_script("myapp", """
                 el[data.event_name.split("-")[1]] = data.value;
                 return;
             }
+            if(data.event_name.startsWith("set-")){
+                var el = document.getElementById(data.id);
+                el['style'][data.event_name.split("-")[1]] = data.value;
+                return;
+            }
             if (data.event_name in event_handlers) {
                 event_handlers[data.event_name](data.id, data.value, data.event_name);
             }

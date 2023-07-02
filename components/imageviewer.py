@@ -10,7 +10,8 @@ scripts.add_script("seadragon", """
         elements[id] = OpenSeadragon({
                 id: id,
                 prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/",
-                animationTime: 0
+                animationTime: 0,
+                maxZoomPixelRatio: 2,
             });
             console.log("init-seadragon");
         }
@@ -24,10 +25,7 @@ class ImageViewer(Element):
         self.tag = "div"
         self.id = id
         self.value_name = None
-        if id is not None:            
-            connection.queue_for_send(self.id, self.value, "init-seadragon")
-        if value is not None:
-            connection.queue_for_send(self.id, self.value_to_command("open"), "seadragon")
+        
     @property
     def value(self):
         return self._value
@@ -36,6 +34,13 @@ class ImageViewer(Element):
         self._value = value                
         connection.send(self.id, self.value_to_command("open"), "seadragon")
 
+    def render(self):
+        if self.id is not None:            
+            connection.queue_for_send(self.id, self.value, "init-seadragon")
+        if self.value is not None:
+            connection.queue_for_send(self.id, self.value_to_command("open"), "seadragon")
+        return super().render()
+    
     def value_to_command(self,command):
         src = {
             "type": "image",

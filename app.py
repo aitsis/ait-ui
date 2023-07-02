@@ -23,7 +23,6 @@ def handle_from_client(json):
     print('Received json: ' + str(json))
     if json['id'] == "myapp":
         if json['value'] == "init":
-            print("Client connected")
             connection.send("myapp", ui_root.render(), "init-content")
     if connection.clientHandler is not None:
         connection.clientHandler(json['id'], json['value'], json['event_name'])    
@@ -41,7 +40,7 @@ def run(ui = None, debug=True):
     global ui_root
     if ui is not None:
         ui_root = ui        
-    flask_app.run(port=5000, debug=debug)
+    flask_app.run(host="0.0.0.0",port=5000, debug=debug)
 
 if __name__ == '__main__':
     run()
