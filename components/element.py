@@ -57,6 +57,9 @@ class Element:
                 else:
                     self.parent = None
                     cur_parent = self
+
+    def set_value(self, value):
+        self.value = value
     @property
     def value(self):
         return self._value
