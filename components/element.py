@@ -110,30 +110,43 @@ class Element:
 
     def render(self):
         str = f"<{self.tag}"
+        # <div
         if self.id is not None:
             str += f" id='{self.id}'"
+        # <div id='myid'   
         class_str = " ".join(self.classes)
+        # <div id='myid' class='myclass1 myclass2'
         if(len(class_str) > 0):
             str += f" class='{class_str}'"
+        # <div id='myid' class='myclass1 myclass2'
         if(len(self.styles) > 0):
             style_str = " style='"
+            # <div id='myid' class='myclass1 myclass2' style='
             for style_name, style_value in self.styles.items():
                 style_str += f" {style_name}:{style_value};"
+            # <div id='myid' class='myclass1 myclass2' style='width:100px;height:100px;'
             str += style_str + "'"
         for attr_name, attr_value in self.attrs.items():
             str += f" {attr_name}='{attr_value}'"
+            # <div id='myid' class='myclass1 myclass2' style='width:100px;height:100px;' attr_name='attr_value'
         for event_name, action in self.events.items():
             str += self.get_client_handler_str(event_name)
+            # <div id='myid' class='myclass1 myclass2' style='width:100px;height:100px;' attr_name='attr_value' onevent_name='clientEmit(this.id,this.value,"event_name")'
         if self.has_content:
             str +=">"
+            # <div id='myid' class='myclass1 myclass2' style='width:100px;height:100px;' attr_name='attr_value' onevent_name='clientEmit(this.id,this.value,"event_name")'>
             str +=f"{self.value if self.value is not None and self.value_name is not None else ''}"
+            # <div id='myid' class='myclass1 myclass2' style='width:100px;height:100px;' attr_name='attr_value' onevent_name='clientEmit(this.id,this.value,"event_name")'>value
             for child in self.children:
                 str += child.render()
+            # <div id='myid' class='myclass1 myclass2' style='width:100px;height:100px;' attr_name='attr_value' onevent_name='clientEmit(this.id,this.value,"event_name")'>value<child1><child2>
             str += f"</{self.tag}>"
+            # <div id='myid' class='myclass1 myclass2' style='width:100px;height:100px;' attr_name='attr_value' onevent_name='clientEmit(this.id,this.value,"event_name")'>value<child1><child2></div>
         else:
             if self.value is not None:
                 if(self.value_name is not None):
                     str +=f' {self.value_name} ="{self.value}"'
             str += "/>"
+            # <div id='myid' class='myclass1 myclass2' style='width:100px;height:100px;' attr_name='attr_value' onevent_name='clientEmit(this.id,this.value,"event_name")' value='value'/>
         return str
 
