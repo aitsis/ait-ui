@@ -17,6 +17,9 @@ from components.button import Button
 def on_click(id, value):
     print("clicked", id, value)
     Elm("text1").value = "Button clicked"
+    with Element(id = "image1") as content:
+        content.cls("border").style("background-color", "blue")
+        Image(src = "https://www.w3schools.com/html/pic_trulli.jpg")
 
 with Element() as main:
     Text(id = "text1", value = "Image Viewer Example")
