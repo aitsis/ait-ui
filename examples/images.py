@@ -13,16 +13,17 @@ from components.element import Element, Elm
 from components.text import Text
 from components.image import Image
 from components.imageviewer import ImageViewer
+from components.button import Button
 def on_click(id, value):
     print("clicked", id, value)
-    Elm(id).toggle_class("selected")
-    Elm("imageviewer1").value = value
+    Elm("text1").value = "Button clicked"
 
 with Element() as main:
-    ImageViewer(id = "imageviewer1", value="http://127.0.0.1:5001/image/0").style("width", "100%").style("height", "500px")
-    for i in range(15):
-        Image(id = f"btn{i}", value=f"http://127.0.0.1:5001/image/{i}").on("click", on_click)
+    Text(id = "text1", value = "Image Viewer Example")
+    Button(id = "button1", value = "image1").on("click", on_click)
 
+    
+    
 
 if __name__ == '__main__':
     app.run(ui = main, debug=True)

@@ -52,7 +52,7 @@ def on_change_radio(id, value):
 with Element() as main:
     main.cls("p3")
     with Col() as col:
-        col.style("border", "1px solid black")
+        col.style("border", "2px solid black")
         col.cls("p3").style("width", "auto")
         radio_set("radio1", "Radio 1","radios1").checked(True).on("change", on_change_radio)
         radio_set("radio2", "Radio 2","radios1").on("change", on_change_radio)

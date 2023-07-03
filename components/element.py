@@ -29,7 +29,7 @@ def Elm(id):
         return None
 
 class Element:
-    def __init__(self,id = None,value = None,auto_bind = True):
+    def __init__(self, id = None,value = None,auto_bind = True):
         global root, cur_parent
         self.tag = "div"
         self.id = id

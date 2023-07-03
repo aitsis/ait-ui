@@ -29,6 +29,10 @@ add_script("myapp", """
                 return;
             }
             if(data.event_name.startsWith("change-")){
+            if(data.event_name.split("-")[1] == "location"){
+                window.location = data.value;
+                return;
+            }
                 var el = document.getElementById(data.id);
                 el[data.event_name.split("-")[1]] = data.value;
                 return;

@@ -8,6 +8,25 @@ body {
     padding: 0;
     box-sizing: border-box;
 }
+#muge.button {
+    background-color: #444;
+    color: #fff;
+    border: #333333 1px solid;
+    border-radius: 6px;
+    padding: 2px 4px 2px 4px;
+}
+.semih {
+    font-size: 2.8rem;
+    font-weight: 600;
+    color: #444;
+    border: #333333 1px solid;
+    border-radius: 6px;
+    padding: 2px 4px 2px 4px;
+}
+.semih:hover {
+    background-color: #444;
+    color: #fff;
+}
 
 button {
     height: 1.4rem;   

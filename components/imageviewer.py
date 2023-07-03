@@ -11,7 +11,7 @@ scripts.add_script("seadragon", """
                 id: id,
                 prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/",
                 animationTime: 0,
-                maxZoomPixelRatio: 2,
+                maxZoomPixelRatio: 4,
             });
             console.log("init-seadragon");
         }
