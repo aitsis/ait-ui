@@ -1,4 +1,4 @@
-from components.element import Element
+from .element import Element
 class Label(Element):
     def __init__(self, usefor = None,value = None):
         super().__init__(value = value)

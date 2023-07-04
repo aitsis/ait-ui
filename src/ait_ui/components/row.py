@@ -1,5 +1,5 @@
 
-from components.element import Element
+from .element import Element
 class Row(Element):
     def __init__(self,id = None, value = None):
         super().__init__(id, value)

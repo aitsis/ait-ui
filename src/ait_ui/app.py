@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify, send_from_directory, send_file
 from flask_cors import CORS
 from flask_socketio import SocketIO, send, emit
-import connection
-import index_gen
 import os
+
+from . import connection
+from . import index_gen
 flask_app = Flask(__name__)
 socketio = SocketIO(flask_app)
 connection.socket = socketio

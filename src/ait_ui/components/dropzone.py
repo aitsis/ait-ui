@@ -1,8 +1,14 @@
-from components.element import Element
-from components.text import Text
-import connection
+from .element import Element
+from .text import Text
+from . import scripts
 
-import components.scripts as scripts
+#---------------------------------------------------------------#
+## To acces the connection  from up directory we use the following code
+import os 
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+import connection
+#---------------------------------------------------------------#
 
 scripts.header_items.append('<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>')
 

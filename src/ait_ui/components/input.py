@@ -1,4 +1,4 @@
-from components.element import Element
+from .element import Element
 class Input(Element):
     def __init__(self,id = None,value = None, type = "text"):
         super().__init__(id = id, value = value)                

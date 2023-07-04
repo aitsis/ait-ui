@@ -1,17 +1,16 @@
-
 #---------------------------------------------------------------#
 # This code added to run app.py from the examples directory
 # on production does not need to be added
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join('..')))
-#---------------------------------------------------------------#
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+#-------------------------------------------------------------
 
-import app
+from ait_ui import  app
 
-from components.element import Element, Elm
-from components.text import Text
-from components.button import Button
+from ait_ui.components.element import Element, Elm
+from ait_ui.components.text import Text
+from ait_ui.components.button import Button
 
 def on_click(id, value):
     print("clicked", id, value)
