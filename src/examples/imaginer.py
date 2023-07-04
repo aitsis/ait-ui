@@ -80,4 +80,8 @@ with Element(id = "imaginer-wrapper") as main:
                     content.cls("imaginer-body-right-input-wrapper")
 
 if __name__ == '__main__':
+<<<<<<< HEAD:src/examples/imaginer.py
     app.run(ui = main, debug=True)
+=======
+    app.run(ui = main, debug=True)
+>>>>>>> upstream/main:examples/imaginer.py
