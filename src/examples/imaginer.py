@@ -18,11 +18,19 @@ from ait_ui.components.button import Button
 from ait_ui.components.input import Input
 from ait_ui.components.textarea import TextArea
 from ait_ui.components.dropzone import Dropzone
+from ait_ui.components.select import Select
+from ait_ui.components.option import Option
 
 def on_change(id, value):
     print("changed", id, value)
     Elm("input1").value = value
 
+global isLoading
+isLoading = False
+
+def loading():
+    print("loading")
+    isLoading = True
 
 with Element(id = "imaginer-wrapper") as main:
         main.cls("imaginer-wrapper")
@@ -41,7 +49,17 @@ with Element(id = "imaginer-wrapper") as main:
             #Left Col
             with Element() as content:
                 content.cls("imaginer-body-left-top")
-                Text(value = "Models")
+                if isLoading:
+                    Text(value = "Loading")
+                else:
+                    Text(value = "Model")
+                with Select(id="imaginer-dropdown" ) as select:
+                    select.on("change", print("changed"))
+                    Option(value = "Model 1" , id="imaginer-option")
+                    Option(value = "Model 2" , id="imaginer-option")
+                    Option(value = "Model 3" , id="imaginer-option")
+                    Option(value = "Model 4" , id="imaginer-option")
+                    Option(value = "Model 5" , id="imaginer-option")
             #Right Col
             with Element() as content:
                 content.cls("imaginer-body-right-top")
@@ -51,7 +69,7 @@ with Element(id = "imaginer-wrapper") as main:
                     TextArea(id = "input1", placeholder="Type Here ...").on("change", print("changed"))
             with Element() as content:
                 content.cls("imaginer-body-buttonwrapper")
-                Button(value = "Generate" , id="imaginer-button").on("click", print("clicked")).style("background-color", "green")
+                Button(value = "Generate" , id="imaginer-button").on("click", loading()).style("background-color", "green")
                 Button(value = "Clear" , id="imaginer-button").on("click", print("clicked"))
         with Element() as content:
             content.cls("imaginer-body-center")
@@ -80,8 +98,4 @@ with Element(id = "imaginer-wrapper") as main:
                     content.cls("imaginer-body-right-input-wrapper")
 
 if __name__ == '__main__':
-<<<<<<< HEAD:src/examples/imaginer.py
     app.run(ui = main, debug=True)
-=======
-    app.run(ui = main, debug=True)
->>>>>>> upstream/main:examples/imaginer.py
