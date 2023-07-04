@@ -1,0 +1,73 @@
+@font-face {
+    font-family: 'Arial Black';
+    font-style: normal;
+    font-weight: unset;
+    src: local('Arial Black'), url('fonts/Arial-Black-Italic.TTF') format('truetype');
+    }
+  * {
+    font-family: 'Arial Black', sans-serif  !important;
+    font-style:italic;
+    
+  }
+#main{
+    background-color: black;
+    height: 100vh;
+    min-height: 100vh;
+    width: 100vw;
+}
+
+#navbar{
+    position: relative;
+    height: 6%;
+    padding: 0 32px;
+    align-items: center;
+    display: flex;
+    width: auto;
+}
+
+#search_area{
+    position: absolute;
+    width: 20%;
+    height: 50%;
+}
+
+#search_input{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    border: 1px solid #444;
+    color: black;
+    opacity: 0.3;
+    transition: all 300ms ease-out;
+    font-size: 15px;
+}
+#search_input:focus{
+    opacity: 1;
+}
+
+#content{
+    position: relative;
+    height: 94%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 0 40px;
+    align-content: start;
+}
+
+#tools{
+    justify-content: space-around;
+}
+
+#tool_image{
+    position: relative;
+    width: 15% !important;
+    height: 15%;
+    margin: 20px;
+    border-radius: 5px;
+    display: flex;
+    cursor: pointer;
+}
