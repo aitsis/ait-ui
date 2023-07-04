@@ -8,6 +8,7 @@ header_items = ['<meta charset="UTF-8">',
                 '<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.0/socket.io.js"></script>',
                 '<script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/openseadragon.min.js"></script>',
                 '<link rel="stylesheet" href="style.css">'
+                '<link rel="stylesheet" href="dashboard.css">'
             ]
 
 
