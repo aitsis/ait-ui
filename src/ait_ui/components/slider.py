@@ -1,4 +1,4 @@
-from components.element import Element
+from .element import Element
 class Slider(Element):
     def __init__(self,id = None,value = None, min = 0, max = 100, step = 1):
         super().__init__(id = id, value = value)

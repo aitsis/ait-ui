@@ -3,20 +3,21 @@
 # on production does not need to be added
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join('..')))
-#---------------------------------------------------------------#
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+#-------------------------------------------------------------
 
-import app
-from components.element import Element, Elm
-from components.text import Text
-from components.image import Image
-from components.imageviewer import ImageViewer
-from components.button import Button
-from components.link import Link
-from components.file import File
-from components.col import Col
-from components.row import Row
-import connection
+
+from ait_ui import app
+from ait_ui.components.element import Element, Elm
+from ait_ui.components.text import Text
+from ait_ui.components.image import Image
+from ait_ui.components.imageviewer import ImageViewer
+from ait_ui.components.button import Button
+from ait_ui.components.link import Link
+from ait_ui.components.file import File
+from ait_ui.components.col import Col
+from ait_ui.components.row import Row
+from ait_ui import connection
 def on_click(id, value):
     print("clicked", id, value)
     with Element(id="col1") as elem:

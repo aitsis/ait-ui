@@ -1,8 +1,13 @@
-from components.element import Element
+from .element import Element
+from . import scripts
+
+#---------------------------------------------------------------#
+## To acces the connection  from up directory we use the following code
+import os 
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 import connection
-
-import components.scripts as scripts
-
+#---------------------------------------------------------------#
 
 scripts.add_script("canvas", """
     event_handlers["init-canvas"] = function(id, value, event_name){            

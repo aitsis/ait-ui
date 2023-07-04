@@ -15,7 +15,7 @@ header_items = ['<meta charset="UTF-8">',
 body = """
     <div id="myapp"></div>"""
 
-import components.scripts as extras
+from .components import scripts as extras
 
 def generate_index():
     index_str = '<!DOCTYPE html><html lang="en">'

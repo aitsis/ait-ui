@@ -1,5 +1,13 @@
+#---------------------------------------------------------------#
+## To acces the connection  from up directory we use the following code
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 import connection
-from components.scripts import scripts
+#---------------------------------------------------------------#
+
+from . import scripts
+
 root = None
 cur_parent = None
 old_parent = None

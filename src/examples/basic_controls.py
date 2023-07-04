@@ -4,21 +4,21 @@
 # on production does not need to be added
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join('..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 #---------------------------------------------------------------#
 
-import app
+from ait_ui import app
 
-from components.element import Element, Elm
-from components.row import Row
-from components.col import Col
-from components.label import Label
-from components.radio import Radio
-from components.slider import Slider
-from components.input import Input
-from components.check import Check
-from components.button import Button
-from components.text import Text
+from ait_ui.components.element import Element, Elm
+from ait_ui.components.row import Row
+from ait_ui.components.col import Col
+from ait_ui.components.label import Label
+from ait_ui.components.radio import Radio
+from ait_ui.components.slider import Slider
+from ait_ui.components.input import Input
+from ait_ui.components.check import Check
+from ait_ui.components.button import Button
+from ait_ui.components.text import Text
 
 def on_click(id, value):
     print("clicked", id, value)
