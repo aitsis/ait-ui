@@ -1,11 +1,4 @@
-#---------------------------------------------------------------#
-## To acces the connection  from up directory we use the following code
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
-import connection
-#---------------------------------------------------------------#
-
+from .. import socket_handler
 from . import scripts
 
 root = None
@@ -19,7 +12,7 @@ def clientHandler(id, value,event_name):
         if value == "init":
             created = True
             print("Client connected")
-            connection.flush_send_queue()
+            socket_handler.flush_send_queue()
     else:
         if id in elements:
             elm = elements[id]
@@ -27,7 +20,7 @@ def clientHandler(id, value,event_name):
                 if event_name in elm.events:
                     elm.events[event_name](id, value)
 
-connection.clientHandler = clientHandler
+socket_handler.set_client_handler(clientHandler)
 
 def Elm(id):
     global elements
@@ -74,16 +67,16 @@ class Element:
     @value.setter
     def value(self, value):
         self._value = value
-        connection.send(self.id, value, "change-"+self.value_name)
+        socket_handler.send(self.id, value, "change-"+self.value_name)
 
     def toggle_class(self, class_name):
-        connection.send(self.id, class_name, "toggle-class")
+        socket_handler.send(self.id, class_name, "toggle-class")
     
     def set_attr(self, attr_name, attr_value):
-        connection.send(self.id, attr_value, "change-"+attr_name)
+        socket_handler.send(self.id, attr_value, "change-"+attr_name)
     
     def set_style(self, attr_name, attr_value):
-        connection.send(self.id, attr_value, "set-"+attr_name)
+        socket_handler.send(self.id, attr_value, "set-"+attr_name)
 
     def add_child(self, child):        
         self.children.append(child)

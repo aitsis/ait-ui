@@ -1,13 +1,7 @@
 from .element import Element
 from . import scripts
+from .. import socket_handler
 
-#---------------------------------------------------------------#
-## To acces the connection  from up directory we use the following code
-import os
-import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
-import connection
-#---------------------------------------------------------------#
 
 scripts.header_items.append('<script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/openseadragon.min.js"></script>')
 
@@ -38,13 +32,13 @@ class ImageViewer(Element):
     @value.setter
     def value(self, value):
         self._value = value                
-        connection.send(self.id, self.value_to_command("open"), "seadragon")
+        socket_handler.send(self.id, self.value_to_command("open"), "seadragon")
 
     def render(self):
         if self.id is not None:            
-            connection.queue_for_send(self.id, self.value, "init-seadragon")
+            socket_handler.queue_for_send(self.id, self.value, "init-seadragon")
         if self.value is not None:
-            connection.queue_for_send(self.id, self.value_to_command("open"), "seadragon")
+            socket_handler.queue_for_send(self.id, self.value_to_command("open"), "seadragon")
         return super().render()
     
     def value_to_command(self,command):

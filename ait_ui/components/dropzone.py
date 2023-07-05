@@ -1,14 +1,7 @@
 from .element import Element
 from .text import Text
 from . import scripts
-
-#---------------------------------------------------------------#
-## To acces the connection  from up directory we use the following code
-import os 
-import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
-import connection
-#---------------------------------------------------------------#
+from .. import socket_handler
 
 scripts.header_items.append('<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>')
 
@@ -36,13 +29,13 @@ class Dropzone(Element):
     @value.setter
     def value(self, value):
         self._value = value                
-        connection.send(self.id, self.value_to_command("open"), "dropzone")
+        socket_handler.send(self.id, self.value_to_command("open"), "dropzone")
 
     def render(self):
         if self.id is not None:            
-            connection.queue_for_send(self.id, self.value, "init-dropzone")
+            socket_handler.queue_for_send(self.id, self.value, "init-dropzone")
         if self.value is not None:
-            connection.queue_for_send(self.id, self.value_to_command("open"), "dropzone")
+            socket_handler.queue_for_send(self.id, self.value_to_command("open"), "dropzone")
         return super().render()
     
     def value_to_command(self,command):
