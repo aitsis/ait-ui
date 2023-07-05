@@ -4,20 +4,19 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
-#-------------------------------------------------------------
+#----------------------------------------
 
 from ait_ui import app
-
-from ait_ui import connection
-from ait_ui.components.element import Element, Elm
-from ait_ui.components.text import Text
-from ait_ui.components.image import Image
-from ait_ui.components.row import Row
-from ait_ui.components.col import Col
-from ait_ui.components.button import Button
-from ait_ui.components.input import Input
-from ait_ui.components.textarea import TextArea
-from ait_ui.components.dropzone import Dropzone
+from ait_ui import socket_handler
+from ait_ui.components import Element, Elm
+from ait_ui.components import Text
+from ait_ui.components import Image
+from ait_ui.components import Row
+from ait_ui.components import Col
+from ait_ui.components import Button
+from ait_ui.components import Input
+from ait_ui.components import TextArea
+from ait_ui.components import Dropzone
 
 def on_change(id, value):
     print("changed", id, value)

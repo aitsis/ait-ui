@@ -4,20 +4,19 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
-#-------------------------------------------------------------
-
+#----------------------------------------
 
 from ait_ui import app
-from ait_ui.components.element import Element, Elm
-from ait_ui.components.text import Text
-from ait_ui.components.image import Image
-from ait_ui.components.imageviewer import ImageViewer
-from ait_ui.components.button import Button
-from ait_ui.components.link import Link
-from ait_ui.components.file import File
-from ait_ui.components.col import Col
-from ait_ui.components.row import Row
-from ait_ui import connection
+from ait_ui import socket_handler
+from ait_ui.components import Element, Elm
+from ait_ui.components import Text
+from ait_ui.components import Image
+from ait_ui.components import ImageViewer
+from ait_ui.components import Button
+from ait_ui.components import Link
+from ait_ui.components import File
+from ait_ui.components import Col
+from ait_ui.components import Row
 def on_click(id, value):
     print("clicked", id, value)
     with Element(id="col1") as elem:
@@ -29,7 +28,7 @@ def on_click(id, value):
                     content.cls("border").style("background-color", "red").style("margin", "10px")
                     Text(value = f"SELAM {i}", id = "text"+str(i))
         Button(id = "btn2", value = "Click Me").on("click", on_click2)
-    connection.send("col1", elem.render(), "init-content")
+    socket_handler.send("col1", elem.render(), "init-content")
 
 import random
 
