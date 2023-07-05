@@ -10,7 +10,7 @@ clientHandler = sample_client_handler
 def set_client_handler(handler):
     global clientHandler
     clientHandler = handler
-    print("set_client_handler", handler)
+    print("client handler set to", handler)
 
 
 def send(id, value, event_name):

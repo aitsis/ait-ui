@@ -41,7 +41,7 @@ def run(ui = None, debug=True):
     global ui_root
     if ui is not None:
         ui_root = ui        
-    flask_app.run(host="0.0.0.0",port=5002, debug=debug)
+    flask_app.run(host="0.0.0.0",port=5000, debug=debug)
 
 if __name__ == '__main__':
     run()
