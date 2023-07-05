@@ -161,5 +161,3 @@ cython_debug/
 #.idea/
 
 #workflow files for GitHub Actions
-.github/workflows/*.yml
-.github/
