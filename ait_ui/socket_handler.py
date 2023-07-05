@@ -4,8 +4,14 @@ send_queue = []
 
 def sample_client_handler(id, value, event_name):
     print("sample_client_handler", id, value, event_name)
-
 clientHandler = sample_client_handler
+
+
+def set_client_handler(handler):
+    global clientHandler
+    clientHandler = handler
+    print("set_client_handler", handler)
+
 
 def send(id, value, event_name):
     global socket

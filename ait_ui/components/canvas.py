@@ -1,13 +1,7 @@
 from .element import Element
 from . import scripts
+from .. import socket_handler
 
-#---------------------------------------------------------------#
-## To acces the connection  from up directory we use the following code
-import os 
-import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
-import connection
-#---------------------------------------------------------------#
 
 scripts.add_script("canvas", """
     event_handlers["init-canvas"] = function(id, value, event_name){            
@@ -38,7 +32,7 @@ class Canvas(Element):
     
     def render(self):
         if id is not None:            
-            connection.queue_for_send(self.id, self.value, "init-canvas")
+            socket_handler.queue_for_send(self.id, self.value, "init-canvas")
         return super().render()
 
     def width(self, value):
@@ -55,9 +49,9 @@ class Canvas(Element):
             return super().get_client_handler_str(event_name)
 
     def fill_rect(self, x, y, width, height,color):
-        connection.send(self.id, {"action": "fillRect", "params": {"x": x, "y": y, "width": width, "height": height, "color": color}}, "canvas")
+        socket_handler.send(self.id, {"action": "fillRect", "params": {"x": x, "y": y, "width": width, "height": height, "color": color}}, "canvas")
         return self
     
     def fill_circle(self, x, y, radius,color):
-        connection.send(self.id, {"action": "fillCircle", "params": {"x": x, "y": y, "radius": radius, "color":color}}, "canvas")
+        socket_handler.send(self.id, {"action": "fillCircle", "params": {"x": x, "y": y, "radius": radius, "color":color}}, "canvas")
         return self

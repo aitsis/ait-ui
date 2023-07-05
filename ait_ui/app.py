@@ -3,11 +3,11 @@ from flask_cors import CORS
 from flask_socketio import SocketIO, send, emit
 import os
 
-from . import connection
+from . import socket_handler
 from . import index_gen
 flask_app = Flask(__name__)
 socketio = SocketIO(flask_app)
-connection.socket = socketio
+socket_handler.socket = socketio
 CORS(flask_app)
 
 ui_root = None
@@ -15,8 +15,8 @@ ui_root = None
 @socketio.on('connect')
 def handle_from_client(json):
     print('Socket connected')
-    if connection.clientHandler is not None:
-        connection.clientHandler('myapp', 'connect', 'connect')    
+    if socket_handler.clientHandler is not None:
+        socket_handler.clientHandler('myapp', 'connect', 'connect')    
 
 
 @socketio.on('from_client')
@@ -24,9 +24,9 @@ def handle_from_client(json):
     print('Received json: ' + str(json))
     if json['id'] == "myapp":
         if json['value'] == "init":
-            connection.send("myapp", ui_root.render(), "init-content")
-    if connection.clientHandler is not None:
-        connection.clientHandler(json['id'], json['value'], json['event_name'])    
+            socket_handler.send("myapp", ui_root.render(), "init-content")
+    if socket_handler.clientHandler is not None:
+        socket_handler.clientHandler(json['id'], json['value'], json['event_name'])    
 
 @flask_app.route('/')
 def home():
