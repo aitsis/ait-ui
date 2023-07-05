@@ -16,6 +16,7 @@ body = """
     <div id="myapp"></div>"""
 
 from .components import scripts as extras
+from .components import add_css_test as extras_css
 
 def generate_index():
     index_str = '<!DOCTYPE html><html lang="en">'
@@ -34,6 +35,13 @@ def generate_index():
         for id in extras.scripts:
             index_str += extras.scripts[id]
         index_str += '</script>'
+    # add css on body
+    if len(extras_css.styles) > 0:
+        index_str += '<style>'
+        for id in extras_css.styles:
+            index_str += extras_css.styles[id]
+        index_str += '</style>'
+
     index_str += '</body>'
     index_str += '</html>'
     return index_str
