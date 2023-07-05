@@ -18,6 +18,12 @@ from .slider import Slider
 from .option import Option
 from .text import Text
 from .textarea import TextArea
+from .header import Header
+from .video import Video
+from .orderedlist import OrderedList
+from .unorderedlist import UnorderedList
+from .listitem import ListItem
+
 
 __all__ = [
     "Button",
@@ -39,5 +45,10 @@ __all__ = [
     "Slider",
     "Option",
     "Text",
-    "TextArea"
+    "TextArea",
+    "Header",
+    "Video",
+    "OrderedList",
+    "UnorderedList",
+    "Listitem"
 ]
