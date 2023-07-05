@@ -6,7 +6,7 @@ pip install -r requirements.txt
 ```
 for install with package: (auth required)
 ```
-pip install  --index-url=https://pkg.ait.com.tr/pypi/simple ait_ui 
+pip install ait_ui==0.1.0-dev --index-url=https://pkg.ait.com.tr/pypi/simple
 
 ```
 
