@@ -22,6 +22,7 @@ from ait_ui.components import Select
 from ait_ui.components import Header
 from ait_ui.components import Video
 from ait_ui.components import Slider
+from ait_ui.components.accordion import Accordion
 
 def on_change(id, value):
     print("changed", id, value)
@@ -84,13 +85,52 @@ with Element(id = "imaginer-wrapper") as main:
             #Left Col
             with Element() as content:
                 content.cls("imaginer-body-left-bottom")
-                Text(value = "Advanced Options")
-                with Element() as content:
-                    content.cls("imaginer-body-left-bottom-input-wrapper")
-                    Text(value = "Temperature = 50")
-                    Slider(id = "slider1", min = "0" , step="2", max = "100", value = "50").on("input", on_change)             
-                    Accordion(id = "accordion1")
-            #Right Col
+                with Accordion() as accordion:
+                    with Element(id="accordion-opener") as content:
+                     Text(value = "Advanced Options" , id="accordion-text").on("click", accordion.open_accordion())
+                    with Element() as content:
+                        content.cls("imaginer-body-left-bottom-top-div")
+                        with Element() as content:
+                            content.cls("imaginer-body-left-bottom-top-div-left")
+                            with Element() as content:
+                                content.style("display", "flex").style("justify-content", "space-between").style("align-items", "center").style("width", "100%")
+                                Text(value = "Temperature")
+                                Text(value = "50")
+                            Slider(id = "slider1", min = "0", max = "100", value = "50").style("width", "100%")
+                        with Element() as content:
+                            content.cls("imaginer-body-left-bottom-top-div-left")
+                            with Element() as content:
+                                content.style("display", "flex").style("justify-content", "space-between").style("align-items", "center").style("width", "100%")
+                                Text(value = "Temperature")
+                                Text(value = "50")
+                            Slider(id = "slider1", min = "0", max = "100", value = "50").style("width", "100%")
+                    with Element() as content:
+                        content.cls("imaginer-body-left-bottom-top-div")
+                        with Element() as content:
+                            content.cls("imaginer-body-left-bottom-top-div-left")
+                            with Element() as content:
+                                content.style("display", "flex").style("justify-content", "space-between").style("align-items", "center").style("width", "100%")
+                                Text(value = "Temperature")
+                                Text(value = "50")
+                            Slider(id = "slider1", min = "0", max = "100", value = "50").style("width", "100%")
+                    with Element() as content:
+                        content.cls("imaginer-body-left-bottom-top-div")
+                        with Element() as content:
+                            content.cls("imaginer-body-left-bottom-top-div-left")
+                            with Element() as content:
+                                content.style("display", "flex").style("justify-content", "space-between").style("align-items", "center").style("width", "100%")
+                                Text(value = "Temperature")
+                                Text(value = "50")
+                            Slider(id = "slider1", min = "0", max = "100", value = "50").style("width", "100%")
+                        with Element() as content:
+                            content.cls("imaginer-body-left-bottom-top-div-left")
+                            with Element() as content:
+                                content.style("display", "flex").style("justify-content", "space-between").style("align-items", "center").style("width", "100%")
+                                Text(value = "Temperature")
+                                Text(value = "50")
+                            Slider(id = "slider1", min = "0", max = "100", value = "50").style("width", "100%")
+             
+                #Right Col
             with Element() as content:
                 content.cls("imaginer-body-right-bottom")
                 Text(value = "Output")
