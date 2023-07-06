@@ -54,14 +54,15 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    
 }
 
 .imaginer-header-left{
     width: 700px;
     height: 100%;
     display: flex;
-    justify-content: center;
-    align-items: start;
+    justify-content: flex-start;
+    align-items: center;
     padding-left: 10px;
 }
 
@@ -69,8 +70,8 @@ body {
     width: 700px;
     height: 100%;
     display: flex;
-    justify-content: center;
-    align-items: end;
+    justify-content: flex-end;
+    align-items: center;
     padding-right: 10px;
 }
 
@@ -80,6 +81,7 @@ body {
     height: 15%;
     display: flex;
     justify-content: center;
+    
 }
 
 .imaginer-body-right-input-wrapper{
@@ -91,6 +93,7 @@ body {
     border: 1px solid gray;
     border-radius: 3px;
     height: 100%;
+
 }
 
 #input1{
@@ -117,6 +120,22 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    box-shadow: 1px 1px 1px 1px gray;
+}
+
+#select1{
+    width: 100%;
+    height: 50%;
+    color: white;
+    border: 1px solid gray;
+    border-radius: 3px;
+    background-color: black;
+    box-sizing: border-box;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
 #imaginer-button{
@@ -145,8 +164,11 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-shadow: 1px 1px 1px 1px gray;
+
 }
 .imaginer-body-right-top{
+    box-shadow: 1px 1px 1px 1px gray;
     width: 940px;
     height: 100%;
     box-sizing: border-box;
@@ -178,6 +200,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-shadow: 1px 1px 1px 1px gray;
 }
 
 .imaginer-body-right-center{
@@ -191,6 +214,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-shadow: 1px 1px 1px 1px gray;
 }
 
 #dropzone1{
@@ -231,6 +255,8 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-shadow: 1px 1px 1px 1px gray;
+
 }
 
 .imaginer-body-right-bottom{
@@ -244,6 +270,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-shadow: 1px 1px 1px 1px gray;
 }
 
 /* imaginer */
