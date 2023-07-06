@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_from_directory, send_file
+from flask import Flask, request, jsonify, send_from_directory, send_file, abort
 from flask_cors import CORS
 from flask_socketio import SocketIO, send, emit
 import os
@@ -11,6 +11,7 @@ socket_handler.socket = socketio
 CORS(flask_app)
 
 ui_root = None
+dir_routes = {}
 
 @socketio.on('connect')
 def handle_from_client(json):
@@ -36,6 +37,16 @@ def home():
 def files(path):
     return send_from_directory("static", path)
 
+def add_custom_file_route(route, osDirPath):
+    print(osDirPath)  # Ensure the path is correct
+    dir_routes[route] = osDirPath
+
+@flask_app.route('/<route>/<path:file_path>')
+def custom_files(route, file_path):
+    if route not in dir_routes:
+        abort(404)
+
+    return send_from_directory(dir_routes[route], file_path)
 
 def run(ui = None, port=5000, debug=True):
     global ui_root

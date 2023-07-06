@@ -163,3 +163,7 @@ cython_debug/
 #workflow files for GitHub Actions
 .github/workflows/*.yml
 .github/
+
+
+myImages/*
+myImages2/*
