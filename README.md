@@ -5,7 +5,6 @@ for install:
 pip install -r requirements.txt
 ```
 
-
 for run:
 ```
 cd src/examples
