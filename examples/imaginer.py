@@ -89,7 +89,7 @@ with Element(id = "imaginer-wrapper") as main:
                     content.cls("imaginer-body-left-bottom-input-wrapper")
                     Text(value = "Temperature = 50")
                     Slider(id = "slider1", min = "0" , step="2", max = "100", value = "50").on("input", on_change)             
-                    Accordion(id = "accordion1")
+                    
             #Right Col
             with Element() as content:
                 content.cls("imaginer-body-right-bottom")

@@ -7,17 +7,37 @@ scripts.header_items.append('<script src="https://cdnjs.cloudflare.com/ajax/libs
 
 scripts.add_script("seadragon", """
     event_handlers["init-seadragon"] = function(id, value, event_name){
-        elements[id] = OpenSeadragon({
-                id: id,
-                prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/",
-                animationTime: 0,
-                maxZoomPixelRatio: 4,
+        elements[id] = {
+            mouse_mode: "pan",
+            viewer: OpenSeadragon({
+                    id: id,
+                    prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/",
+                    animationTime: 0,
+                    maxZoomPixelRatio: 4,
+                })
+            }
+            elements[id].viewer.addHandler('canvas-drag', function(event) {
+                console.log('mouse-mode: ' + elements[id].mouse_mode)
+                if(elements[id].mouse_mode == "draw-mode") {
+                    event.preventDefaultAction = true;
+                    var viewportPoint = elements[id].viewer.viewport.pointFromPixel(event.position);
+                    console.log("Dragging at viewport coordinates", viewportPoint.x, viewportPoint.y);
+                }
             });
-            console.log("init-seadragon");
         }
-    event_handlers["seadragon"] = function(id, value, event_name){
-    console.log("seadragon",id,value);
-        elements[id][value.action](value.value);}
+    event_handlers["seadragon"] = function(id, command, event_name){
+        switch(command.action){
+            case "open":
+                elements[id].viewer.open(command.value);
+                break;
+            case "mouse-mode":
+                elements[id].mouse_mode = command.value;
+                console.log("mouse-mode: " + elements[id].mouse_mode)
+                break;
+            default:
+                console.log("Unknown command: " + command.action);
+            }
+        } 
     """)
 class ImageViewer(Element):
     def __init__(self, id=None, value=None):
@@ -32,23 +52,23 @@ class ImageViewer(Element):
     @value.setter
     def value(self, value):
         self._value = value                
-        socket_handler.send(self.id, self.value_to_command("open"), "seadragon")
+        socket_handler.send(self.id, self.value_to_command("open",{"type": "image","url": self._value}), "seadragon")
 
     def render(self):
         if self.id is not None:            
             socket_handler.queue_for_send(self.id, self.value, "init-seadragon")
         if self.value is not None:
-            socket_handler.queue_for_send(self.id, self.value_to_command("open"), "seadragon")
+            socket_handler.queue_for_send(self.id, self.value_to_command("open",{"type": "image","url": self._value}), "seadragon")
         return super().render()
     
-    def value_to_command(self,command):
-        src = {
-            "type": "image",
-            "url": self._value
-        }
+    def mouse_mode(self, value):
+        print("(python)mouse_mode: " + value)
+        socket_handler.send(self.id, self.value_to_command("mouse-mode", value), "seadragon")
+
+    def value_to_command(self,command,value):        
         command = {
             "action": command,
-            "value": src
+            "value": value
         }
         return command
         
