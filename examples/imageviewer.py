@@ -29,6 +29,8 @@ with Element() as main:
         Radio(id="pan-mode", name = "mouse-mode").on("change", on_mouse_mode)
         Label(usefor= "draw-mode", value="Draw Mode:")
         Radio(id="draw-mode", value = "Draw", name = "mouse-mode").on("change", on_mouse_mode)
+        Label(usefor= "brush-size", value="Brush Size:")
+        Slider(id="brush-size", min=1, max=100, value=10).on("change", lambda id, value: Elm("view1").brush_size(value))
     view1 = ImageViewer(id="view1").style("border", "1px solid black")
     view1.style("width", "100%").style("height", "800px")
     view1.value = "https://www.w3schools.com/w3css/img_lights.jpg"

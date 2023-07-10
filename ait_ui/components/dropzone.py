@@ -4,6 +4,7 @@ from . import scripts
 from .. import socket_handler
 
 scripts.header_items.append('<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>')
+scripts.header_items.append('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" />')
 
 scripts.add_script("dropzone", """
     event_handlers["init-dropzone"] = function(id, value, event_name){
@@ -22,7 +23,6 @@ class Dropzone(Element):
         self.tag = "div"
         self.id = id
         self.value_name = None
-        self.add_child(Text(value = "Drop Image Here"))
     @property
     def value(self):
         return self._value
