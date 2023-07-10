@@ -1,0 +1,152 @@
+{
+    "Import AIT UI Components": {
+      "prefix": "from_ait_ui_components",
+      "body": [
+        "from ait_ui.components import Element, Elm",
+        "from ait_ui.components import Text",
+        "from ait_ui.components import Image",
+        "from ait_ui.components import Row",
+        "from ait_ui.components import Col",
+        "from ait_ui.components import Button",
+        "from ait_ui.components import Input",
+        "from ait_ui.components import TextArea",
+        "from ait_ui.components import Dropzone"
+      ],
+      "description": "Import AIT UI components"
+    },
+    "Create Componet ":{
+      "prefix": "aitc",
+      "body": [
+        "from ait_ui.components import Element",
+        " ",
+        "class $TM_FILENAME_BASE(Element):",
+        "    def __init__(self, id=None, value=None):",
+        "        super().__init__(id, value)",
+      ],
+    },
+    "Create Page":{
+      "prefix": "aitp",
+      "body": [
+        "from ait_ui.components import Element",
+        " ",
+        "with Element('div', id='app') as app:",
+        "  app.cls('container')",
+        " ",
+        "if __name__ == '__main__':",
+        "  app.run(ui = app, debug=True)"
+        
+      ],
+    },
+    "Import AIT UI Components (Element)": {
+      "prefix": "from_ait_ui_components_element",
+      "body": [
+        "from ait_ui.components import Element, Elm"
+      ],
+      "description": "Import AIT UI components (Element)"
+    },
+    "Import AIT UI Components (Text)": {
+      "prefix": "from_ait_ui_components_text",
+      "body": [
+        "from ait_ui.components import Text"
+      ],
+      "description": "Import AIT UI components (Text)"
+    },
+    "Import AIT UI Components (Image)": {
+      "prefix": "from_ait_ui_components_image",
+      "body": [
+        "from ait_ui.components import Image"
+      ],
+      "description": "Import AIT UI components (Image)"
+    },
+    "Import AIT UI Components (Row)": {
+      "prefix": "from_ait_ui_components_row",
+      "body": [
+        "from ait_ui.components import Row"
+      ],
+      "description": "Import AIT UI components (Row)"
+    },
+    "Import AIT UI Components (Col)": {
+      "prefix": "from_ait_ui_components_col",
+      "body": [
+        "from ait_ui.components import Col"
+      ],
+      "description": "Import AIT UI components (Col)"
+    },
+    "Import AIT UI Components (Button)": {
+      "prefix": "from_ait_ui_components_button",
+      "body": [
+        "from ait_ui.components import Button"
+      ],
+      "description": "Import AIT UI components (Button)"
+    },
+    "Import AIT UI Components (Input)": {
+      "prefix": "from_ait_ui_components_input",
+      "body": [
+        "from ait_ui.components import Input"
+      ],
+      "description": "Import AIT UI components (Input)"
+    },
+    "Import AIT UI Components (TextArea)": {
+      "prefix": "from_ait_ui_components_textarea",
+      "body": [
+        "from ait_ui.components import TextArea"
+      ],
+      "description": "Import AIT UI components (TextArea)"
+    },
+    "Import AIT UI Components (Dropzone)": {
+      "prefix": "from_ait_ui_components_dropzone",
+      "body": [
+        "from ait_ui.components import Dropzone"
+      ],
+      "description": "Import AIT UI components (Dropzone)"
+    },
+    "Import AIT UI Components (Element, Elm)": {
+      "prefix": "from_ait_ui_components_element_elm",
+      "body": [
+        "from ait_ui.components import Element, Elm"
+      ],
+      "description": "Import AIT UI components (Element, Elm)"
+    },
+    "Import AIT UI Components (Text, Image)": {
+      "prefix": "from_ait_ui_components_text_image",
+      "body": [
+        "from ait_ui.components import Text",
+        "from ait_ui.components import Image"
+      ],
+      "description": "Import AIT UI components (Text, Image)"
+    },
+    "Import AIT UI Components (Row, Col)": {
+      "prefix": "from_ait_ui_components_row_col",
+      "body": [
+        "from ait_ui.components import Row",
+        "from ait_ui.components import Col"
+      ],
+      "description": "Import AIT UI components (Row, Col)"
+    },
+    "Import AIT UI Components (Button, Input, TextArea, Dropzone)": {
+      "prefix": "from_ait_ui_components_button_input_textarea_dropzone",
+      "body": [
+        "from ait_ui.components import Button",
+        "from ait_ui.components import Input",
+        "from ait_ui.components import TextArea",
+        "from ait_ui.components import Dropzone"
+      ],
+      "description": "Import AIT UI components (Button, Input, TextArea, Dropzone)"
+    },
+    "Import AIT UI Components (Element, Elm, Text, Image, Row, Col, Button, Input, TextArea, Dropzone)": {
+      "prefix": "from_ait_ui_components_all",
+      "body": [
+        "from ait_ui.components import Element, Elm",
+        "from ait_ui.components import Text",
+        "from ait_ui.components import Image",
+        "from ait_ui.components import Row",
+        "from ait_ui.components import Col",
+        "from ait_ui.components import Button",
+        "from ait_ui.components import Input",
+        "from ait_ui.components import TextArea",
+        "from ait_ui.components import Dropzone"
+      ],
+      "description": "Import AIT UI components (Element, Elm, Text, Image, Row, Col, Button, Input, TextArea, Dropzone)"
+    }
+    
+  }

@@ -22,6 +22,9 @@ from ait_ui.components import Select
 from ait_ui.components import Header
 from ait_ui.components import Video
 from ait_ui.components import Slider
+from ait_ui.components.accordion import Accordion
+from ait_ui.components.file import File
+from ait_ui.components import Label
 
 def on_change(id, value):
     print("changed", id, value)
@@ -30,6 +33,14 @@ def on_change(id, value):
 def on_click(id, value):
     print("clicked", id, value)
     Elm("input1").value = value
+
+def change_slider_value(id, value):
+    print("changed", id, value)
+    Elm("slider-value-"+id).value = value
+
+isAccordionOpen = True
+
+
 
 
 with Element(id = "imaginer-wrapper") as main:
@@ -72,7 +83,11 @@ with Element(id = "imaginer-wrapper") as main:
             with Element() as content:
                 content.cls("imaginer-body-left-center")
                 Text(value = "Input")
-                Dropzone(id = "dropzone1", value = "https://i.imgur.com/4ZgXQ2g.jpg")
+                File(id = "file1").on("input", print("changed"))
+                with Label(id="dropzone1" , usefor="file1") as label:
+                   Text(value = "Drag and Drop")
+                   Text(value = "- or -")
+                   Text(value = "Click to Upload")
             #Right Col
             with Element() as content:
                 content.cls("imaginer-body-right-center")
@@ -84,13 +99,54 @@ with Element(id = "imaginer-wrapper") as main:
             #Left Col
             with Element() as content:
                 content.cls("imaginer-body-left-bottom")
-                Text(value = "Advanced Options")
-                with Element() as content:
-                    content.cls("imaginer-body-left-bottom-input-wrapper")
-                    Text(value = "Temperature = 50")
-                    Slider(id = "slider1", min = "0" , step="2", max = "100", value = "50").on("input", on_change)             
-                    
-            #Right Col
+                with Accordion().on("click",print("clicked")) as accordion:
+                  accordion.on("click", lambda : Accordion.open_accordion())
+                  with Element(id="accordion-wrapper") as content:
+                    with Element(id="accordion-opener") as content:
+                     content.on("click", lambda : print("clicked"))
+                     Text(value = "Advanced Options" , id="accordion-text")
+                    with Element() as content:
+                        content.cls("imaginer-body-left-bottom-top-div")
+                        with Element() as content:
+                            content.cls("imaginer-body-left-bottom-top-div-left")
+                            with Element() as content:
+                                content.style("display", "flex").style("justify-content", "space-between").style("align-items", "center").style("width", "100%")
+                                Text(value = "Low Treshold")
+                                Text(value = "50" , id="slider-value-1")
+                            Slider(id = "1", min = "0", max = "100", value = "50").style("width", "100%").on("input", change_slider_value)
+                        with Element() as content:
+                            content.cls("imaginer-body-left-bottom-top-div-left")
+                            with Element() as content:
+                                content.style("display", "flex").style("justify-content", "space-between").style("align-items", "center").style("width", "100%")
+                                Text(value = "High Treshold")
+                                Text(value = "50", id="slider-value-2")
+                            Slider(id = "2", min = "0", max = "100", value = "50").style("width", "100%").on("input", change_slider_value)
+                    with Element() as content:
+                        content.cls("imaginer-body-left-bottom-top-div")
+                        with Element() as content:
+                            content.cls("imaginer-body-left-bottom-top-div-left")
+                            with Element() as content:
+                                content.style("display", "flex").style("justify-content", "space-between").style("align-items", "center").style("width", "100%")
+                                Text(value = "Temperature")
+                                Text(value = "50",id="slider-value-3")
+                            Slider(id = "3", min = "0", max = "100", value = "50").style("width", "100%").on("input", change_slider_value)
+                    with Element() as content:
+                        content.cls("imaginer-body-left-bottom-top-div")
+                        with Element() as content:
+                            content.cls("imaginer-body-left-bottom-top-div-left")
+                            with Element() as content:
+                                content.style("display", "flex").style("justify-content", "space-between").style("align-items", "center").style("width", "100%")
+                                Text(value = "Temperature")
+                                Text(value = "50",id="slider-value-4")
+                            Slider(id = "4", min = "0", max = "100", value = "50").style("width", "100%").on("input", change_slider_value)
+                        with Element() as content:
+                            content.cls("imaginer-body-left-bottom-top-div-left")
+                            with Element() as content:
+                                content.style("display", "flex").style("justify-content", "space-between").style("align-items", "center").style("width", "100%")
+                                Text(value = "Temperature")
+                                Text(value = "50",id="slider-value-5")
+                            Slider(id = "5", min = "0", max = "100", value = "50").style("width", "100%").on("input", change_slider_value)    
+                #Right Col
             with Element() as content:
                 content.cls("imaginer-body-right-bottom")
                 Text(value = "Output")
