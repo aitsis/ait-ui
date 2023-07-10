@@ -24,6 +24,19 @@
         "        super().__init__(id, value)",
       ],
     },
+    "Create Page":{
+      "prefix": "aitp",
+      "body": [
+        "from ait_ui.components import Element",
+        " ",
+        "with Element('div', id='app') as app:",
+        "  app.cls('container')",
+        " ",
+        "if __name__ == '__main__':",
+        "  app.run(ui = app, debug=True)"
+        
+      ],
+    },
     "Import AIT UI Components (Element)": {
       "prefix": "from_ait_ui_components_element",
       "body": [
