@@ -7,16 +7,16 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 #----------------------------------------
 
 from ait_ui import app
-from ait_ui.components import Element, Elm
-from ait_ui.components import Text
-from ait_ui.components import Image
-from ait_ui.components import ImageViewer
-from ait_ui.components import Canvas
-from ait_ui.components import Row
-from ait_ui.components import Button
-from ait_ui.components import Slider
-from ait_ui.components import Radio
-from ait_ui.components import Label
+from ait_ui.elements import Element, Elm
+from ait_ui.elements import Text
+from ait_ui.elements import Image
+from ait_ui.elements import ImageViewer
+from ait_ui.elements import Canvas
+from ait_ui.elements import Row
+from ait_ui.elements import Button
+from ait_ui.elements import Slider
+from ait_ui.elements import Radio
+from ait_ui.elements import Label
 
 def on_mouse_mode(id, value):
     print(f"Mouse mode {id} changed to: " + str(value))

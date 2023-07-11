@@ -8,16 +8,16 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 
 
 from ait_ui import app
-from ait_ui.components import Element, Elm
-from ait_ui.components import Row
-from ait_ui.components import Col
-from ait_ui.components import Label
-from ait_ui.components import Radio
-from ait_ui.components import Slider
-from ait_ui.components import Input
-from ait_ui.components import Check
-from ait_ui.components import Button
-from ait_ui.components import Text
+from ait_ui.elements import Element, Elm
+from ait_ui.elements import Row
+from ait_ui.elements import Col
+from ait_ui.elements import Label
+from ait_ui.elements import Radio
+from ait_ui.elements import Slider
+from ait_ui.elements import Input
+from ait_ui.elements import Button
+from ait_ui.elements import Check
+from ait_ui.elements import Text
 
 def on_click(id, value):
     print("clicked", id, value)

@@ -7,11 +7,11 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 #----------------------------------------
 
 from ait_ui import app
-from ait_ui.components import Element, Elm
-from ait_ui.components import Text
-from ait_ui.components import Image
-from ait_ui.components import ImageViewer
-from ait_ui.components import Button
+from ait_ui.elements import Element, Elm
+from ait_ui.elements import Text
+from ait_ui.elements import Image
+from ait_ui.elements import ImageViewer
+from ait_ui.elements import Button
 import urllib.parse
 
 # def on_click(id, value):

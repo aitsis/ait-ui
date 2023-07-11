@@ -7,9 +7,9 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 #----------------------------------------
 
 from ait_ui import  app
-from ait_ui.components import Element, Elm
-from ait_ui.components import Text
-from ait_ui.components import Button
+from ait_ui.elements import Element, Elm
+from ait_ui.elements import Text
+from ait_ui.elements import Button
 
 def on_click(id, value):
     print("clicked", id, value)
