@@ -8,14 +8,14 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 #----------------------------------------
 
 from ait_ui import app
-from ait_ui.components import Element, Elm
-from ait_ui.components import Text
-from ait_ui.components import Image
-from ait_ui.components import ImageViewer
-from ait_ui.components import Canvas
-from ait_ui.components import Row
-from ait_ui.components import Button
-from ait_ui.components import Slider
+from ait_ui.elements import Element, Elm
+from ait_ui.elements import Text
+from ait_ui.elements import Image
+from ait_ui.elements import ImageViewer
+from ait_ui.elements import Canvas
+from ait_ui.elements import Row
+from ait_ui.elements import Button
+from ait_ui.elements import Slider
 
 mouse_down = False
 selected_color = "red"
