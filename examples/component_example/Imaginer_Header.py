@@ -9,12 +9,9 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 from ait_ui.elements import Element , Header , Text
 
 def ImaginerHeader():
-    with Header() as content:
-        content.cls("imaginer-header")
-        with Element() as content:
-            content.cls("imaginer-header-left")
+    with Header().cls("imaginer-header") as content:
+        with Element().cls("imaginer-header-left") :
             Text(value = "Imaginer").style("margin", "0")
-        with Element() as content:
-            content.cls("imaginer-header-right")
+        with Element().cls("imaginer-header-right"):
             Text(value = "Imaginer").style("margin", "0")
     return content

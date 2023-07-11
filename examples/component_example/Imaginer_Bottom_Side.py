@@ -14,39 +14,27 @@ def change_slider_value(id, value):
     Elm("slider-value-"+id).value = value
 
 def Imaginer_Bottom_Side():
-        with Element() as content:
-            content.cls("imaginer-body-bottom")
+        with Element().cls("imaginer-body-bottom"):
             #Left Col
-            with Element() as content:
-                content.cls("imaginer-body-left-bottom")
-                with Element(id="accordion-wrapper") as content:
-                    with Element(id="accordion-opener") as content:
-                     content.on("click", lambda : print("clicked"))
+            with Element().cls("imaginer-body-left-bottom"):
+                with Element(id="accordion-wrapper"):
+                    with Element(id="accordion-opener").on("click", lambda : print("clicked")):
                      Text(value = "Advanced Options" , id="accordion-text")
-                    with Element() as content:
-                        content.cls("imaginer-body-left-bottom-top-div")
-                        with Element() as content:
-                            content.cls("imaginer-body-left-bottom-top-div-left")
+                    with Element().cls("imaginer-body-left-bottom-top-div"):
+                        with Element().cls("imaginer-body-left-bottom-top-div-left"):
                             Imaginer_Slider_Template(text="Temperature",id="1",min="0",max="100",value="50")
-                        with Element() as content:
-                            content.cls("imaginer-body-left-bottom-top-div-left")
+                        with Element().cls("imaginer-body-left-bottom-top-div-left"):
                             Imaginer_Slider_Template(text="Temperature",id="2",min="0",max="100",value="50")
-                    with Element() as content:
-                        content.cls("imaginer-body-left-bottom-top-div")
-                        with Element() as content:
-                            content.cls("imaginer-body-left-bottom-top-div-left")
+                    with Element().cls("imaginer-body-left-bottom-top-div"):
+                        with Element().cls("imaginer-body-left-bottom-top-div-left"):
                             Imaginer_Slider_Template(text="Temperature",id="3",min="0",max="100",value="50")
-                    with Element() as content:
-                        content.cls("imaginer-body-left-bottom-top-div")
-                        with Element() as content:
-                            content.cls("imaginer-body-left-bottom-top-div-left")
+                    with Element().cls("imaginer-body-left-bottom-top-div"):
+                        with Element().cls("imaginer-body-left-bottom-top-div-left"):
                             Imaginer_Slider_Template(text="Temperature",id="4",min="0",max="100",value="50")
-                        with Element() as content:
-                            content.cls("imaginer-body-left-bottom-top-div-left")
+                        with Element().cls("imaginer-body-left-bottom-top-div-left") :
                             Imaginer_Slider_Template(text="Temperature",id="5",min="0",max="100",value="50")
                 #Right Col
-            with Element() as content:
-                content.cls("imaginer-body-right-bottom")
+            with Element().cls("imaginer-body-right-bottom"):
                 Text(value = "Output")
-                with Element() as content:
-                    content.cls("imaginer-body-right-input-wrapper")
+                with Element().cls("imaginer-body-right-input-wrapper"):
+                    pass
