@@ -18,20 +18,20 @@ def Imaginer_Bottom_Side():
             #Left Col
             with Element().cls("imaginer-body-left-bottom"):
                 with Element(id="accordion-wrapper"):
-                    with Element(id="accordion-opener").on("click", lambda : print("clicked")):
+                    with Element(id="accordion-opener").on("click", lambda x,y: print("clicked")):
                      Text(value = "Advanced Options" , id="accordion-text")
                     with Element().cls("imaginer-body-left-bottom-top-div"):
-                        with Element().cls("imaginer-body-left-bottom-top-div-left"):
+                        with Element().cls("slider-wrapper"):
                             Imaginer_Slider_Template(text="Temperature",id="1",min="0",max="100",value="50")
-                        with Element().cls("imaginer-body-left-bottom-top-div-left"):
+                        with Element().cls("slider-wrapper"):
                             Imaginer_Slider_Template(text="Temperature",id="2",min="0",max="100",value="50")
                     with Element().cls("imaginer-body-left-bottom-top-div"):
-                        with Element().cls("imaginer-body-left-bottom-top-div-left"):
+                        with Element().cls("slider-wrapper"):
                             Imaginer_Slider_Template(text="Temperature",id="3",min="0",max="100",value="50")
                     with Element().cls("imaginer-body-left-bottom-top-div"):
-                        with Element().cls("imaginer-body-left-bottom-top-div-left"):
+                        with Element().cls("slider-wrapper"):
                             Imaginer_Slider_Template(text="Temperature",id="4",min="0",max="100",value="50")
-                        with Element().cls("imaginer-body-left-bottom-top-div-left") :
+                        with Element().cls("slider-wrapper") :
                             Imaginer_Slider_Template(text="Temperature",id="5",min="0",max="100",value="50")
                 #Right Col
             with Element().cls("imaginer-body-right-bottom"):

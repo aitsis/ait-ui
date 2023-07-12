@@ -7,5 +7,3 @@ class File(Element):
         self.attrs["type"] = "file"
         self.cls("file")
         self.style("display", "none")
-        self.on("change", "this.parentElement.querySelector('.file-name').innerHTML = this.value.split('\\\\').pop()")
-
