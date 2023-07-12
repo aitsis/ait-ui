@@ -38,14 +38,13 @@ def files(path):
     return send_from_directory("static", path)
 
 def add_custom_file_route(route, osDirPath):
-    print(osDirPath)  # Ensure the path is correct
+    print("Route Path:",osDirPath)  # Ensure the path is correct
     dir_routes[route] = osDirPath
 
 @flask_app.route('/<route>/<path:file_path>')
 def custom_files(route, file_path):
     if route not in dir_routes:
-        abort(404)
-
+        abort(404)    
     return send_from_directory(dir_routes[route], file_path)
 
 def run(ui = None, port=5000, debug=True):
