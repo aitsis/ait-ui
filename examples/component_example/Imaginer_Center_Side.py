@@ -32,5 +32,5 @@ def Imaginer_Center_Side():
             Text(value = "Output")
             with Element() as content:
                 content.cls("imaginer-body-right-input-wrapper")
-                with Image(id="image1", value=""):
+                with Image(id="image1", value="").style("max-width","90%").style("max-height","90%") as image:
                     pass
