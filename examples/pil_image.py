@@ -7,7 +7,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 print(sys.path)
 #----------------------------------------
 import time
-import asyncio
 
 from ait_ui import app
 from ait_ui.elements import Element, Elm
@@ -17,7 +16,9 @@ from ait_ui.elements import Button
 from PIL import Image as PILImage
 from PIL import ImageDraw, ImageFont
 
+import threading as th
 
+timer = None
 img = PILImage.new('RGB', (160, 160), color = 'white')
 font = ImageFont.truetype("arial.ttf", 24)
 
@@ -36,10 +37,10 @@ def rotate_image(id, value):
     timestamp = str(time.time())
     Elm("image1").value = "assets/rotated.png" + "?t=" + timestamp  # add timestamp to force reload
     
-animate = False
 
-async def _animate_image(id, value):
+def animate_image(id, value):    
     global img
+    global timer
     angle = int(value.split(" ")[1])
     if angle is None:
         angle = 0
@@ -47,18 +48,14 @@ async def _animate_image(id, value):
     img.save("assets/rotated.png")
     timestamp = str(time.time())
     Elm("image1").value = "assets/rotated.png" + "?t=" + timestamp  # add timestamp to force reload
-    await asyncio.sleep(.1)
-    if animate:
-        await _animate_image(id, f"Rotate {angle}")
+    timer = th.Timer(0.1, animate_image, args=[id, value])
+    timer.start()
     
-def animate_image(id, value):
-    global animate
-    animate = True
-    asyncio.run(_animate_image(id, value))
 
 def stop_animation(id, value):
-    global animate
-    animate = False
+    global timer
+    timer.cancel()
+    
 
 def reset(id, value):
     global img    
