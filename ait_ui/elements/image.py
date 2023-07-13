@@ -5,4 +5,5 @@ class Image(Element):
         self.tag = "img"
         self.value_name = "src"
         self.has_content = False
+        self.attrs["src"] = value
         
