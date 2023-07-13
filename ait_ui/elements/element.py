@@ -59,6 +59,9 @@ class Element:
                     self.parent = None
                     cur_parent = self
 
+    def update(self):
+        socket_handler.send(self.id, self.render(), "init-content")
+
     def set_value(self, value):
         self.value = value
     @property
