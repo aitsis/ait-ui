@@ -26,4 +26,3 @@ def rotate_image(id, value):
 with Element() as main:
     Image(id="image1")
     Button(id="button1", value="Rotate").on_click(lambda id, value: Image().rotate(30))
-    
