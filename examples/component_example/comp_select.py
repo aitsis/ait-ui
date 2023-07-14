@@ -19,6 +19,7 @@ class Comp_Select(Component):
                         Option(value="1")
                         Option(value="2")
                         Option(value="3")
+                        Option(value="4")
     
     def on_change(self, id, value):
         if self.events["change"]:
