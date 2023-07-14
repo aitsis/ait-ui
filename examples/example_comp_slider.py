@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 
 from ait_ui import app
 from ait_ui.elements import Element
-from comp_slider import Comp_Slider
+from examples.component_example.comp_slider import Comp_Slider
 
 def on_change_slider(id, value):
     print("Slider Changed", id, value)
