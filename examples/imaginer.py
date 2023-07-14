@@ -5,7 +5,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 #----------------------------------------
-
+from ait_ui.elements import styles
 from ait_ui import app
 from ait_ui import socket_handler
 from ait_ui.elements import Element , Header , Text , Image , File , Label , Select , Option , TextArea , Button , Elm
@@ -15,11 +15,22 @@ from examples.component_example.comp_inputfile import Comp_InputFile
 from examples.component_example.comp_slider import Comp_Slider
 from examples.component_example.comp_header import Comp_Imaginer_Header
 
+imaginerCss = open("assets/imaginer.css", "r")
+styles.add_css("imaginer" , imaginerCss.read())
+
 def on_change(id, value):
     Elm("input1").value = value
 
+file = None
+
 def on_click(id, value):
-    Elm("input1").value = value
+    prompt = Elm("input1").value
+    slider1 = Elm("slider1-slider").value
+    slider2 = Elm("slider2-slider").value
+    slider3 = Elm("slider3-slider").value
+    global file
+    print(prompt, slider1, slider2, slider3)
+    Elm("input1").value = str(slider1) + " " + str(slider2) + " " + str(slider3) + " " + str(prompt) 
 
 #await function
 def setImage(id, value):
@@ -38,7 +49,7 @@ def change_accordion(id, value):
     if isAccordionOpen:
         print("if")
         Elm("accordion-wrapper").set_style("height", "100%")
-        Elm("imaginer-body-left-bottom").set_style("height", "50%")
+        Elm("imaginer-body-left-bottom").set_style("height", "90%")
     else:
         print("else")
         Elm("accordion-wrapper").set_style("height", "0px")
@@ -72,9 +83,9 @@ with Element(id = "imaginer-wrapper").cls("imaginer-wrapper") as main:
                                                                 Comp_Slider(label="Slider 2", id="slider2", min=0,step=1 , max=100, value=50).on("change_slider", change_slider_value)
                                                 with Element().cls("imaginer-body-left-bottom-top-div"):
                                                         with Element().cls("slider-wrapper"):
-                                                                Comp_Slider(label="Slider 3", id="slider3", step=1 , min=0, max=100, value=50).on("change_slider", change_slider_value)
+                                                                Comp_Slider(label="Slider 3", id="slider3", step=5 , min=0, max=100, value=50).on("change_slider", change_slider_value)
                                                         with Element().cls("slider-wrapper"):
-                                                                pass
+                                                                       pass
                                                 Comp_Select(id="select1").on("change", on_change)
                         with Element().cls("imaginer-body-right-center"):
                                 with Element().cls("imaginer-body-right-input-wrapper"):
