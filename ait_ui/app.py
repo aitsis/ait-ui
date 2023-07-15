@@ -40,7 +40,7 @@ def files(path):
     print("Path:",path)  # Ensure the path is correct
     return send_from_directory("static", path)
 
-def add_custom_file_route(route, osDirPath):
+def add_static_route(route, osDirPath):
     print("Route Path:",osDirPath)  # Ensure the path is correct
     dir_routes[route] = osDirPath
 
