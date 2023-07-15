@@ -14,14 +14,12 @@ class Comp_InputFile(Component):
         super().__init__()
         with Element().style("height","100%").style("width","100%"):
             pass
-            File(id = id).on("input", self.on_input)
+            File(id = id,on_upload_done=self.on_input)
             with Label(id="dropzone1" , usefor="file1"):
                     Text(value = "Drag and Drop")
                     Text(value = "- or -")
                     Text(value = "Click to Upload")
     
-    def on_input(self, id, value):
-        print("Input Hapened", id, value)
-        if self.events["input"]:
-            self.events["input"](id, value)
+    def on_input(self, value):
+        print("Input File: ", value)
     
