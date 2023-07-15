@@ -52,9 +52,9 @@ add_script("myapp", """
 
     function clientEmit(id,newValue,event_name) {
            console.log("clientEmit",id,newValue,event_name);
-           if(newValue instanceof FileList){                
+           if(newValue instanceof File){                
                 var formData = new FormData();
-                formData.append("file", newValue[0]);
+                formData.append("file", newValue);
                 formData.append("id", id);
                 console.log("formData", formData);
                 var request = new XMLHttpRequest();

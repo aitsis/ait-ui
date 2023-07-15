@@ -1,6 +1,5 @@
 from .. import socket_handler
 from . import scripts
-
 root = None
 cur_parent = None
 old_parent = None
@@ -64,9 +63,19 @@ class Element:
 
     def set_value(self, value):
         self.value = value
+
     @property
     def value(self):
         return self._value
+    
+    @property
+    def webserver(self):
+        return socket_handler.web_server
+
+    @property
+    def web_request(self):
+        return socket_handler.web_request
+
     @value.setter
     def value(self, value):
         self._value = value

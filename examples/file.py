@@ -12,13 +12,23 @@ from ait_ui.elements import Text
 from ait_ui.elements import Button
 from ait_ui.elements import File
 from ait_ui.elements import Form
-from ait_ui.elements import Submit
 from ait_ui.elements import Label
+
+def on_upload_done(file):
+    if isinstance(file, str):
+        print("File uploaded to:", file)
+    else:
+        print("File uploaded:", file.filename)
+        print("File content_type:", file.content_type)
+        #get first 20 bytes of file
+        print("File content:", file.read(20))
+        file.seek(0)
+
+
+
 with Element() as main:
     Label(id="dropzone1" , usefor="file").style("width", "100px").style("height", "100px")
-    file = File(id="file").on("input", lambda id, value: print("Input Happened", id, value))
-    file.on("change", lambda id, value: print("Change Happened", id, value))
-
+    file = File(id="file",on_upload_done=on_upload_done)
 
 
 if __name__ == '__main__':

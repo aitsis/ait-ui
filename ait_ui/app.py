@@ -8,6 +8,8 @@ from . import index_gen
 flask_app = Flask(__name__)
 socketio = SocketIO(flask_app)
 socket_handler.socket = socketio
+socket_handler.web_server = flask_app
+socket_handler.web_request = request
 CORS(flask_app)
 
 ui_root = None
@@ -42,22 +44,11 @@ def add_custom_file_route(route, osDirPath):
     print("Route Path:",osDirPath)  # Ensure the path is correct
     dir_routes[route] = osDirPath
 
-# @flask_app.route('/<route>/<path:file_path>')
-# def custom_files(route, file_path):
-#     if route not in dir_routes:
-#         abort(404)    
-#     return send_from_directory(dir_routes[route], file_path)
-
-@flask_app.route('/file-upload', methods=['POST'])
-def upload():
-    print("Upload")
-    print(request.files['file'])
-    file = request.files['file']
-    if file:
-        file.save(file.filename)
-        return 'File uploaded successfully.'
-    else:
-        return 'No file uploaded.'
+@flask_app.route('/<route>/<path:file_path>')
+def custom_files(route, file_path):
+    if route not in dir_routes:
+        abort(404)    
+    return send_from_directory(dir_routes[route], file_path)
 
 def run(ui = None, port=5000, debug=True):
     global ui_root
