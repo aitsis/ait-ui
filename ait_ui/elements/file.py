@@ -25,7 +25,6 @@ class File(Element):
             return super().get_client_handler_str(event_name)
         
     def upload(self):
-        print("Self : ", self)
         request = self.web_request        
         file = request.files['file']        
         if file:
