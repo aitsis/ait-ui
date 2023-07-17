@@ -8,6 +8,8 @@ from . import index_gen
 flask_app = Flask(__name__)
 socketio = SocketIO(flask_app)
 socket_handler.socket = socketio
+socket_handler.web_server = flask_app
+socket_handler.web_request = request
 CORS(flask_app)
 
 ui_root = None
@@ -35,17 +37,17 @@ def home():
 
 @flask_app.route('/<path:path>')
 def files(path):
+    print("Path:",path)  # Ensure the path is correct
     return send_from_directory("static", path)
 
-def add_custom_file_route(route, osDirPath):
-    print(osDirPath)  # Ensure the path is correct
+def add_static_route(route, osDirPath):
+    print("Route Path:",osDirPath)  # Ensure the path is correct
     dir_routes[route] = osDirPath
 
 @flask_app.route('/<route>/<path:file_path>')
 def custom_files(route, file_path):
     if route not in dir_routes:
-        abort(404)
-
+        abort(404)    
     return send_from_directory(dir_routes[route], file_path)
 
 def run(ui = None, port=5000, debug=True):

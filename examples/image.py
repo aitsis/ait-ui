@@ -6,20 +6,23 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 #----------------------------------------
 
-from ait_ui import  app
+from ait_ui import app
 from ait_ui.elements import Element, Elm
 from ait_ui.elements import Text
+from ait_ui.elements import Image
 from ait_ui.elements import Button
+from PIL import Image as PILImage
 
-def on_click(id, value):
-    print("clicked", id, value)
-    Elm(id).toggle_class("selected")
+# create a new image
+img = PILImage.new('RGB', (60, 30), color = 'red')
+
+
+def rotate_image(id, value):
+    global img
+    img = img.rotate(90)
+    img.save("rotated.png")
+    Elm("image1").value = img
 
 with Element() as main:
-    for i in range(15):
-        Button(id = f"btn{i}", value="Hello World").on("click", on_click)
-
-
-if __name__ == '__main__':
-    app.run(ui = main, debug=True)
-
+    Image(id="image1")
+    Button(id="button1", value="Rotate").on_click(lambda id, value: Image().rotate(30))
