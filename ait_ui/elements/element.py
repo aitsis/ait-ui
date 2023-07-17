@@ -92,9 +92,7 @@ class Element:
 
     def add_child(self, child):        
         self.children.append(child)
-    
-    def remove_child(self, child):        
-        self.children.remove(child)
+
 
     def __enter__(self):        
         global cur_parent
