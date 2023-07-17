@@ -8,6 +8,7 @@ def add_script(id, script):
 
 
 add_script("myapp", """
+        const clientId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
         var elements = {};
         var event_handlers = {};
 
@@ -51,7 +52,7 @@ add_script("myapp", """
         });
 
     function clientEmit(id,newValue,event_name) {
-        socket.emit('from_client', {id: id, value: newValue, event_name: event_name});
+        socket.emit('from_client', {id: id, value: newValue, event_name: event_name, client_id: clientId});
     }
     window.onload = function () {        
         clientEmit("myapp","init","init");                

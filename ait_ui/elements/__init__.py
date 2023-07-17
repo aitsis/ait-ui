@@ -3,7 +3,8 @@ from .canvas import Canvas
 from .check import Check
 from .col import Col
 from .dropzone import Dropzone
-from .element import Element, Elm
+#from .element import Element, Elm
+from .element import Element
 from .file import File
 from .form import Form
 from .image import Image
