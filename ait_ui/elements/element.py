@@ -2,9 +2,7 @@ from .. import socket_handler
 from . import scripts
 root = None
 cur_parent = None
-old_parent = None
 elements = {}
-created = False
 def clientHandler(id, value,event_name):
     global elements
     if id == "myapp":
