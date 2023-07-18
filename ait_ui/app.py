@@ -5,6 +5,7 @@ import os
 
 from . import socket_handler
 from . import index_gen
+from . import Session
 flask_app = Flask(__name__)
 socketio = SocketIO(flask_app)
 socket_handler.socket = socketio
@@ -13,32 +14,40 @@ socket_handler.web_request = request
 CORS(flask_app)
 
 ui_root = None
-dir_routes = {}
+ui_root2 = None
 
+dir_routes = {}
+sessions = {}
+un_init_sessions = []
 @socketio.on('connect')
 def handle_from_client(json):
     print('Socket connected')
-    if socket_handler.clientHandler is not None:
-        socket_handler.clientHandler('myapp', 'connect', 'connect')    
-
+    Session.socket = socketio
+    sessions[request.sid] = un_init_sessions.pop()
+    sessions[request.sid].init(request.sid)
+    
 
 @socketio.on('from_client')
 def handle_from_client(json):
     print('Received json: ' + str(json))
-    if json['id'] == "myapp":
-        if json['value'] == "init":
-            socket_handler.send("myapp", ui_root.render(), "init-content")
-    if socket_handler.clientHandler is not None:
-        socket_handler.clientHandler(json['id'], json['value'], json['event_name'])    
+    Session.current_session = sessions[request.sid]
+    Session.current_session.clientHandler(json['id'], json['value'], json['event_name'])
 
 @flask_app.route('/')
 def home():
-    return index_gen.generate_index()
+    session = Session(ui_root2)
+    un_init_sessions.append(session)
+    return session.get_index()
 
 @flask_app.route('/<path:path>')
-def files(path):
-    print("Path:",path)  # Ensure the path is correct
+def files(path):    
     return send_from_directory("static", path)
+
+@flask_app.route('/js/<path:path>')
+def js_files(path):    
+    return send_from_directory("js", path)
+
+
 
 def add_static_route(route, osDirPath):
     print("Route Path:",osDirPath)  # Ensure the path is correct
@@ -54,6 +63,13 @@ def run(ui = None, port=5000, debug=True):
     global ui_root
     if ui is not None:
         ui_root = ui        
+    flask_app.run(host="0.0.0.0",port=port, debug=debug)
+
+
+def run2(ui = None, port=5000, debug=True):
+    global ui_root2
+    assert ui is not None, "ui is None"
+    ui_root2 = ui
     flask_app.run(host="0.0.0.0",port=port, debug=debug)
 
 if __name__ == '__main__':

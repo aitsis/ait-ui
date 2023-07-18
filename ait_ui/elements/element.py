@@ -1,34 +1,16 @@
 from .. import socket_handler
-from . import scripts
+from .. import Session
 root = None
 cur_parent = None
-elements = {}
-def clientHandler(id, value,event_name):
-    global elements
-    if id == "myapp":
-        if value == "init":
-            created = True
-            print("Client connected")
-            socket_handler.flush_send_queue()
-    else:
-        if id in elements:
-            elm = elements[id]
-            if elm is not None:            
-                if event_name in elm.events:
-                    elm.events[event_name](id, value)
-
-socket_handler.set_client_handler(clientHandler)
 
 def Elm(id):
-    global elements
-    if id in elements:
-        return elements[id]
+    if id in Session.current_session.elements:
+        return Session.current_session.elements[id]
     else:
         return None
 
 class Element:
-    def __init__(self, id = None,value = None,auto_bind = True):
-        global root, cur_parent
+    def __init__(self, id = None,value = None,auto_bind = True):        
         self.tag = "div"
         self.id = id
         self._value = value
@@ -41,26 +23,42 @@ class Element:
         self.value_name = "value"
         self.has_content = True
         if id is not None:
-            elements[id] = self
-
+            Session.current_session.elements[id] = self
+        
         if auto_bind:
-            if root is None:
-                root = self
-                cur_parent = self
+            if self.root is None:
+                self.root = self
+                self.cur_parent = self
                 self.parent = None
             else:
-                if cur_parent is not None:
+                if self.cur_parent is not None:
                     self.parent = cur_parent
-                    cur_parent.add_child(self)
+                    self.cur_parent.add_child(self)
                 else:
                     self.parent = None
-                    cur_parent = self
+                    self.cur_parent = self
 
     def update(self):
-        socket_handler.send(self.id, self.render(), "init-content")
+        Session.current_session.send(self.id, self.render(), "init-content")
 
     def set_value(self, value):
         self.value = value
+
+    @property
+    def root(self):
+        return Session.current_session.root
+
+    @root.setter
+    def root(self, value):
+        Session.current_session.root = value
+
+    @property
+    def cur_parent(self):
+        return Session.current_session.cur_parent
+    
+    @cur_parent.setter
+    def cur_parent(self, value):
+        Session.current_session.cur_parent = value
 
     @property
     def value(self):
@@ -77,29 +75,27 @@ class Element:
     @value.setter
     def value(self, value):
         self._value = value
-        socket_handler.send(self.id, value, "change-"+self.value_name)
+        Session.current_session.send(self.id, value, "change-"+self.value_name)
 
     def toggle_class(self, class_name):
-        socket_handler.send(self.id, class_name, "toggle-class")
+        Session.current_session.send(self.id, class_name, "toggle-class")
     
     def set_attr(self, attr_name, attr_value):
-        socket_handler.send(self.id, attr_value, "change-"+attr_name)
+        Session.current_session.send(self.id, attr_value, "change-"+attr_name)
     
     def set_style(self, attr_name, attr_value):
-        socket_handler.send(self.id, attr_value, "set-"+attr_name)
+        Session.current_session.send(self.id, attr_value, "set-"+attr_name)
 
     def add_child(self, child):        
         self.children.append(child)
 
-    def __enter__(self):        
-        global cur_parent
-        cur_parent = self
+    def __enter__(self):                
+        self.cur_parent = self
         self.children = []
         return self
     
-    def __exit__(self, type, value, traceback):        
-        global cur_parent
-        cur_parent = self.parent
+    def __exit__(self, type, value, traceback):                
+        self.cur_parent = self.parent
         
     def __str__(self):
         return self.render()
