@@ -23,7 +23,6 @@ from .video import Video
 from .orderedlist import OrderedList
 from .unorderedlist import UnorderedList
 from .listitem import ListItem
-from .elm_script_test import ScriptStyleTest, ScriptStyleTest2, ScriptStyleTest3, ScriptStyleTest4
 
 
 __all__ = [
@@ -51,9 +50,5 @@ __all__ = [
     "Video",
     "OrderedList",
     "UnorderedList",
-    "Listitem",
-    "ScriptStyleTest",
-    "ScriptStyleTest2",
-    "ScriptStyleTest3",
-    "ScriptStyleTest4"
+    "Listitem"
 ]

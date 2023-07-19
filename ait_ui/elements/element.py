@@ -10,8 +10,6 @@ def Elm(id):
         return None
 
 class Element:
-    _current = None
-
     def __init__(self, id = None,value = None,auto_bind = True):        
         self.tag = "div"
         self.id = id
@@ -24,73 +22,21 @@ class Element:
         self.parent = None
         self.value_name = "value"
         self.has_content = True
-
-        # FOR HTML HEAD -> Both Scripts and Styles
-        self.header_items = {}
-
-        # FOR HTML BODY -> Scripts Only
-        self.script_sources = {}
-        self.scripts = {}
-        self.styles = {}
-        
         if id is not None:
             Session.current_session.elements[id] = self
         
         if auto_bind:
-            if Element._current is not None:
-                self.parent = Element._current
-                Element._current.add_child(self)
-
-    def append_header_item(self, id, item, type="script"):
-        self.header_items[id] = item
-        
-    def append_script_source(self, id:str, script:str):
-        self.script_sources[id] = script
-
-    def append_script(self, id:str, script:str):
-        self.scripts[id] = script
-
-    def append_style(self, id:str, style:str):
-        self.styles[id] = style
-
-    def get_header_items(self):
-        return self.header_items
-
-    def get_scripts(self):
-        return self.scripts
-    
-    def get_script_sources(self):
-        return self.script_sources
-    
-    def get_styles(self):
-        return self.styles
-    
-    def get_all_scripts(self):
-        scripts = self.get_scripts()
-        for child in self.children:
-            child_scripts = child.get_all_scripts()
-            scripts.update(child_scripts)
-        return scripts
-
-    def get_all_script_sources(self):
-        scripts = self.get_script_sources()
-        for child in self.children:
-            child_scripts = child.get_all_script_sources()
-            scripts.update(child_scripts)
-        return scripts
-
-    def get_all_styles(self):
-        styles = self.get_styles()
-        for child in self.children:
-            styles.update(child.get_all_styles())
-        return styles
-    
-    def get_all_header_items(self):
-        header_items = self.get_header_items()
-        for child in self.children:
-            child_header_items = child.get_all_header_items()
-            header_items.update(child_header_items)
-        return header_items
+            if self.root is None:
+                self.root = self
+                self.cur_parent = self
+                self.parent = None
+            else:
+                if self.cur_parent is not None:
+                    self.parent = cur_parent
+                    self.cur_parent.add_child(self)
+                else:
+                    self.parent = None
+                    self.cur_parent = self
 
     def update(self):
         Session.current_session.send(self.id, self.render(), "init-content")
@@ -143,15 +89,13 @@ class Element:
     def add_child(self, child):        
         self.children.append(child)
 
-    def __enter__(self):
-        # Store the previous current parent, and set the current parent to this instance
-        self._prev = Element._current
-        Element._current = self
+    def __enter__(self):                
+        self.cur_parent = self
+        self.children = []
         return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        # Restore the previous current parent when exiting this context
-        Element._current = self._prev
+    
+    def __exit__(self, type, value, traceback):                
+        self.cur_parent = self.parent
         
     def __str__(self):
         return self.render()
@@ -173,30 +117,43 @@ class Element:
 
     def render(self):
         str = f"<{self.tag}"
+        # <div
         if self.id is not None:
             str += f" id='{self.id}'"
+        # <div id='myid'   
         class_str = " ".join(self.classes)
+        # <div id='myid' class='myclass1 myclass2'
         if(len(class_str) > 0):
             str += f" class='{class_str}'"
+        # <div id='myid' class='myclass1 myclass2'
         if(len(self.styles) > 0):
             style_str = " style='"
+            # <div id='myid' class='myclass1 myclass2' style='
             for style_name, style_value in self.styles.items():
                 style_str += f" {style_name}:{style_value};"
+            # <div id='myid' class='myclass1 myclass2' style='width:100px;height:100px;'
             str += style_str + "'"
         for attr_name, attr_value in self.attrs.items():
             str += f" {attr_name}='{attr_value}'"
+            # <div id='myid' class='myclass1 myclass2' style='width:100px;height:100px;' attr_name='attr_value'
         for event_name, action in self.events.items():
             str += self.get_client_handler_str(event_name)
+            # <div id='myid' class='myclass1 myclass2' style='width:100px;height:100px;' attr_name='attr_value' onevent_name='clientEmit(this.id,this.value,"event_name")'
         if self.has_content:
             str +=">"
+            # <div id='myid' class='myclass1 myclass2' style='width:100px;height:100px;' attr_name='attr_value' onevent_name='clientEmit(this.id,this.value,"event_name")'>
             str +=f"{self.value if self.value is not None and self.value_name is not None else ''}"
+            # <div id='myid' class='myclass1 myclass2' style='width:100px;height:100px;' attr_name='attr_value' onevent_name='clientEmit(this.id,this.value,"event_name")'>value
             for child in self.children:
                 str += child.render()
+            # <div id='myid' class='myclass1 myclass2' style='width:100px;height:100px;' attr_name='attr_value' onevent_name='clientEmit(this.id,this.value,"event_name")'>value<child1><child2>
             str += f"</{self.tag}>"
+            # <div id='myid' class='myclass1 myclass2' style='width:100px;height:100px;' attr_name='attr_value' onevent_name='clientEmit(this.id,this.value,"event_name")'>value<child1><child2></div>
         else:
             if self.value is not None:
                 if(self.value_name is not None):
                     str +=f' {self.value_name} ="{self.value}"'
             str += "/>"
+            # <div id='myid' class='myclass1 myclass2' style='width:100px;height:100px;' attr_name='attr_value' onevent_name='clientEmit(this.id,this.value,"event_name")' value='value'/>
         return str
 
