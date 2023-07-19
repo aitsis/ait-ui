@@ -31,7 +31,7 @@ class Element:
         # FOR HTML BODY -> Scripts Only
         self.script_sources = {}
         self.scripts = {}
-        self.styles = {}
+        self.custom_styles = {}
         
         if id is not None:
             Session.current_session.elements[id] = self
@@ -50,8 +50,8 @@ class Element:
     def append_script(self, id:str, script:str):
         self.scripts[id] = script
 
-    def append_style(self, id:str, style:str):
-        self.styles[id] = style
+    def append_custom_style(self, id:str, style:str):
+        self.custom_styles[id] = style
 
     def get_header_items(self):
         return self.header_items
@@ -62,8 +62,8 @@ class Element:
     def get_script_sources(self):
         return self.script_sources
     
-    def get_styles(self):
-        return self.styles
+    def get_custom_styles(self):
+        return self.custom_styles
     
     def get_all_scripts(self):
         scripts = self.get_scripts()
@@ -79,11 +79,11 @@ class Element:
             scripts.update(child_scripts)
         return scripts
 
-    def get_all_styles(self):
-        styles = self.get_styles()
+    def get_all_custom_styles(self):
+        custom_styles = self.get_custom_styles()
         for child in self.children:
-            styles.update(child.get_all_styles())
-        return styles
+            custom_styles.update(child.get_all_custom_styles())
+        return custom_styles
     
     def get_all_header_items(self):
         header_items = self.get_header_items()
