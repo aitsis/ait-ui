@@ -28,17 +28,17 @@ class Session:
 
     def flush_message_queue(self):
         for item in self.message_queue:            
-            self.send(item['id'], item['value'], item['event_name'], room=self.sid)
+            self.send(item['id'], item['value'], item['event_name'])
         self.message_queue = []
 
     def get_index(self):
-        return index_gen.get_index()
+        return index_gen.get_index(self.ui.header_items, self.ui.scripts_sources, self.ui.scripts, self.ui.styles)
     
     def clientHandler(self, id, value,event_name):
         if id == "myapp":
             if value == "init":                
                 print("Client Initialized")
-                self.send("myapp", self.ui.render(), "init-content")
+                self.send("myapp", self.ui.main.render(), "init-content")
                 self.flush_message_queue()
         else:
             if id in self.elements:
