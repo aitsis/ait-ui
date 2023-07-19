@@ -21,8 +21,6 @@ class myApp():
             Text("t1", value="Hello World")
             with ScriptStyleTest("dropzone"):
                 ScriptStyleTest2("openseadragon")
-                ScriptStyleTest2("openseadragon")
-                ScriptStyleTest2("openseadragon")
             
             with ScriptStyleTest3("alpinejs"):
                 ScriptStyleTest4("bootstrap")
@@ -30,7 +28,7 @@ class myApp():
         self.header_items = self.main.get_all_header_items()
         self.scripts_sources = self.main.get_all_script_sources()
         self.scripts = self.main.get_all_scripts()
-        self.styles = self.main.get_all_custom_styles()
+        self.styles = self.main.get_all_styles()
 
 if __name__ == '__main__':
     app.run2(ui = myApp, debug=True)

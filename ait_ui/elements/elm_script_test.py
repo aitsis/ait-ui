@@ -15,7 +15,7 @@ class ScriptStyleTest(Element):
         console.log("dropzone",id,value);
             elements[id][value.action](value.value);}
         """)
-        self.append_custom_style('dropzone-style', """
+        self.append_style('dropzone-style', """
         .dropzone {
             border: 2px dashed #0087F7;
             border-radius: 5px;
@@ -48,7 +48,7 @@ class ScriptStyleTest2(Element):
             elements[id][value.action](value.value);
         }
         """)
-        self.append_custom_style('openseadragon-style', """
+        self.append_style('openseadragon-style', """
         #openseadragon {
             width: 800px;
             height: 600px;
@@ -72,7 +72,7 @@ class ScriptStyleTest3(Element):
             elements[id][value.action](value.value);
         }
         """)
-        self.append_custom_style('alpinejs-style', """
+        self.append_style('alpinejs-style', """
         .bg-blue-500 {
             background-color: #3b82f6;
         }
@@ -94,7 +94,7 @@ class ScriptStyleTest4(Element):
             elements[id][value.action](value.value);
         }
         """)
-        self.append_custom_style('bootstrap-style', """
+        self.append_style('bootstrap-style', """
         .bg-blue-500 {
             background-color: #3b82f6;
         }
