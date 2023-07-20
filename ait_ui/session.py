@@ -10,7 +10,7 @@ class Session:
         self.sid = None
         self.message_queue = []
         self.root = None
-        self.current_parent = None
+        self.cur_parent = None
 
         Session.current_session = self
         self.ui = ui()
