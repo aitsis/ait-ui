@@ -23,6 +23,8 @@ from .video import Video
 from .orderedlist import OrderedList
 from .unorderedlist import UnorderedList
 from .listitem import ListItem
+from .source import Source
+from .picture import Picture
 
 
 __all__ = [
@@ -50,5 +52,7 @@ __all__ = [
     "Video",
     "OrderedList",
     "UnorderedList",
-    "Listitem"
+    "ListItem",
+    "Source",
+    "Picture",
 ]
