@@ -31,7 +31,6 @@ class Element:
                 self.parent.add_child(self)
             else:
                 self.root = self
-            self.cur_parent = self
 
     def update(self):
         Session.current_session.send(self.id, self.render(), "init-content")

@@ -24,13 +24,25 @@ class myApp():
                 with Col(id="col2") as col2:
                     TestElement3(id='alpinejs')
                     TestElement4(id='bootstrap')
-                with Col(id="col3") as col3:
-                    Text(value="Hello World")
-                    with Element():
-                        Button(id="BTN1", value="button1")
-                    with Element():
-                        Button(id="BTN2", value="button2")
-                    Button(id="BTN3", value="button3")
+                    Text(id='text1', value="Hello World")
+                    with Row() as row2:
+                        with Col() as col3:
+                            Button(id='button1', value="Click Me")
+                        with Col() as col4:
+                            Button(id='button2', value="Click Me")
+                        with Col() as col5:
+                            Button(id='button3', value="Click Me")
+                        with Col() as col6:
+                            Button(id='button4', value="Click Me")
+            with Row() as row3:
+                with Col() as col7:
+                    Button(id='button5', value="Click Me")
+                with Col() as col8:
+                    Button(id='button6', value="Click Me")
+                with Col() as col9:
+                    Button(id='button7', value="Click Me")
+                with Col() as col10:
+                    Button(id='button8', value="Click Me")
 
     def render(self):
         return self.main.render()
