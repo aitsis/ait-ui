@@ -51,6 +51,22 @@ add_script("myapp", """
         });
 
     function clientEmit(id,newValue,event_name) {
+           console.log("clientEmit",id,newValue,event_name);
+           if(newValue instanceof File){                
+                var formData = new FormData();
+                formData.append("file", newValue);
+                formData.append("id", id);
+                console.log("formData", formData);
+                var request = new XMLHttpRequest();
+                request.open("POST", "/file-upload");
+                request.send(formData);
+                request.onreadystatechange = function() {
+                     if (request.readyState == XMLHttpRequest.DONE) {
+                         console.log("post done.");
+                     }
+                }                
+                return;
+            }                           
         socket.emit('from_client', {id: id, value: newValue, event_name: event_name});
     }
     window.onload = function () {        

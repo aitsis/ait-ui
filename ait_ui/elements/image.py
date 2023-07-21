@@ -4,6 +4,6 @@ class Image(Element):
         super().__init__(id, value)
         self.tag = "img"
         self.value_name = "src"
-        self.style("width","100px")
         self.has_content = False
+        self.attrs["src"] = value
         

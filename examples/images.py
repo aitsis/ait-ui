@@ -7,25 +7,24 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 #----------------------------------------
 
 from ait_ui import app
-from ait_ui.components import Element, Elm
-from ait_ui.components import Text
-from ait_ui.components import Image
-from ait_ui.components import ImageViewer
-from ait_ui.components import Button
-def on_click(id, value):
-    print("clicked", id, value)
-    Elm("text1").value = "Button clicked"
-    with Element(id = "image1") as content:
-        content.cls("border").style("background-color", "blue")
-        Image(src = "https://www.w3schools.com/html/pic_trulli.jpg")
+from ait_ui.elements import Element, Elm
+from ait_ui.elements import Image
+from ait_ui.elements import Row
 
-with Element() as main:
-    Text(id = "text1", value = "Image Viewer Example")
-    Button(id = "button1", value = "image1").on("click", on_click)
+import urllib.parse
 
-    
-    
+custom_route = "assets"
 
+with Row() as main:
+    images_dir = os.path.join(os.getcwd(), custom_route)
+    image_files = os.listdir(images_dir)
+    for file_name in image_files:
+        image_url = "/assets/" + urllib.parse.quote(file_name)
+        print(f'Image URL: {image_url}')
+        Image(value=image_url)
+        
 if __name__ == '__main__':
-    app.run(ui = main, debug=True)
+    custom_path = os.path.join(os.getcwd(), "assets")
+    app.add_static_route(custom_route, osDirPath=custom_path)    
+    app.run(ui=main, debug=True, port=5000)
 
