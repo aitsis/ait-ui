@@ -93,6 +93,7 @@ class Element:
     def add_child(self, child):        
         self.children.append(child)
 
+
     def __enter__(self):        
         global cur_parent
         cur_parent = self
