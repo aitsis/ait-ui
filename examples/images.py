@@ -25,6 +25,6 @@ with Row() as main:
         
 if __name__ == '__main__':
     custom_path = os.path.join(os.getcwd(), "assets")
-    app.add_custom_file_route(custom_route, osDirPath=custom_path)    
+    app.add_static_route(custom_route, osDirPath=custom_path)    
     app.run(ui=main, debug=True, port=5000)
 

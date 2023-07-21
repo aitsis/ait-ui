@@ -11,25 +11,34 @@ header_items = ['<meta charset="UTF-8">',
             ]
 
 
+default_header_items = {
+    'meta-charset': '<meta charset="UTF-8">',
+    'meta-viewport': '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
+    'title': '<title>Document</title>',
+    'socket.io': '<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.0/socket.io.js"></script>',
+    'openseadragon': '<script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/openseadragon.min.js"></script>',
+    'style': '<link rel="stylesheet" href="style.css">'
+}
 
-body = """
-    <div id="myapp"></div>"""
+scripts = {
+    
+}
+
 
 from .elements import scripts as extras
 from .elements import styles as extras_css
 
 def generate_index():
-    index_str = '<!DOCTYPE html><html lang="en">'
-    index_str += '<head>'
-    # add header items
-    for item in header_items:
-        index_str += item
-    for item in extras.header_items:
-        index_str += item
+    # HTML BEGIN ------------------------------------------------------------
+    index_str = '<!DOCTYPE html><html lang="en"><head>'
+    # HEADER ITEMS ----------------------------------------------------------
+    for key in default_header_items:
+        index_str += default_header_items[key]
     index_str += '</head>'
+    # BODY ------------------------------------------------------------------
     index_str += '<body>'
-    index_str += body
-    # add scripts on body
+    index_str += "<div id='myapp'></div>"
+    # SCRIPTS ----------------------------------------------------------------
     if len(extras.scripts) > 0:
         index_str += '<script>'
         for id in extras.scripts:

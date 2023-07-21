@@ -8,6 +8,9 @@ from .elements import Element
 flask_app = Flask(__name__)
 flask_app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(flask_app)
+socket_handler.socket = socketio
+socket_handler.web_server = flask_app
+socket_handler.web_request = request
 CORS(flask_app)
 
 client_sessions = {}
@@ -78,9 +81,10 @@ def home():
 
 @flask_app.route('/<path:path>')
 def files(path):
+    print("Path:",path)  # Ensure the path is correct
     return send_from_directory("static", path)
 
-def add_custom_file_route(route, osDirPath):
+def add_static_route(route, osDirPath):
     print("Route Path:",osDirPath)  # Ensure the path is correct
     dir_routes[route] = osDirPath
 

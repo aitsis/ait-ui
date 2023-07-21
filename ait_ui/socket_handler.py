@@ -1,4 +1,6 @@
 socket = None # set by app.py
+web_server = None # set by app.py
+web_request = None # set by app.py
 send_queue = []
 
 

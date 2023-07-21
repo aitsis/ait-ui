@@ -10,15 +10,14 @@ from ait_ui.component import Component
 
 
 class Comp_Select(Component):
-    def __init__(self, id=None):
+    def __init__(self, id=None , options=None):
         super().__init__()
-        with Element().cls("imaginer-body-left-top"):
+        with Element().cls("select-wrapper"):
                 Text(value = "Models")
-                with Select(id=id) as select:
+                with Select(id=id).cls("select") as select:
                         select.on("change", self.on_change)
-                        Option(value="1")
-                        Option(value="2")
-                        Option(value="3")
+                        for option in options:
+                                Option(value=option).cls("option")
     
     def on_change(self, id, value):
         if self.events["change"]:

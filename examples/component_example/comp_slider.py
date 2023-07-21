@@ -11,7 +11,7 @@ from ait_ui.component import Component
 
 class Comp_Slider(Component):
     def __init__(self, label=None, id=None, min=0, max=100, value=50 , step=1):
-        super().__init__()
+        super().__init__()  
         with Element() as content:
             content.style("display", "flex").style("justify-content", "space-between").style("align-items", "center").style("width", "100%")
             Text(value = label)

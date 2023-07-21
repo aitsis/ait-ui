@@ -1,7 +1,33 @@
 from flask import g
 
 from . import scripts
-from .. import app
+root = None
+cur_parent = None
+old_parent = None
+elements = {}
+created = False
+def clientHandler(id, value,event_name):
+    global elements
+    if id == "myapp":
+        if value == "init":
+            created = True
+            print("Client connected")
+            socket_handler.flush_send_queue()
+    else:
+        if id in elements:
+            elm = elements[id]
+            if elm is not None:            
+                if event_name in elm.events:
+                    elm.events[event_name](id, value)
+
+socket_handler.set_client_handler(clientHandler)
+
+def Elm(id):
+    global elements
+    if id in elements:
+        return elements[id]
+    else:
+        return None
 
 class Element:
     cur_parent = None
@@ -54,12 +80,20 @@ class Element:
             self.send_callback(self.id, self.render(), "init-content")
 
     def set_value(self, value):
-        self._value = value
-        if self.send_callback:
-            self.send_callback(self.id, value, "change-"+self.value_name)
+        self.value = value
+
     @property
     def value(self):
         return self._value
+    
+    @property
+    def webserver(self):
+        return socket_handler.web_server
+
+    @property
+    def web_request(self):
+        return socket_handler.web_request
+
     @value.setter
     def value(self, value):
         self._value = value
@@ -80,6 +114,7 @@ class Element:
 
     def add_child(self, child):        
         self.children.append(child)
+
 
     def __enter__(self):        
         self.old_parent = Element.cur_parent
