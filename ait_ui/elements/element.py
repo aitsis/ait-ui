@@ -37,14 +37,6 @@ class Element:
         self.value = value
 
     @property
-    def root(self):
-        return Session.current_session.root
-
-    @root.setter
-    def root(self, value):
-        Session.current_session.root = value
-
-    @property
     def cur_parent(self):
         return Session.current_session.current_parent
     
