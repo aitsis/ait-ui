@@ -23,15 +23,23 @@ class myApp():
                 Button(id = "btn1", value="Hello World").on("click", self.on_click)
             with Row() as row:
                 row.cls("container")
-                Button(id = "btn1", value="Hello World2").on("click", self.on_click)
-                Button(id = "btn1", value="Hello World2").on("click", self.on_click)
-                Button(id = "btn1", value="Hello World2").on("click", self.on_click)
+                Button(id = "btn2", value="Hello World2").on("click", self.on_click)
+                Button(id = "btn2", value="Hello World2").on("click", self.on_click)
+                Button(id = "btn2", value="Hello World2").on("click", self.on_click)
+            self.create_button_group()
+
+    def create_button_group(self):
+        with Row(id = "btngrp") as row:
+            for i in range(self.click_count):
+                Button(id = "btn", value="Clicked")
 
 
     def on_click(self, id, value):
         print("clicked", id, value)
         self.click_count += 1
         Elm("btn1").value = "Clicked " + str(self.click_count) + " times"
+        self.create_button_group()
+        Elm("btngrp").update()
     def render(self):
         return self.main.render()
 

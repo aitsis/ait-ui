@@ -8,7 +8,7 @@ def Elm(id):
         return None
 
 class Element:
-    def __init__(self, id = None,value = None,auto_bind = True):        
+    def __init__(self, id = None,value = None):        
         self.tag = "div"
         self.id = id
         self._value = value
@@ -23,19 +23,13 @@ class Element:
         if id is not None:
             Session.current_session.elements[id] = self
         
-        if auto_bind:
-            if self.root is None:
-                self.root = self
-                self.cur_parent = self
-                self.parent = None
-            else:
-                if self.cur_parent is not None:
-                    self.parent = self.cur_parent
-                    self.cur_parent.add_child(self)
-                else:
-                    self.parent = None
-                    self.cur_parent = self
-
+        if self.cur_parent is None:
+            self.parent = None
+            self.cur_parent = self
+        else:
+            self.parent = self.cur_parent
+            self.cur_parent.add_child(self)
+        
     def update(self):
         Session.current_session.send(self.id, self.render(), "init-content")
 
