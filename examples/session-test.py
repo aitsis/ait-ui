@@ -9,14 +9,23 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 from ait_ui import app, UI
 from ait_ui.elements import Element, Elm
 from ait_ui.elements import Text
-from ait_ui.elements import Button
+from ait_ui.elements import Button,Row
 
 class myApp():
     def __init__(self):
         self.click_count = 0
         self.main = Element()
         with self.main:
-            Button(id = "btn1", value="Hello World").on("click", self.on_click)
+            with Row() as row:
+                row.cls("container")
+                Button(id = "btn1", value="Hello World").on("click", self.on_click)
+                Button(id = "btn1", value="Hello World").on("click", self.on_click)
+                Button(id = "btn1", value="Hello World").on("click", self.on_click)
+            with Row() as row:
+                row.cls("container")
+                Button(id = "btn1", value="Hello World2").on("click", self.on_click)
+                Button(id = "btn1", value="Hello World2").on("click", self.on_click)
+                Button(id = "btn1", value="Hello World2").on("click", self.on_click)
 
 
     def on_click(self, id, value):

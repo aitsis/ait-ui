@@ -1,7 +1,5 @@
 from .. import socket_handler
 from .. import Session
-root = None
-cur_parent = None
 
 def Elm(id):
     if id in Session.current_session.elements:
@@ -32,7 +30,7 @@ class Element:
                 self.parent = None
             else:
                 if self.cur_parent is not None:
-                    self.parent = cur_parent
+                    self.parent = self.cur_parent
                     self.cur_parent.add_child(self)
                 else:
                     self.parent = None
@@ -54,11 +52,11 @@ class Element:
 
     @property
     def cur_parent(self):
-        return Session.current_session.cur_parent
+        return Session.current_session.current_parent
     
     @cur_parent.setter
     def cur_parent(self, value):
-        Session.current_session.cur_parent = value
+        Session.current_session.current_parent = value
 
     @property
     def value(self):
