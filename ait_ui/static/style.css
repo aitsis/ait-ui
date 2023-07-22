@@ -246,7 +246,6 @@ img.selected {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
 }
 
 .accordion{
