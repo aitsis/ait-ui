@@ -28,7 +28,7 @@ class Session:
 
     def flush_message_queue(self):
         for item in self.message_queue:            
-            self.send(item['id'], item['value'], item['event_name'], room=self.sid)
+            self.send(item['id'], item['value'], item['event_name'])
         self.message_queue = []
 
     def get_index(self):

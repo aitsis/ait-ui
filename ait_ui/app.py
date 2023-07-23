@@ -59,14 +59,8 @@ def custom_files(route, file_path):
         abort(404)    
     return send_from_directory(dir_routes[route], file_path)
 
+
 def run(ui = None, port=5000, debug=True):
-    global ui_root
-    if ui is not None:
-        ui_root = ui        
-    flask_app.run(host="0.0.0.0",port=port, debug=debug)
-
-
-def run2(ui = None, port=5000, debug=True):
     global ui_root2
     assert ui is not None, "ui is None"
     ui_root2 = ui
