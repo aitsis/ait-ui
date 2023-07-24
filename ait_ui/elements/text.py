@@ -4,4 +4,4 @@ class Text(Element):
         super().__init__(id, value)
         self.tag = "p"
         self.value_name = "innerHTML"
-        
+        self.classes.append("title")
