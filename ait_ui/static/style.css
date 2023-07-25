@@ -363,6 +363,7 @@ img.selected {
     width: 100%;
     height: max-content;
     box-sizing: border-box;
+    gap: 10px;
 }
 
 .btn-green {
@@ -378,18 +379,18 @@ img.selected {
 .row {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    padding: 1px;
     margin: 0px;
     width: 100%;
+    height: 100%;
 }
 
 .col {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 1px;
     margin: 0px;
+    width: 100%;
+    height: 100%    ;
 }
 
 .panel {

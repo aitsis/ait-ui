@@ -31,10 +31,10 @@ class File(Element):
             if self.save_path is not None:
                 filepath = os.path.join(self.save_path, file.filename)
                 file.save(filepath)
-                if self.on_upload_done is not None:
+                if callable(self.on_upload_done):
                     self.on_upload_done(filepath)
             else:
-                if self.on_upload_done is not None:
+                if callable(self.on_upload_done):
                     self.on_upload_done(file)
             return 'File uploaded successfully.'
         else:

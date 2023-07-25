@@ -1,44 +1,14 @@
-from flask import g
-
-from . import scripts
-root = None
-cur_parent = None
-old_parent = None
-elements = {}
-created = False
-def clientHandler(id, value,event_name):
-    global elements
-    if id == "myapp":
-        if value == "init":
-            created = True
-            print("Client connected")
-            socket_handler.flush_send_queue()
-    else:
-        if id in elements:
-            elm = elements[id]
-            if elm is not None:            
-                if event_name in elm.events:
-                    elm.events[event_name](id, value)
-
-socket_handler.set_client_handler(clientHandler)
-
+from .. import socket_handler
+from .. import Session
+from .. import index_gen
 def Elm(id):
-    global elements
-    if id in elements:
-        return elements[id]
+    if id in Session.current_session.elements:
+        return Session.current_session.elements[id]
     else:
         return None
 
 class Element:
-    cur_parent = None
-
-    def __init__(self, id = None,value = None,auto_bind = True, send_callback=None):
-        self.send_callback = send_callback
-        self.root = None
-        self.cur_parent = None
-        self.old_parent = None
-        self.elements = {}
-        self.created = False
+    def __init__(self, id = None,value = None):        
         self.tag = "div"
         self.id = id
         self._value = value
@@ -51,41 +21,33 @@ class Element:
         self.value_name = "value"
         self.has_content = True
         if id is not None:
-            self.elements[id] = self
-
-        if Element.cur_parent is not None:
-            Element.cur_parent.children.append(self)
-
-        if auto_bind:
-            if self.root is None:
-                self.root = self
-                self.cur_parent = self
-                self.parent = None
-            else:
-                if self.cur_parent is not None:
-                    self.parent = self.cur_parent
-                    self.cur_parent.add_child(self)
-                else:
-                    self.parent = None
-                    self.cur_parent = self
-
-    def Elm(self, id):
-        if id in self.elements:
-            return self.elements[id]
+            Session.current_session.elements[id] = self
+        
+        if self.cur_parent is None:
+            self.parent = None
+            self.cur_parent = self
         else:
-            return None
-
+            self.parent = self.cur_parent
+            self.cur_parent.children.append(self)
+    
+    # RUNTIME UPDATE ELEMENT ------------------------------------------------------------------------
     def update(self):
-        if self.send_callback:
-            self.send_callback(self.id, self.render(), "init-content")
+        Session.current_session.send(self.id, self.render(), "init-content")
 
-    def set_value(self, value):
-        self.value = value
-
+    # VALUE -----------------------------------------------------------------------------------------
     @property
     def value(self):
         return self._value
     
+    @value.setter
+    def value(self, value):
+        self._value = value
+        Session.current_session.send(self.id, value, "change-"+self.value_name)
+
+    def set_value(self, value):
+        self.value = value
+
+    # GLOBAL PROPERTIES -------------------------------------------------------------------------------
     @property
     def webserver(self):
         return socket_handler.web_server
@@ -93,41 +55,66 @@ class Element:
     @property
     def web_request(self):
         return socket_handler.web_request
+    
+    # SESSION PROPERTIES -------------------------------------------------------------------------------
+    @property
+    def cur_parent(self):
+        return Session.current_session.current_parent
+    
+    @cur_parent.setter
+    def cur_parent(self, value):
+        Session.current_session.current_parent = value
 
-    @value.setter
-    def value(self, value):
-        self._value = value
-        if self.send_callback:
-            self.send_callback(self.id, value, "change-"+self.value_name)
+    # MESSAGING -------------------------------------------------------------------------------------
+    def send(self, id, value, event_name):
+        Session.current_session.send(id, value, event_name)
+    
+    def queue_for_send(self, id, value, event_name):
+        Session.current_session.queue_for_send(id, value, event_name)
+    # SCRIPT PROPERTIES -----------------------------------------------------------------------------
+    def add_header_item(self, id, item):
+        if id in index_gen.header_items:
+            return
+        index_gen.header_items[id] = item
+        
+    def add_script_source(self, id, script):
+        if id in index_gen.scripts:
+            return
+        index_gen.script_sources[id] = script
 
+    def add_script(self, id, script):
+        if id in index_gen.scripts:
+            return
+        index_gen.scripts[id] = script
+
+    def add_style(self, id, style):
+        if id in index_gen.styles:
+            return
+        index_gen.styles[id] = style
+
+    # RUNTIME JAVASCRIPT -------------------------------------------------------------------------------  
     def toggle_class(self, class_name):
-        if self.send_callback:
-            self.send_callback(self.id, class_name, "toggle-class")
+        self.send(self.id, class_name, "toggle-class")
     
     def set_attr(self, attr_name, attr_value):
-        if self.send_callback:
-            self.send_callback(self.id, attr_value, "change-"+attr_name)
+        self.send(self.id, attr_value, "change-"+attr_name)
     
     def set_style(self, attr_name, attr_value):
-        if self.send_callback:
-            self.send_callback(self.id, attr_value, "set-"+attr_name)
+        self.send(self.id, attr_value, "set-"+attr_name)
 
-    def add_child(self, child):        
-        self.children.append(child)
-
-
-    def __enter__(self):        
-        self.old_parent = Element.cur_parent
-        Element.cur_parent = self
+    # WITH ENTRY - EXIT -------------------------------------------------------------------------------
+    def __enter__(self):                
+        self.cur_parent = self
         self.children = []
         return self
-
-    def __exit__(self, type, value, traceback):        
-        Element.cur_parent = self.old_parent
+    
+    def __exit__(self, type, value, traceback):                
+        self.cur_parent = self.parent
         
     def __str__(self):
         return self.render()
     
+    # RENDER -----------------------------------------------------------------------------------------
     def cls(self,class_name):
         self.classes.append(class_name)
         return self
@@ -136,13 +123,16 @@ class Element:
         self.styles[style] = value
         return self
     
+    # PYTHON EVENTS ----------------------------------------------------------------------------------
     def on(self,event_name,action):
         self.events[event_name] = action
         return self
     
+    # JAVASCRIPT EMIT --------------------------------------------------------------------------------
     def get_client_handler_str(self, event_name):
         return f" on{event_name}='clientEmit(this.id,this.{self.value_name},\"{event_name}\")'"
-
+    
+    # RENDER -----------------------------------------------------------------------------------------
     def render(self):
         str = f"<{self.tag}"
         if self.id is not None:
