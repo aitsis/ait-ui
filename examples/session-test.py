@@ -44,4 +44,4 @@ class myApp():
         return self.main.render()
 
 if __name__ == '__main__':
-    app.run2(ui = myApp, debug=True)
+    app.run(ui = myApp, debug=True)
