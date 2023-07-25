@@ -3,11 +3,80 @@ body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;    
     color: #333333;
-    margin: 0;
     overflow-x: hidden;
     padding: 0px;
     margin: 0px;
 }
+
+@media (prefers-color-scheme: light ) {
+    body {
+        background-color: #cac0c0 !important;
+        color: #333333;
+    }
+
+    .main {
+        background-color: whitesmoke !important;
+        color: #333333;
+        }
+
+    .textarea {
+        background-color: white !important;
+        color: #333333 !important;}
+    
+    .header {
+        background-color: white !important;
+        color: #333333;    }
+
+    .container {
+        background-color: white !important;
+        color: #333333;    }
+    
+    .dropzone-label {
+        background-color: white !important;
+        color: #333333;    }
+    
+    .wrapper {
+        background-color: white !important;
+        color: #333333;        border: 1px solid #444;
+    }
+
+    .btn {
+        background-color: whitesmoke !important;
+        color: #333333 !important;    }
+    
+    .btn-green {
+        background-color: #00573d !important;
+        color: #fff !important;    
+    }
+
+    .accordion {
+        background-color: white !important;
+        border: none;
+        color: #333333;    }
+
+    .accordion-button {
+        background-color: red !important;
+        color: #333333 !important;
+       }
+    
+    .accordion-element-wrapper {
+        background-color: whitesmoke !important;
+        color: #333333;    }
+
+    .select-wrapper {
+        background-color: whitesmoke !important;
+        color: #333333;    }
+
+    .select {
+        background-color: white !important;
+        color: #333333 !important;  }
+
+    .textarea {
+        background-color: white !important;
+        color: #333333 !important;    }
+}
+
+
 
 #muge.button {
     background-color: #444;
@@ -54,6 +123,10 @@ body {
     outline: none;
 }
 
+.btn:active{
+    scale: 0.9;
+}
+
 .btn{
     height: 75px;
     width: 75px;
@@ -67,6 +140,7 @@ body {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    transition: all 300ms ease-out;
 }
 
 button.selected {
@@ -79,22 +153,63 @@ img.selected {
 
 .main{
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     background-color: #333333;
-    gap: 10px !important;
     color: white;
-    padding-bottom: 10px;
     box-sizing: border-box;
 }
 
 .accordion{
     width: 100%;
     height: 100%;
+    min-height: 65px;
 }
 
-#accordion-opener:hover{
+.select-wrapper{
+    border: 1px solid gray;
+    border-radius: 3px;
+    background-color: #333333;
+    box-sizing: border-box;
+    padding: 7px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 1px 1px 1px 1px gray;
+}
+
+.select{
+    width: 100%;
+    height: 100%;
+    border: 1px solid gray;
+    border-radius: 3px;
+    background-color: black;
+    color: white;
+    box-sizing: border-box;
+    padding: 7px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.option{
+    width: 100%;
+    height: 100%;
+    color: white;
+    border: 1px solid gray;
+    border-radius: 3px;
+    background-color: black;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 300ms ease-out;
+}
+
+#accordion-button:hover{
     background-color: #333333;
 }
 
@@ -131,7 +246,6 @@ img.selected {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
 }
 
 .accordion{
@@ -211,7 +325,7 @@ img.selected {
     width: 100px;
 }
 
-#dropzone1{
+#dropzone-label{
     width: 100%;
     height: 100%;
     border: 1px dashed gray;
@@ -252,7 +366,7 @@ img.selected {
 }
 
 .btn-green {
-    background-color: green;
+    background-color: #00573d !important;
     color: #fff;
 }
 
@@ -407,7 +521,7 @@ input:focus {
     padding: 1px;    
     margin: 0px;
     width: 98%;
-    transition: background 300ms ease-out;
+    transition: all 300ms ease-out;
     cursor: pointer;
 }
 
@@ -427,3 +541,23 @@ input:focus {
     border: 1px solid #444;
     padding: 0px;
 }
+
+/* radio-component-css start*/
+
+.btn input[type="radio"] {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.011;
+    z-index: 100;
+    height: 100%;
+  }
+  
+  .btn input[type="radio"]:checked + .container{
+    background-color: rgba(255,255,255,0.3);
+  }
+
+  /* radio-component-css end*/

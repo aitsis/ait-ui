@@ -161,4 +161,3 @@ class Element:
                     str +=f' {self.value_name} ="{self.value}"'
             str += "/>"
         return str
-
