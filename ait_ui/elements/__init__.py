@@ -25,6 +25,7 @@ from .unorderedlist import UnorderedList
 from .listitem import ListItem
 from .source import Source
 from .picture import Picture
+from .page import Page
 
 
 __all__ = [
@@ -55,4 +56,5 @@ __all__ = [
     "ListItem",
     "Source",
     "Picture",
+    "Page",
 ]
