@@ -3,8 +3,7 @@ from .canvas import Canvas
 from .check import Check
 from .col import Col
 from .dropzone import Dropzone
-#from .element import Element, Elm
-from .element import Element
+from .element import Element, Elm
 from .file import File
 from .form import Form
 from .image import Image
@@ -27,7 +26,6 @@ from .listitem import ListItem
 from .source import Source
 from .picture import Picture
 
-
 __all__ = [
     "Button",
     "Canvas",
@@ -35,6 +33,7 @@ __all__ = [
     "Col",
     "Dropzone",
     "Element",
+    "Elm",
     "File",
     "Form",
     "Image",

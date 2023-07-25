@@ -1,5 +1,4 @@
 from .element import Element
-from .text import Text
 
 global isAccordionOpen
 
@@ -21,5 +20,3 @@ class Accordion(Element):
         else:
            self.set_style("display", "none")
            isAccordionOpen = False
-
-      

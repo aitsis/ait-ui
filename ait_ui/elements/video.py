@@ -8,4 +8,3 @@ class Video(Element):
         self.attrs["value"] = value
         self.attrs["src"] = src
         self.attrs["controls"] = controls
-

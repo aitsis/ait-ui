@@ -1,5 +1,4 @@
 from .element import Element
-
 class Canvas(Element):
     def __init__(self, id=None, value=None):
         super().__init__(id, value)
@@ -7,16 +6,16 @@ class Canvas(Element):
         self.id = id
         self.value_name = None
         self.add_script_source("canvas","<script src='js/canvas.js'></script>")
-        
-    
+
     def render(self):
-        if id is not None:            
+        if id is not None:
             self.queue_for_send(self.id, self.value, "init-canvas")
         return super().render()
 
     def width(self, value):
         self.attrs["width"] = value
         return self
+
     def height(self, value):
         self.attrs["height"] = value
         return self
@@ -30,7 +29,7 @@ class Canvas(Element):
     def fill_rect(self, x, y, width, height,color):
         self.send(self.id, {"action": "fillRect", "params": {"x": x, "y": y, "width": width, "height": height, "color": color}}, "canvas")
         return self
-    
+
     def fill_circle(self, x, y, radius,color):
         self.send(self.id, {"action": "fillCircle", "params": {"x": x, "y": y, "radius": radius, "color":color}}, "canvas")
         return self
