@@ -7,19 +7,21 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 #----------------------------------------
 
 from ait_ui import  app
-from ait_ui.elements import Element, Elm
-from ait_ui.elements import Text
-from ait_ui.elements import Button
+from ait_ui.elements import Element, Elm, Button
+    
+class MyApp():
+    def __init__(self):
+        self.main = Element()
+        with self.main:
+            for i in range(15):
+                Button(id = f"btn{i}", value="Hello World").on("click", self.on_click)
 
-def on_click(id, value):
-    print("clicked", id, value)
-    Elm(id).toggle_class("selected")
+    def on_click(id, value):
+        print("clicked", id, value)
+        Elm(id).toggle_class("selected")
 
-with Element() as main:
-    for i in range(15):
-        Button(id = f"btn{i}", value="Hello World").on("click", on_click)
-
+    def render(self):
+        return self.main.render()
 
 if __name__ == '__main__':
-    app.run(ui = main, debug=True)
-
+    app.run(ui = MyApp, debug=True)

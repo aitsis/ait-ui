@@ -10,7 +10,7 @@ class File(Element):
         self.attrs["multiple"] = multiple
         self.cls("file")
         self.style("display", "none")
-        self.webserver.add_url_rule('/file-upload', 'upload', self.upload, methods=['POST'])
+        #self.webserver.add_url_rule('/file-upload', 'upload', self.upload, methods=['POST'])
         self.save_path = save_path
         self.events["input"] = self.on_input
         self.on_upload_done = on_upload_done
