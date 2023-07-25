@@ -4,4 +4,4 @@ class TextArea(Element):
         super().__init__(id, value)
         self.tag = "textarea"
         self.attrs["placeholder"] = placeholder
-        
+        self.classes.append("textarea")

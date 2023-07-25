@@ -4,3 +4,4 @@ class Button(Element):
         super().__init__(id = id, value = value)
         self.tag = "button"
         self.value_name = "innerHTML"
+        self.classes.append("btn")
