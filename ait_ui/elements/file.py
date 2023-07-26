@@ -1,5 +1,10 @@
 import os
 from .element import Element
+from ..app import server, web_socket, web_request
+import tempfile
+from ..session import Session
+import threading
+
 class File(Element):
     def __init__(self,id = None,value = None,multiple = False, save_path = None,on_upload_done = None):
         super().__init__(id = id, value = value)
@@ -9,33 +14,59 @@ class File(Element):
         self.attrs["name"] = "file"
         self.attrs["multiple"] = multiple
         self.cls("file")
-        self.style("display", "none")
-        #self.webserver.add_url_rule('/file-upload', 'upload', self.upload, methods=['POST'])
-        self.save_path = save_path
-        self.events["input"] = self.on_input
+        self.style("display", "none")        
+        self.save_path = save_path        
+        self.events["file-upload-started"] = self.upload_started
+        self.events["change"] = self.on_change
         self.on_upload_done = on_upload_done
-
-    def on_input(self, id, value):
-        print("on_input", id, value)
-
+        self.uploaded_file_path = None
+        self.uploaded_file_name = None
+        self.timeout = 10
+        self.counter = 0        
+    
     def get_client_handler_str(self, event_name):
-        if event_name in ["input"]:
+        if event_name in ["input","change"]:
             return f" on{event_name}='clientEmit(this.id,this.files[0],\"{event_name}\")'"
         else:
             return super().get_client_handler_str(event_name)
 
-    def upload(self):
-        request = self.web_request
-        file = request.files['file']
-        if file:
-            if self.save_path is not None:
-                filepath = os.path.join(self.save_path, file.filename)
-                file.save(filepath)
-                if callable(self.on_upload_done):
-                    self.on_upload_done(filepath)
-            else:
-                if callable(self.on_upload_done):
-                    self.on_upload_done(file)
-            return 'File uploaded successfully.'
-        else:
-            return 'No file uploaded.'
+    def on_change(self,id,file):
+        pass
+
+    def upload_done(self):
+        print("upload_done", self.uploaded_file_name)
+        if self.save_path is not None:
+            save_file_path = os.path.join(self.save_path, self.uploaded_file_name)            
+            import shutil
+            shutil.copyfile(self.uploaded_file_path, save_file_path)
+            print("File saved to", save_file_path)
+            os.remove(self.uploaded_file_path)
+            #TODO: add error handling here
+
+    def upload_started(self,id,file):
+        if self.counter == 0:
+            print("upload_started", id, file["file_name"])
+            self.uploaded_file_path = os.path.join(tempfile.gettempdir(), file["uid"])
+            self.uploaded_file_name = file["file_name"]
+            
+        self.counter += 1
+        if self.counter > self.timeout:
+            self.counter = 0
+            self.uploaded_file_name = None
+            self.uploaded_file_path = None
+            print("upload timeout")
+            #TODO: add error handling here
+            return
+        
+        if os.path.exists(self.uploaded_file_path):
+            # check if the file is used by another process
+            try:
+                with open(self.uploaded_file_path, "rb") as f:
+                    f.close()
+                self.upload_done()
+                self.counter = 0
+                return
+            except:
+                pass
+
+        threading.Timer(1, self.upload_started, [id,file]).start()
