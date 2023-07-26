@@ -15,7 +15,7 @@ class MyApp():
         self.main.style("display", "flex").style("flex-direction", "column").style("align-items", "center").style("justify-content", "center").style("height", "100vh")
         with self.main:
             Label(id="dropzone1", usefor="file").style("width", "100px").style("height", "100px").style("border", "1px solid black").style("background-color", "red")
-            save_path = os.getcwd() + "/examples/assets"
+            save_path = os.path.join(os.path.dirname(__file__), 'assets')
             #Image(id = "image1", value="/assets/blue.png").style("width", "100px").style("height", "100px")
             file = File(id="file", save_path=save_path, on_upload_done=self.on_upload_done)
             file.on("change", self.on_file_input)
