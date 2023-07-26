@@ -121,6 +121,7 @@ body {
     box-sizing: border-box;
     color: white;
     outline: none;
+    resize: none;
 }
 
 .btn:active{
