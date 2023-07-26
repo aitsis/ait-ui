@@ -7,7 +7,6 @@ default_header_items = {
     'meta-viewport': '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
     'title': '<title>Document</title>',
     'socket.io': '<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.0/socket.io.js"></script>',
-    'openseadragon': '<script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/openseadragon.min.js"></script>',
     'style': '<link rel="stylesheet" href="style.css">'
 }
 
@@ -19,6 +18,8 @@ script_sources = {}
 
 scripts = {}
 
+styles = {}
+
 def get_index():
     # HTML BEGIN ------------------------------------------------------------
     index_str = '<!DOCTYPE html><html lang="en"><head>'
@@ -27,6 +28,11 @@ def get_index():
         index_str += default_header_items[key]
     for key in header_items:
         index_str += header_items[key]
+    # STYLES ----------------------------------------------------------------
+    for key in styles:
+        index_str += '<style>'
+        index_str += styles[key]
+        index_str += '</style>'
     index_str += '</head>'
     # BODY ------------------------------------------------------------------
     index_str += '<body>'

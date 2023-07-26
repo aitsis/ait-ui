@@ -7,4 +7,3 @@ class Form(Element):
         self.attrs["enctype"] = "multipart/form-data"
         if action is not None:
             self.attrs["action"] = action
-        

@@ -30,3 +30,5 @@ def flush_send_queue():
         print("sending", item)
         send(item['id'], item['value'], item['event_name'])
     send_queue = []
+
+# test

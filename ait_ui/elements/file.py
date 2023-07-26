@@ -2,7 +2,7 @@ import os
 from .element import Element
 class File(Element):
     def __init__(self,id = None,value = None,multiple = False, save_path = None,on_upload_done = None):
-        super().__init__(id = id, value = value)                
+        super().__init__(id = id, value = value)
         self.tag = "input"
         self.value_name = "value"
         self.attrs["type"] = "file"
@@ -10,7 +10,7 @@ class File(Element):
         self.attrs["multiple"] = multiple
         self.cls("file")
         self.style("display", "none")
-        self.webserver.add_url_rule('/file-upload', 'upload', self.upload, methods=['POST'])
+        #self.webserver.add_url_rule('/file-upload', 'upload', self.upload, methods=['POST'])
         self.save_path = save_path
         self.events["input"] = self.on_input
         self.on_upload_done = on_upload_done
@@ -23,10 +23,10 @@ class File(Element):
             return f" on{event_name}='clientEmit(this.id,this.files[0],\"{event_name}\")'"
         else:
             return super().get_client_handler_str(event_name)
-        
+
     def upload(self):
-        request = self.web_request        
-        file = request.files['file']        
+        request = self.web_request
+        file = request.files['file']
         if file:
             if self.save_path is not None:
                 filepath = os.path.join(self.save_path, file.filename)
@@ -39,4 +39,3 @@ class File(Element):
             return 'File uploaded successfully.'
         else:
             return 'No file uploaded.'
-
