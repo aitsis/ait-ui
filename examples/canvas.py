@@ -8,11 +8,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 #----------------------------------------
 
 from ait_ui import app, UI
-from ait_ui.elements import Element, Elm
-from ait_ui.elements import Canvas
-from ait_ui.elements import Row
-from ait_ui.elements import Button
-from ait_ui.elements import Slider
+from ait_ui.elements import Element, Elm, Canvas, Row, Button, Slider
+
 class MyApp():
     colors = ["red", "green", "blue", "yellow", "black", "white"]
     def __init__(self):
