@@ -18,10 +18,6 @@ body {
         background-color: whitesmoke !important;
         color: #333333;
         }
-
-    .textarea {
-        background-color: white !important;
-        color: #333333 !important;}
     
     .header {
         background-color: white !important;
@@ -31,9 +27,6 @@ body {
         background-color: white !important;
         color: #333333;    }
     
-    .dropzone-label {
-        background-color: white !important;
-        color: #333333;    }
     
     .wrapper {
         background-color: white !important;
@@ -49,20 +42,6 @@ body {
         color: #fff !important;    
     }
 
-    .accordion {
-        background-color: white !important;
-        border: none;
-        color: #333333;    }
-
-    .accordion-button {
-        background-color: red !important;
-        color: #333333 !important;
-       }
-    
-    .accordion-element-wrapper {
-        background-color: whitesmoke !important;
-        color: #333333;    }
-
     .select-wrapper {
         background-color: whitesmoke !important;
         color: #333333;    }
@@ -77,25 +56,25 @@ body {
 }
 
 
+@media screen and (max-width: 600px) {
 
-#muge.button {
-    background-color: #444;
-    color: #fff;
-    border: #333333 1px solid;
-    border-radius: 6px;
-    padding: 2px 4px 2px 4px;
-}
-.semih {
-    font-size: 2.8rem;
-    font-weight: 600;
-    color: #444;
-    border: #333333 1px solid;
-    border-radius: 6px;
-    padding: 2px 4px 2px 4px;
-}
-.semih:hover {
-    background-color: #444;
-    color: #fff;
+    body{
+        font-size: 10px !important;
+    }
+
+    .btn{
+        height: 50px !important;
+        padding: 0 !important;
+    }
+
+    .wrapper{
+        padding: 5px !important;
+        gap: 5px !important;
+    }
+
+    .col{
+        gap: 5px !important;
+    }
 }
 
 .header{
@@ -159,186 +138,11 @@ img.selected {
     flex-direction: column;
     background-color: #333333;
     color: white;
-    box-sizing: border-box;
-}
 
-.accordion{
-    width: 100%;
-    height: 100%;
-    min-height: 65px;
-}
-
-.select-wrapper{
-    border: 1px solid gray;
-    border-radius: 3px;
-    background-color: #333333;
-    box-sizing: border-box;
-    padding: 7px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 1px 1px 1px 1px gray;
-}
-
-.select{
-    width: 100%;
-    height: 100%;
-    border: 1px solid gray;
-    border-radius: 3px;
-    background-color: black;
-    color: white;
-    box-sizing: border-box;
-    padding: 7px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.option{
-    width: 100%;
-    height: 100%;
-    color: white;
-    border: 1px solid gray;
-    border-radius: 3px;
-    background-color: black;
-    padding: 20px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: all 300ms ease-out;
-}
-
-#accordion-button:hover{
-    background-color: #333333;
-}
-
-#accordion-wrapper{
-    width: 100%;
-    height: 0px;
-    color: white;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    gap: 10px;
-    transition: all 300ms ease-out;
-}
-
-.accordion-element-wrapper{
-    width: 100%;
-    height: 100px;
-    box-sizing: border-box;
-    padding: 5px;
-    border: 1px solid gray;
-    border-radius: 3px;
-    background-color: #333333;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.slider-wrapper{
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.accordion{
-    width: 100%;
-    height: 9%;
-    border: 1px solid gray;
-    border-radius: 3px;
-    background-color: black;
-    box-sizing: border-box;
-    padding: 10px;
-    gap: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    transition: all 300ms ease-out;
-}
-
-.accordion{
-    width: 100%;
-    height: 100%;
-}
-
-#accordion-button{
-    width: 100%;
-    height: 9%;
-    color: white;
-    border: 1px solid gray;
-    border-radius: 3px;
-    background-color: black;
-    padding: 20px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: all 300ms ease-out;
-}
-
-.accordion-button:active{
-    scale: 0.9;
-}
-
-.accordion-button:hover{
-    background-color: #333333;
-}
-
-.accordion-wrapper{
-    width: 100%;
-    height: 100px;
-    color: white;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    gap: 10px;
-    transition: all 300ms ease-out;
-}
-
-.accordion{
-    width: 100%;
-    height: 9%;
-    border: 1px solid gray;
-    border-radius: 3px;
-    background-color: black;
-    box-sizing: border-box;
-    padding: 10px;
-    gap: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    transition: all 300ms ease-out;
 }
 
 .logo{
     width: 100px;
-}
-
-#dropzone-label{
-    width: 100%;
-    height: 100%;
-    border: 1px dashed gray;
-    border-radius: 3px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: gray;
-    font-size: 20px;
-    font-weight: 600;
-    cursor: pointer;
 }
 
 .wrapper{
