@@ -21,7 +21,7 @@ sessions = {}
 un_init_sessions = []
 
 @socketio.on('connect')
-def handle_from_client(json):
+def handle_client_connect():
     print('Socket connected')
     Session.socket = socketio
     sessions[request.sid] = un_init_sessions.pop()

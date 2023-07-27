@@ -10,7 +10,7 @@ socket.on('disconnect', function () {
 socket.on('from_server', function (data) {
     if (data.event_name == "init-content") {
         let el = document.getElementById(data.id);
-        el.innerHTML = data.value;
+        el.outerHTML = data.value;
         return;
     }
     if (data.event_name == "toggle-class") {
