@@ -1,4 +1,3 @@
-from .. import socket_handler
 from .. import Session
 from .. import index_gen
 
@@ -47,15 +46,6 @@ class Element:
 
     def set_value(self, value):
         self.value = value
-
-    # GLOBAL PROPERTIES -------------------------------------------------------------------------------
-    @property
-    def webserver(self):
-        return socket_handler.web_server
-
-    @property
-    def web_request(self):
-        return socket_handler.web_request
 
     # SESSION PROPERTIES -------------------------------------------------------------------------------
     @property

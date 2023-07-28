@@ -45,7 +45,9 @@ function clientEmit(id, newValue, event_name) {
     if (newValue instanceof File) {
         var formData = new FormData();
         formData.append("file", newValue);
-        formData.append("id", id);
+        formData.append("id", id);        
+        uid = crypto.randomUUID()
+        formData.append("uid", uid);
         console.log("formData", formData);
         var request = new XMLHttpRequest();
         request.open("POST", "/file-upload");
@@ -55,6 +57,7 @@ function clientEmit(id, newValue, event_name) {
                 console.log("post done.");
             }
         }
+        socket.emit('from_client', { id: id, value: {uid:uid,file_name:newValue.name}, event_name: 'file-upload-started' });
         return;
     }
     socket.emit('from_client', { id: id, value: newValue, event_name: event_name });
