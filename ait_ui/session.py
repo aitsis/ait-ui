@@ -10,10 +10,20 @@ class Session:
         self.sid = None
         self.message_queue = []
         self.root = None
-        self.current_parent = None
+        self.parent_stack = []
 
         Session.current_session = self
         self.ui = ui()
+
+    def push_parent(self, parent):
+        self.parent_stack.append(parent)
+
+    def pop_parent(self):
+        return self.parent_stack.pop() if self.parent_stack else None
+
+    @property
+    def current_parent(self):
+        return self.parent_stack[-1] if self.parent_stack else None
 
     def init(self,sid):
         self.sid = sid                    

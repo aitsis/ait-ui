@@ -1,7 +1,5 @@
-class Component:
-    def __init__(self):
-        self.events = {}
+from ait_ui.elements import Element
 
-    def on(self, event, callback):
-        self.events[event] = callback
-        return self
+class Component(Element):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

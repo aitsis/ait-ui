@@ -70,7 +70,7 @@ def run(ui = None, port=5000, debug=True):
     global ui_root
     assert ui is not None, "ui is None"
     ui_root = ui
-    flask_app.run(host="0.0.0.0",port=port, debug=debug,ssl_context='adhoc')
+    flask_app.run(host="0.0.0.0",port=port, debug=debug)
 
 if __name__ == '__main__':
     run()

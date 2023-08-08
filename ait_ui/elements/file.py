@@ -37,7 +37,7 @@ class File(Element):
         if self.save_path is not None:
             save_file_path = os.path.join(self.save_path, self.uploaded_file_name)            
             import shutil
-            shutil.copyfile(self.uploaded_file_path, os.getcwd()+save_file_path)
+            shutil.copyfile(self.uploaded_file_path, save_file_path)
             print("File saved to", save_file_path)
             os.remove(self.uploaded_file_path)
             self.on_upload_done(save_file_path)
