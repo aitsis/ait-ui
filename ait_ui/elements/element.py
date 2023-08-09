@@ -11,7 +11,7 @@ def Elm(id):
 class Element:
     def __init__(self, id = None,value = None, autoBind = True):
         self.tag = "div"
-        self.id = id or str(uuid.uuid4())
+        self.id = id if id is not None else str(uuid.uuid4())[:8]
         self._value = value
         self.children = []
         self.events = {}
@@ -21,8 +21,8 @@ class Element:
         self.parent = None
         self.value_name = "value"
         self.has_content = True
-        if id is not None:
-            Session.current_session.elements[id] = self
+        if self.id is not None:
+            Session.current_session.elements[self.id] = self
 
         if autoBind:
             self.bind()
