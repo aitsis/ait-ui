@@ -8,53 +8,6 @@ body {
     margin: 0px;
 }
 
-@media (prefers-color-scheme: light ) {
-    body {
-        background-color: #cac0c0 !important;
-        color: #333333;
-    }
-
-    .main {
-        background-color: whitesmoke !important;
-        color: #333333;
-        }
-    
-    .header {
-        background-color: white !important;
-        color: #333333;    }
-
-    .container {
-        background-color: white !important;
-        color: #333333;    }
-    
-    
-    .wrapper {
-        background-color: white !important;
-        color: #333333;        border: 1px solid #444;
-    }
-
-    .btn {
-        background-color: whitesmoke !important;
-        color: #333333 !important;    }
-    
-    .btn-green {
-        background-color: #00573d !important;
-        color: #fff !important;    
-    }
-
-    .select-wrapper {
-        background-color: whitesmoke !important;
-        color: #333333;    }
-
-    .select {
-        background-color: white !important;
-        color: #333333 !important;  }
-
-    .textarea {
-        background-color: white !important;
-        color: #333333 !important;    }
-}
-
 
 @media screen and (max-width: 600px) {
 
