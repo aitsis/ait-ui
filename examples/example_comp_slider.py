@@ -10,19 +10,17 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 from ait_ui import app
 from ait_ui.elements import Element
 from examples.component_example.comp_slider import Comp_Slider
+from ait_ui.component import Component
 
-class MyApp():
-    def __init__(self):
-        self.main = Element()
-        with self.main:
-            Comp_Slider(label="Slider 1", id="slider1", min=0, max=100, value=50).on("change_slider", self.on_change_slider)
-            Comp_Slider(label="Slider 2", id="slider2", min=0, max=100, value=50).on("change_slider", self.on_change_slider)
+class MyApp(Component):
+    def __init__(self, id=None, autoBind=True, **kwargs):
+        super().__init__(id=id, autoBind=autoBind, **kwargs)
+        with self:
+            Comp_Slider(label="Slider 1", min=0, max=100, value=50, callback=self.on_change_slider)
+            Comp_Slider(label="Slider 2", min=0, max=100, value=50, callback=self.on_change_slider)
 
-    def on_change_slider(id, value):
+    def on_change_slider(self, id, value):
         print("Slider Changed", id, value)
-
-    def render(self):
-        return self.main.render()
 
 if __name__ == "__main__":
     app.run(ui = MyApp, debug=True)

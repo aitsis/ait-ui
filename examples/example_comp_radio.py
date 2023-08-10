@@ -7,24 +7,22 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 #----------------------------------------
 
 from ait_ui.elements import Element,Elm
+from ait_ui.component import Component
 from ait_ui import app
 from examples.component_example.comp_radio import Comp_Radio
 
-class CompRadio():
-    def __init__(self):
-        self.main = Element()
-        with self.main:
-            with Element().style("width","20%") as test:
-                values=["a","b","c","d"]
-                Comp_Radio(value_list=values).on("change", self.on_change)
+class CompRadio(Component):
+    def __init__(self, id=None, autoBind=True, **kwargs):
+        super().__init__(id=id, autoBind=autoBind, **kwargs)
 
-    def on_change(self, id, value):
-        radio = Elm(id=id)
-        checked_value = radio.attrs.get("checked")
-        print(checked_value)
+        self.style("width", "20%")
+        with self:
+            values=["a","b","c","d"]
+            Comp_Radio(value_list=values, callback=self.getCheckedValue)
 
-    def render(self):
-        return self.main.render()
+    def getCheckedValue(self, id, value):
+        checked_value = Elm(id=id).attrs.get("checked")
+        print(checked_value, value)
 
 if __name__ == "__main__":
     app.run(ui = CompRadio, debug=True)
