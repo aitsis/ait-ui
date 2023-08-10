@@ -11,6 +11,7 @@ socketio = SocketIO(flask_app)
 server = flask_app
 web_socket = socketio
 web_request = request
+Session.socket = socketio
 
 CORS(flask_app)
 
@@ -23,7 +24,6 @@ un_init_sessions = []
 @socketio.on('connect')
 def handle_from_client(json):
     print('Socket connected')
-    Session.socket = socketio
     sessions[request.sid] = un_init_sessions.pop()
     sessions[request.sid].init(request.sid)
 
@@ -70,7 +70,7 @@ def run(ui = None, port=5000, debug=True):
     global ui_root
     assert ui is not None, "ui is None"
     ui_root = ui
-    flask_app.run(host="0.0.0.0",port=port, debug=debug,ssl_context='adhoc')
+    flask_app.run(host="0.0.0.0",port=port, debug=debug)
 
 if __name__ == '__main__':
     run()

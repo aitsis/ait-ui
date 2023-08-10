@@ -1,7 +1,7 @@
 from .element import Element
 class Canvas(Element):
-    def __init__(self, id=None, value=None):
-        super().__init__(id, value)
+    def __init__(self, id=None, value=None, autoBind=True):
+        super().__init__(id=id, value=value, autoBind=autoBind)
         self.tag = "canvas"
         self.id = id
         self.value_name = None

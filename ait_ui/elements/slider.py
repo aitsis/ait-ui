@@ -1,7 +1,7 @@
 from .element import Element
 class Slider(Element):
-    def __init__(self,id = None,value = None, min = 0, max = 100, step = 1):
-        super().__init__(id = id, value = value)
+    def __init__(self,id = None,value = None, min = 0, max = 100, step = 1, autoBind = True):
+        super().__init__(id = id, value = value, autoBind = autoBind)
         self.min = min
         self.max = max
         self.step = step

@@ -6,8 +6,8 @@ from ..session import Session
 import threading
 
 class File(Element):
-    def __init__(self,id = None,value = None,multiple = False, save_path = None,on_upload_done = None):
-        super().__init__(id = id, value = value)
+    def __init__(self,id = None,value = None,multiple = False, save_path = None,on_upload_done = None, autoBind=True):
+        super().__init__(id = id, value = value, autoBind=autoBind)
         self.tag = "input"
         self.value_name = "value"
         self.attrs["type"] = "file"
@@ -37,7 +37,7 @@ class File(Element):
         if self.save_path is not None:
             save_file_path = os.path.join(self.save_path, self.uploaded_file_name)            
             import shutil
-            shutil.copyfile(self.uploaded_file_path, os.getcwd()+save_file_path)
+            shutil.copyfile(self.uploaded_file_path, save_file_path)
             print("File saved to", save_file_path)
             os.remove(self.uploaded_file_path)
             self.on_upload_done(save_file_path)
