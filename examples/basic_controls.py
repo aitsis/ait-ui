@@ -8,12 +8,14 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 
 from ait_ui import app
 from ait_ui.elements import Element, Elm, Row, Col, Label, Radio, Slider, Input, Check, Text
+from ait_ui.component import Component
 
-class BasicControls():
-    def __init__(self):
-        self.main = Element()
-        with self.main:
-            self.main.cls("p3")
+class BasicControls(Component):
+    def __init__(self, id=None, autoBind=True, **kwargs):
+        super().__init__(id=id, autoBind=autoBind, **kwargs)
+
+        self.cls("p3")
+        with self:
             with Col() as col:
                 col.style("border", "2px solid black")
                 col.cls("p3").style("width", "auto")
@@ -72,9 +74,6 @@ class BasicControls():
     def on_change_radio(self, id, value):
         print("on_change_radio", id, value)
         Elm("Radio").set_value(id + " selected.")
-
-    def render(self):
-        return self.main.render()
 
 if __name__ == '__main__':
     app.run(ui = BasicControls, debug=True)

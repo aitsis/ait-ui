@@ -9,13 +9,14 @@ import urllib.parse
 
 from ait_ui import app
 from ait_ui.elements import Element, Image, Row
+from ait_ui.component import Component
 
 custom_route = "assets"
 
-class MyApp():
-    def __init__(self):
-        self.main = Element()
-        with self.main:
+class MyApp(Component):
+    def __init__(self, id=None, autoBind=True, **kwargs):
+        super().__init__(id=id, autoBind=autoBind, **kwargs)
+        with self:
             with Row():
                 images_dir = os.path.join(os.getcwd(), custom_route)
                 image_files = os.listdir(images_dir)
@@ -23,9 +24,6 @@ class MyApp():
                     image_url = "/assets/" + urllib.parse.quote(file_name)
                     print(f'Image URL: {image_url}')
                     Image(value=image_url)
-
-    def render(self):
-        return self.main.render()
 
 if __name__ == '__main__':
     custom_path = os.path.join(os.getcwd(), "assets")
