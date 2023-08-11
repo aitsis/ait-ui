@@ -8,20 +8,17 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 
 from ait_ui import  app
 from ait_ui.elements import Element, Elm, Button
+from ait_ui.component import Component
     
-class MyApp():
-    def __init__(self):
-        self.main = Element()
-        with self.main:
+class MyApp(Component):
+    def __init__(self, id=None, autoBind=True, **kwargs):
+        super().__init__(id=id, autoBind=autoBind, **kwargs)
+        with self:
             for i in range(15):
-                Button(id = f"btn{i}", value="Hello World").on("click", self.on_click)
+                Button(value="Hello World").on("click", self.on_click)
 
-    def on_click(id, value):
-        print("clicked", id, value)
+    def on_click(self, id, value):
         Elm(id).toggle_class("selected")
-
-    def render(self):
-        return self.main.render()
 
 if __name__ == '__main__':
     app.run(ui = MyApp, debug=True)

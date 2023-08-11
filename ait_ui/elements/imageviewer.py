@@ -1,10 +1,9 @@
 from .element import Element
 
 class ImageViewer(Element):
-    def __init__(self, id=None, value=None):
-        super().__init__(id, value)
+    def __init__(self, id=None, value=None, autoBind=True):
+        super().__init__(id=id, value=value, autoBind=autoBind)
         self.tag = "div"
-        self.id = id
         self.value_name = None
         self.add_script_source('seadragon-js-lib', '<script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/openseadragon.min.js"></script>')
         self.add_script_source('seadragon', '<script src="js/seadragon.js"></script>')

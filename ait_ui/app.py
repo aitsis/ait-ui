@@ -11,6 +11,7 @@ socketio = SocketIO(flask_app)
 server = flask_app
 web_socket = socketio
 web_request = request
+Session.socket = socketio
 
 CORS(flask_app)
 
@@ -23,7 +24,6 @@ un_init_sessions = []
 @socketio.on('connect')
 def handle_client_connect():
     print('Socket connected')
-    Session.socket = socketio
     sessions[request.sid] = un_init_sessions.pop()
     sessions[request.sid].init(request.sid)
 

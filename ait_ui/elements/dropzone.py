@@ -1,10 +1,9 @@
 from .element import Element
 
 class Dropzone(Element):
-    def __init__(self, id=None, value=None):
-        super().__init__(id, value)
+    def __init__(self, id=None, value=None, autoBind=True):
+        super().__init__(id=id, value=value, autoBind=autoBind)
         self.tag = "div"
-        self.id = id
         self.value_name = None
         self.add_header_item('dropzone-css','<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" />')
         self.add_script_source('dropzone-js-lib', '<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>')

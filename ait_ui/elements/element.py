@@ -1,5 +1,6 @@
 from .. import Session
 from .. import index_gen
+import uuid
 
 def Elm(id):
     if id in Session.current_session.elements:
@@ -8,9 +9,9 @@ def Elm(id):
         return None
 
 class Element:
-    def __init__(self, id = None,value = None):
+    def __init__(self, id = None,value = None, autoBind = True):
         self.tag = "div"
-        self.id = id
+        self.id = id if id is not None else str(uuid.uuid4())[:8]
         self._value = value
         self.children = []
         self.events = {}
@@ -20,15 +21,16 @@ class Element:
         self.parent = None
         self.value_name = "value"
         self.has_content = True
-        if id is not None:
-            Session.current_session.elements[id] = self
+        if self.id is not None:
+            Session.current_session.elements[self.id] = self
 
-        if self.cur_parent is None:
-            self.parent = None
-            self.cur_parent = self
-        else:
-            self.parent = self.cur_parent
-            self.cur_parent.children.append(self)
+        if autoBind:
+            self.bind()
+
+    def bind(self):
+        self.parent = Session.current_session.current_parent
+        if self.parent is not None:
+            self.parent.children.append(self)
 
     # RUNTIME UPDATE ELEMENT ------------------------------------------------------------------------
     def update(self):
@@ -96,12 +98,12 @@ class Element:
 
     # WITH ENTRY - EXIT -------------------------------------------------------------------------------
     def __enter__(self):
-        self.cur_parent = self
+        Session.current_session.push_parent(self)
         self.children = []
         return self
 
     def __exit__(self, type, value, traceback):
-        self.cur_parent = self.parent
+        Session.current_session.pop_parent()
 
     def __str__(self):
         return self.render()
