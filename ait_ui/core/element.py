@@ -1,6 +1,7 @@
-from .. import Session
-from .. import index_gen
 import uuid
+
+from .session import Session
+from .index_gen import header_items, scripts, script_sources, styles
 
 def Elm(id):
     if id in Session.current_session.elements:
@@ -67,24 +68,24 @@ class Element:
 
     # SCRIPT PROPERTIES -----------------------------------------------------------------------------
     def add_header_item(self, id, item):
-        if id in index_gen.header_items:
+        if id in header_items:
             return
-        index_gen.header_items[id] = item
+        header_items[id] = item
 
     def add_script_source(self, id, script):
-        if id in index_gen.scripts:
+        if id in scripts:
             return
-        index_gen.script_sources[id] = script
+        script_sources[id] = script
 
     def add_script(self, id, script):
-        if id in index_gen.scripts:
+        if id in scripts:
             return
-        index_gen.scripts[id] = script
+        scripts[id] = script
 
     def add_style(self, id, style):
-        if id in index_gen.styles:
+        if id in styles:
             return
-        index_gen.styles[id] = style
+        styles[id] = style
 
     # RUNTIME JAVASCRIPT -------------------------------------------------------------------------------  
     def toggle_class(self, class_name):

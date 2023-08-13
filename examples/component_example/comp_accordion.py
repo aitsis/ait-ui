@@ -5,8 +5,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from ait_ui.elements import Element , Button , Elm
-from ait_ui.component import Component
+from ait_ui.elements import Button
+from ait_ui.core import Component, Element
 
 class Comp_Accordion(Component):
     def __init__(self, id=None, elements=None, autoBind=True, **kwargs):
@@ -86,7 +86,7 @@ class Comp_Accordion(Component):
                                     }</style>""")
         
         self.cls("accordion").style("height","5%").style("background-color","#434952").style("border","1px solid gray").style("border-radius","3px").style("padding","10px").style("box-sizing","border-box")
-        
+
         with self:
             with Button(value="Advanced Options > ").style("border", "none").style("height", "0").style("justify-content", "flex-start").on("click", self.change_accordion):
                 pass

@@ -5,8 +5,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from ait_ui.elements import Radio,Element, Label
-from ait_ui.component import Component
+from ait_ui.elements import Radio, Label
+from ait_ui.core import Component, Element
 
 class Comp_Radio(Component):
     
@@ -36,8 +36,8 @@ class Comp_Radio(Component):
                                 .lbl{
                                     font-size: 0.9em !important;
                                 }</style>""")
+        
         self.cls("container").style("flex-direction","row").style("height","50px").style("justify-content","space-around")
-
         with self:
             for value in self.value_list:
                 with Element().cls("btn").style("position","relative").style("margin-right","5px").style("padding","0").style("display","grid").style("grid-template-columns","repeat(auto-fit, minmax(40px, 1fr))").style("border","5px solid black").style("max-height","100%"):

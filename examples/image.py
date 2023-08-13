@@ -8,8 +8,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 from PIL import Image as PILImage
 
 from ait_ui import app
-from ait_ui.elements import Element, Elm, Image, Button
-from ait_ui.component import Component
+from ait_ui.elements import Image, Button
+from ait_ui.core import Component
 
 # create a new image
 img = PILImage.new('RGB', (60, 30), color = 'red')

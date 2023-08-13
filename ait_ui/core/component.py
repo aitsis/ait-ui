@@ -1,4 +1,4 @@
-from ait_ui.elements import Element
+from .element import Element
 
 class Component(Element):
     def __init__(self, **kwargs):

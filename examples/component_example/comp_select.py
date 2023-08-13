@@ -5,9 +5,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from ait_ui.elements import Select , Option , Text , Element, Elm
-from ait_ui.component import Component
-
+from ait_ui.elements import Select, Option
+from ait_ui.core import Component
 
 class Comp_Select(Component):
     def __init__(self, id=None , options=None, autoBind=True, callback=None, **kwargs):

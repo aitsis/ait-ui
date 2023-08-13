@@ -1,4 +1,5 @@
-from .element import Element
+from ..core import Element
+
 class Label(Element):
     def __init__(self, id = None , usefor = None,value = None, autoBind = True):
         super().__init__(id= id , value = value, autoBind= autoBind)

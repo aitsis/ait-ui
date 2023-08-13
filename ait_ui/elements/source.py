@@ -1,4 +1,5 @@
-from .element import Element
+from ..core import Element
+
 class Source(Element):
     def __init__(self,id = None,value = None , srcset = None , media = None, autoBind=True):
         super().__init__(id = id, value = value, autoBind=autoBind)

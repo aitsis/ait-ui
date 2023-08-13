@@ -6,8 +6,8 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 #----------------------------------------
 from ait_ui import app
-from ait_ui.elements import Element, Elm, Text, Image, ImageViewer, Canvas, Row, Button, Slider, Radio, Label
-from ait_ui.component import Component
+from ait_ui.elements import ImageViewer, Row, Slider, Radio, Label
+from ait_ui.core import Component, Elm
 
 class MyApp(Component):
     def __init__(self, id=None, autoBind=True, **kwargs):

@@ -3,7 +3,6 @@ from .canvas import Canvas
 from .check import Check
 from .col import Col
 from .dropzone import Dropzone
-from .element import Element, Elm
 from .file import File
 from .form import Form
 from .image import Image
@@ -33,8 +32,6 @@ __all__ = [
     "Check",
     "Col",
     "Dropzone",
-    "Element",
-    "Elm",
     "File",
     "Form",
     "Image",
