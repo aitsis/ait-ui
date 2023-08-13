@@ -8,8 +8,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 import urllib.parse
 
 from ait_ui import app
-from ait_ui.elements import Element, Image, Row
-from ait_ui.component import Component
+from ait_ui.elements import Image, Row
+from ait_ui.core import Component
 
 custom_route = "assets"
 

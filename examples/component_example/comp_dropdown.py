@@ -5,10 +5,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-
-from ait_ui.elements import Element , Text , Input , Button , Elm , Label , Col , Image
-from ait_ui.component import Component
-
+from ait_ui.elements import Text, Button, Image
+from ait_ui.core import Component, Element
 
 class Comp_Dropdown(Component):    
     def __init__(self, id=None, autoBind=True, image=None, data=None, **kwargs):

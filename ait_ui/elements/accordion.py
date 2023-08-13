@@ -1,4 +1,4 @@
-from .element import Element
+from ..core import Element
 
 global isAccordionOpen
 
@@ -12,7 +12,6 @@ class Accordion(Element):
     isAccordionOpen = True
 
     def open_accordion(self):
-        print("clicked")
         isAccordionOpen = True
         if isAccordionOpen == False:
          self.set_style("display", "none")

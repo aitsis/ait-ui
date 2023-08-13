@@ -1,4 +1,4 @@
-from .element import Element
+from ..core import Element
 
 class Dropzone(Element):
     def __init__(self, id=None, value=None, autoBind=True):

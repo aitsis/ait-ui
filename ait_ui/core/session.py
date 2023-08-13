@@ -1,4 +1,4 @@
-from . import index_gen
+from .index_gen import get_index
 
 class Session:
     #Static Variables
@@ -42,7 +42,7 @@ class Session:
         self.message_queue = []
 
     def get_index(self):
-        return index_gen.get_index()
+        return get_index()
     
     def clientHandler(self, id, value,event_name):
         if id == "myapp":

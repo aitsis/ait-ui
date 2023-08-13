@@ -6,11 +6,9 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 #----------------------------------------
 
-
 from ait_ui import app
-from ait_ui.elements import Element
+from ait_ui.core import Component
 from examples.component_example.comp_slider import Comp_Slider
-from ait_ui.component import Component
 
 class MyApp(Component):
     def __init__(self, id=None, autoBind=True, **kwargs):

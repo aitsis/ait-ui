@@ -7,9 +7,9 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 #----------------------------------------
 
-from ait_ui import app, UI
-from ait_ui.elements import Element, Elm, Canvas, Row, Button, Slider
-from ait_ui.component import Component
+from ait_ui import app
+from ait_ui.elements import Canvas, Row, Button, Slider
+from ait_ui.core import Component, Elm, Element
 
 class MyApp(Component):
     colors = ["red", "green", "blue", "yellow", "black", "white"]

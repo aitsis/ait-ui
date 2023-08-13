@@ -1,4 +1,5 @@
-from .element import Element
+from ..core import Element
+
 class Video(Element):
     def __init__(self, id=None, value=None, src=None, controls=False, autoplay=None, autoBind=True):
         super().__init__(id=id, value=value, autoBind=autoBind)

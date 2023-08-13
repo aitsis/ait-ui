@@ -1,4 +1,5 @@
-from .element import Element
+from ..core import Element
+
 class Slider(Element):
     def __init__(self,id = None,value = None, min = 0, max = 100, step = 1, autoBind = True):
         super().__init__(id = id, value = value, autoBind = autoBind)

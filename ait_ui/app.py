@@ -1,9 +1,12 @@
-from flask import Flask, request, jsonify, send_from_directory, send_file, abort
-from flask_cors import CORS
-from flask_socketio import SocketIO, send, emit
-from . import Session
 import os
 import tempfile
+
+from flask import Flask, request, send_from_directory, abort
+from flask_cors import CORS
+from flask_socketio import SocketIO
+
+from .core import Session
+
 flask_app = Flask(__name__)
 socketio = SocketIO(flask_app)
 
@@ -28,9 +31,9 @@ def handle_client_connect():
     sessions[request.sid].init(request.sid)
 
 @socketio.on('from_client')
-def handle_from_client(msg):    
+def handle_from_client(msg):
     Session.current_session = sessions[request.sid]
-    Session.current_session.clientHandler(msg['id'], msg['value'], msg['event_name'])        
+    Session.current_session.clientHandler(msg['id'], msg['value'], msg['event_name'])
 
 @flask_app.route('/')
 def home():
@@ -48,9 +51,8 @@ def upload():
     file = request.files['file']
     uid = request.form['uid']
     if file:
-        file.save(os.path.join(tempfile.gettempdir(), uid))        
+        file.save(os.path.join(tempfile.gettempdir(), uid))
     return 'File uploaded successfully.'    #TODO: add error handling here
-
 
 @flask_app.route('/js/<path:path>')
 def js_files(path):

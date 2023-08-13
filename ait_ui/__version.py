@@ -1,7 +1,5 @@
 # __version.py
-import os 
-import sys
-
+import os
 
 def get_version():
     ## check if version.txt exists
@@ -15,7 +13,7 @@ def get_version():
             version_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "version.txt")
     else:
         version_file_path = os.path.join(os.path.dirname(__file__), "version.txt")
-    
+
     with open(version_file_path, "r") as f:
         version = f.read().strip()
     return version

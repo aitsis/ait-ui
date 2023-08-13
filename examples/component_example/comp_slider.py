@@ -5,8 +5,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from ait_ui.elements import Element , Text , Slider , Elm
-from ait_ui.component import Component
+from ait_ui.elements import Text, Slider
+from ait_ui.core import Component, Element
 
 class Comp_Slider(Component):
     def __init__(self, label=None, id=None, min=0, max=100, value=50, step=1, autoBind=True, callback=None, **kwargs):

@@ -5,9 +5,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from ait_ui.elements import Element , Text , File , Elm , Label , Col , Image
-from ait_ui.component import Component
-
+from ait_ui.elements import Text, File, Label, Col, Image
+from ait_ui.core import Component
 
 class Comp_InputFile(Component):
     def __init__(self, id=None , save_path=None, autoBind=True, **kwargs):
@@ -29,8 +28,8 @@ class Comp_InputFile(Component):
                                 cursor: pointer;
                             }
                             </style>""")
+        
         self.style("height","100%").style("width","100%")
-
         with self:
             self.file = File(save_path=self.save_path, on_upload_done=self.on_upload_done)
             with Label(usefor=self.file.id).cls("dropzone-label"):
