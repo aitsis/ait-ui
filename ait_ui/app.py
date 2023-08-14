@@ -1,5 +1,6 @@
 import os
 import tempfile
+from http.cookies import SimpleCookie
 
 from flask import Flask, request, send_from_directory, abort
 from flask_cors import CORS
@@ -27,8 +28,19 @@ un_init_sessions = []
 @socketio.on('connect')
 def handle_client_connect():
     print('Socket connected')
-    sessions[request.sid] = un_init_sessions.pop()
-    sessions[request.sid].init(request.sid)
+    cookie_str = request.args.get('cookie')
+
+    parsed_cookie = SimpleCookie()
+    if cookie_str:
+        try:
+            parsed_cookie.load(cookie_str)
+        except Exception as e:
+            print(f"Error parsing cookie: {e}")
+
+    session_instance = un_init_sessions.pop()
+    session_instance.cookies = parsed_cookie
+    sessions[request.sid] = session_instance
+    session_instance.init(request.sid)
 
 @socketio.on('from_client')
 def handle_from_client(msg):
