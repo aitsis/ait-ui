@@ -1,6 +1,12 @@
-var elements = {};
-var event_handlers = {};
-var socket = io.connect('http://' + document.domain + ':' + location.port);
+this.genRandomNumbers = () => {
+    const array = new Uint32Array(10);
+    crypto.getRandomValues(array);
+    return Array.from(array).map(n => n.toString(16)).join('');
+};
+
+let elements = {};
+let event_handlers = {};
+const socket = io.connect(`http://${document.domain}:${location.port}`);
 
 socket.on('disconnect', function () {
     console.log('Server disconnected');
@@ -45,8 +51,8 @@ function clientEmit(id, newValue, event_name) {
     if (newValue instanceof File) {
         var formData = new FormData();
         formData.append("file", newValue);
-        formData.append("id", id);        
-        uid = crypto.randomUUID()
+        formData.append("id", id);
+        uid = genRandomNumbers();
         formData.append("uid", uid);
         console.log("formData", formData);
         var request = new XMLHttpRequest();
