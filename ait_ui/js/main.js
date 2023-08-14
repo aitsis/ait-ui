@@ -6,7 +6,9 @@ this.genRandomNumbers = () => {
 
 let elements = {};
 let event_handlers = {};
-const socket = io.connect(`http://${document.domain}:${location.port}`);
+const socket = io.connect(`http://${document.domain}:${location.port}`, {
+    query: { cookie: document.cookie }
+});
 
 socket.on('disconnect', function () {
     console.log('Server disconnected');
@@ -63,7 +65,7 @@ function clientEmit(id, newValue, event_name) {
                 console.log("post done.");
             }
         }
-        socket.emit('from_client', { id: id, value: {uid:uid,file_name:newValue.name}, event_name: 'file-upload-started' });
+        socket.emit('from_client', { id: id, value: { uid: uid, file_name: newValue.name }, event_name: 'file-upload-started' });
         return;
     }
     socket.emit('from_client', { id: id, value: newValue, event_name: event_name });
