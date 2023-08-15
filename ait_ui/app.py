@@ -80,6 +80,21 @@ def custom_files(route, file_path):
         abort(404)
     return send_from_directory(dir_routes[route], file_path)
 
+def add_custom_route(route, ui_class, middlewares=[]):
+    @flask_app.route(route, endpoint=f"{ui_class.__name__}")
+    def custom_route_func():
+        session = Session(ui_class)
+        un_init_sessions.append(session)
+    
+        # Apply all middleware decorators
+        wrapped_func = session.get_index
+        for middleware in reversed(middlewares):
+            wrapped_func = middleware(wrapped_func)
+            
+        return wrapped_func()
+    
+    return custom_route_func
+
 def run(ui = None, port=5000, debug=True):
     global ui_root
     assert ui is not None, "ui is None"
