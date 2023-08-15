@@ -6,7 +6,7 @@ this.genRandomNumbers = () => {
 
 let elements = {};
 let event_handlers = {};
-const socket = io.connect(`http://${document.domain}:${location.port}`, {
+const socket = io.connect(`${window.location.origin}`, { // read only
     query: { cookie: document.cookie }
 });
 
