@@ -25,6 +25,7 @@ from .listitem import ListItem
 from .source import Source
 from .picture import Picture
 from .page import Page
+from .htext import Htext
 
 __all__ = [
     "Button",
@@ -54,4 +55,5 @@ __all__ = [
     "Source",
     "Picture",
     "Page",
+    "Htext"
 ]
