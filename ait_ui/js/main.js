@@ -6,8 +6,17 @@ this.genRandomNumbers = () => {
 
 let elements = {};
 let event_handlers = {};
-const socket = io.connect(`${window.location.origin}`, { // read only
+const socket = io.connect(`${window.location.origin}`, {
     query: { cookie: document.cookie }
+});
+
+socket.on('connect', function () {
+    console.log('Server connected');
+});
+
+socket.on('afterconnect', function(data) {
+    console.log(data.message); // "Connection initialized"
+    clientEmit("myapp", "init", "init");
 });
 
 socket.on('disconnect', function () {
@@ -16,6 +25,38 @@ socket.on('disconnect', function () {
 });
 
 socket.on('from_server', function (data) {
+    try {
+        if (data.event_name === "set-cookie") {
+            let cookieString = `${data.value.name}=${data.value.value};`;
+            const cookieAttributes = ['maxAge', 'path', 'httponly', 'secure', 'samesite'];
+
+            cookieAttributes.forEach(attr => {
+                if (data.value[attr]) {
+                    cookieString += attr === 'maxAge' ? `max-age=${data.value[attr]};` : `${attr}=${data.value[attr]};`;
+                }
+            });
+
+            document.cookie = cookieString;
+            return
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
+    if (data.event_name === "delete-cookie") {
+        document.cookie = `${data.value.name}=; max-age=0`;
+        return;
+    }
+    if (data.event_name === "navigate") {
+        window.location = data.value;
+        return;
+    }
+
+    if (data.event_name === "alert") {
+        alert(data.value);
+        return;
+    }
+
     if (data.event_name == "init-content") {
         let el = document.getElementById(data.id);
         el.outerHTML = data.value;
@@ -69,8 +110,4 @@ function clientEmit(id, newValue, event_name) {
         return;
     }
     socket.emit('from_client', { id: id, value: newValue, event_name: event_name });
-}
-
-window.onload = function () {
-    clientEmit("myapp", "init", "init");
 }

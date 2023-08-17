@@ -30,17 +30,21 @@ def handle_client_connect():
     print('Socket connected')
     cookie_str = request.args.get('cookie')
 
-    parsed_cookie = SimpleCookie()
-    if cookie_str:
+    cookies_dict = {}
+    if cookie_str and cookie_str.strip():
+        parsed_cookie = SimpleCookie()
         try:
             parsed_cookie.load(cookie_str)
+            cookies_dict = {key: morsel.value for key, morsel in parsed_cookie.items()}
         except Exception as e:
             print(f"Error parsing cookie: {e}")
 
     session_instance = un_init_sessions.pop()
-    session_instance.cookies = parsed_cookie
+    session_instance.cookies = cookies_dict
+
     sessions[request.sid] = session_instance
     session_instance.init(request.sid)
+    session_instance.socket.emit('afterconnect', {'message': 'Connection initialized'})
 
 @socketio.on('from_client')
 def handle_from_client(msg):

@@ -8,7 +8,7 @@ class Session:
     #Static Variables
     socket = None
     current_session: 'Session' = None
-    BASE_URL = "domain"
+    BASE_URL = "http://192.168.99.78:3000"
     
     def __init__(self, ui, base_url=None):                
         self.elements = {}
@@ -19,7 +19,8 @@ class Session:
         self.cookies = None
 
         Session.current_session = self
-        self.ui = ui()
+        self.ui_temp = ui
+        self.ui = None
 
         # Set the base URL for API calls
         if base_url:
@@ -36,7 +37,8 @@ class Session:
         return self.parent_stack[-1] if self.parent_stack else None
 
     def init(self,sid):
-        self.sid = sid                    
+        self.sid = sid
+        self.ui = self.ui_temp()              
         self.flush_message_queue()
     
     def send(self,id, value, event_name):    
@@ -54,6 +56,9 @@ class Session:
     def get_index(self):
         return get_index()
     
+    def navigate(self, path):
+        self.send("myapp", path, "navigate")
+    
     def clientHandler(self, id, value,event_name):
         if id == "myapp":
             if value == "init":                
@@ -69,20 +74,21 @@ class Session:
 
     # Cookie handling
     def cookies_to_dict(self):
-        return {c.key: c.value for c in self.cookies.values()} if self.cookies else {}
+        return self.cookies if self.cookies else {}
 
-    def construct_url_and_cookies(self, endpoint):
-        full_url = os.path.join(Session.BASE_URL, endpoint.lstrip('/'))
-        cookies_dict = self.cookies_to_dict()
-        return full_url, cookies_dict
+    def api_call(self, method='GET', endpoint='', data=None, headers=None, json=None, cookies=None, isSecure=True):
+        try:
+            endpoint = endpoint.lstrip('/')
+            base_url = self.BASE_URL if self.BASE_URL.endswith('/') else self.BASE_URL + '/'
+            full_url = base_url + endpoint
+            
+            cookies_to_use = cookies if cookies else self.cookies_to_dict()
+            which_cookies = "cookies" if cookies else "self.cookies"
+            print(f"API Call: {method} {full_url} with {which_cookies}\nself.cookies: {self.cookies}\ncookies: {cookies}")
 
-    def api_call(self, endpoint, method='GET', data=None, headers=None, json=None):
-        full_url, cookies_dict = self.construct_url_and_cookies(endpoint)
-        response = requests.request(method, full_url, data=data, cookies=cookies_dict, headers=headers, json=json)
-        return response
-
-    async def async_api_call(self, endpoint, method='GET', data=None, headers=None, json=None):
-        full_url, cookies_dict = self.construct_url_and_cookies(endpoint)
-        async with httpx.AsyncClient() as client:
-            response = await client.request(method, full_url, data=data, cookies=cookies_dict, headers=headers, json=json)
-        return response
+            print("Cookies before request: ", cookies_to_use) # Ensure this prints the correct cookies
+            response = requests.request(method, full_url, data=data, cookies=cookies_to_use, headers=headers, json=json)
+            return response
+        except Exception as e:
+            print("API Call Error: ", e)
+            return None
