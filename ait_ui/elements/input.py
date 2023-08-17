@@ -1,7 +1,7 @@
 from ..core import Element
 
 class Input(Element):
-    def __init__(self, id=None, value=None, type="text", placeholder=None, step=None, autoBind=True):
+    def __init__(self, id=None, value=None, type="text", placeholder="", step=None, autoBind=True):
         super().__init__(id=id, value=value, autoBind=autoBind)
         self.tag = "input"
         self.value_name = "value"
