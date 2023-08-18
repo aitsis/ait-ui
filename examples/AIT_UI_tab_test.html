@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÖRNEK HTML</title>
+    <link rel="stylesheet" href="../ait_ui/static/style.css">
+
+</head>
+
+<body>
+    <h1>Nice CSS TABs <span>Just CSS, No JS!</span></h1>
+<div class="container">
+    <ul class="tabs" role="tablist">
+        <li>
+            <input type="radio" name="tabs" id="tab1" checked />
+            <label for="tab1" role="tab" aria-selected="true" aria-controls="panel1" tabindex="0">Login</label>
+            <div id="tab-content1" class="tab-content" role="tabpanel" aria-labelledby="description"
+                aria-hidden="false">
+
+                <label for="text-input" class="clear-tab">Metin Girdi Alanı:</label>
+                <input type="text" id="text-input" name="text_input" value="Umut Savaşım"><br><br>
+                <label for="password-input" class="clear-tab">Parola Girdi Alanı:</label>
+                <input type="password" id="password-input" name="password_input" value="ASdadgsdfgASD@"><br><br>
+                <div class="row" style="gap:10px;">
+                    <button>Gönder</button> <button class="btn-reset">Resetle</button>
+                </div>
+
+            </div>
+        </li>
+
+        <li>
+            <input type="radio" name="tabs" id="tab2" />
+            <label for="tab2" role="tab" aria-selected="false" aria-controls="panel2" tabindex="0">Register</label>
+            <div id="tab-content2" class="tab-content" role="tabpanel" aria-labelledby="specification"
+                aria-hidden="true">
+                <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+                    totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
+                    dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,
+                    sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam
+                    est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius
+                    modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima
+                    veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea
+                    commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil
+                    molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla?</p>
+            </div>
+        </li>
+    </ul>
+</div>
+
+    <br style="clear: both;" />
+
+    <p style="margin: 380px 0 0 15px;">İstersen buraya yazı koyabilirsin <a href="https://ai.ait.com.tr">AI.AIT</a>
+        Let's gOoOooOOO!! </p>
+</body>
+
+</html>

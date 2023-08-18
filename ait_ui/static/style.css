@@ -26,7 +26,15 @@ h1, h2, h3, h4, h5, h6  {
 	--ait-header-text: "Trebuchet MS";
 }
 
-
+a {
+    color: #00aaff;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: #0099dd;
+    text-decoration: underline;
+  }
 
 /* Scroll Bar */
 ::-webkit-scrollbar {
@@ -200,7 +208,7 @@ button{
     border-radius: 6px;
     background-color: var(--ait);
     box-sizing: border-box;
-    padding: 6px;
+    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -393,8 +401,74 @@ button:hover{
 .p7 { padding: 7px; }
 .p8 { padding: 8px; }
 
-
-
+/* BURADAN Aşağısı TAB */
+.tabs {
+    width: 650px;
+    float: none;
+    list-style: none;
+    position: relative;
+    margin: 80px 0 0 10px;
+    text-align: left;
+  }
+  .tabs li {
+    float: left;
+    display: block;
+  }
+  .tabs input[type="radio"] {
+    position: absolute;
+    top: 0;
+    left: -9999px;
+  }
+  .tabs label {
+    display: block;
+    padding: 14px 21px;
+    border-radius: 2px 2px 0 0;
+    font-size: 20px;
+    font-weight: normal;
+    background: gray;
+    cursor: pointer;
+    position: relative;
+    top: 10px;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    border-radius:12px 12px 0px 0px;
+  }
+  .tabs label:hover {
+    background: var(--background-secondary);
+  }
+  .tabs .tab-content {
+    z-index: 2;
+    display: none;
+    overflow: hidden;
+    width: 100%;
+    font-size: 17px;
+    line-height: 25px;
+    padding: 25px;
+    position: absolute;
+    top: 53px;
+    left: 0;
+    background: var(--background-secondary);
+    border-radius:12px 12px 12px 12px;
+  }
+  .tabs [id^="tab"]:checked + label {
+    top: 0;
+    padding-top: 17px;
+    background: var(--background-secondary);
+  }
+  .tabs [id^="tab"]:checked ~ [id^="tab-content"] {
+    display: block;
+  }
+.clear-tab{
+    font-size: initial !important;
+    background-color: initial !important;
+    display: initial !important;
+    top: initial !important;
+    cursor: initial !important;
+    padding: 0 !important;
+}
+/* BURADAN Yukarısı TAB */
 
 /* BURADAN AŞAĞISI KONTROL EDİLİP SİLİNECEK */
 .flex-grow-1 {
