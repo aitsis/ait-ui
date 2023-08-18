@@ -6,7 +6,7 @@ from flask import Flask, request, send_from_directory, abort
 from flask_cors import CORS
 from flask_socketio import SocketIO
 
-from .core import Session
+from .core import Session, clear_index
 
 flask_app = Flask(__name__)
 socketio = SocketIO(flask_app)
@@ -91,10 +91,12 @@ def add_custom_route(route, ui_class, middlewares=[]):
         un_init_sessions.append(session)
     
         # Apply all middleware decorators
+        session.clear_index()
+        ui_class()
         wrapped_func = session.get_index
         for middleware in reversed(middlewares):
             wrapped_func = middleware(wrapped_func)
-            
+
         return wrapped_func()
     
     return custom_route_func

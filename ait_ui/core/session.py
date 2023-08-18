@@ -3,7 +3,7 @@ import requests
 from urllib.parse import urljoin
 from requests.exceptions import MissingSchema, InvalidURL
 
-from .index_gen import get_index
+from .index_gen import get_index, clear_index
 
 class Session:
     #Static Variables
@@ -58,6 +58,9 @@ class Session:
 
     def get_index(self):
         return get_index()
+    
+    def clear_index(self):
+        return clear_index()
     
     def navigate(self, path):
         self.send("myapp", path, "navigate")
