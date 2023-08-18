@@ -10,6 +10,11 @@ default_header_items = {
     'style': '<link rel="stylesheet" href="style.css">'
 }
 
+global header_items
+global scripts
+global script_sources
+global styles
+
 header_items = {}
 
 default_script_sources = {"main": "<script src='js/main.js'></script>"}
@@ -21,6 +26,10 @@ scripts = {}
 styles = {}
 
 def get_index():
+    global header_items
+    global scripts
+    global script_sources
+    global styles
     # HTML BEGIN ------------------------------------------------------------
     index_str = '<!DOCTYPE html><html lang="en"><head>'
     # HEADER ITEMS ----------------------------------------------------------
@@ -50,3 +59,15 @@ def get_index():
     index_str += '</body>'
     index_str += '</html>'
     return index_str
+
+def clear_index():
+    global header_items
+    global script_sources
+    global scripts
+    global styles
+
+    header_items.clear()
+    script_sources.clear()
+    scripts.clear()
+    styles.clear()
+    return -1
