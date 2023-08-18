@@ -55,6 +55,8 @@ def handle_from_client(msg):
 def home():
     session = Session(ui_root)
     un_init_sessions.append(session)
+    session.clear_index()
+    ui_root()
     return session.get_index()
 
 @flask_app.route('/<path:path>')
