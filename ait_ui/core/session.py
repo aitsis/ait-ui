@@ -1,6 +1,7 @@
-import os
 import requests
-import httpx
+
+from urllib.parse import urljoin
+from requests.exceptions import MissingSchema, InvalidURL
 
 from .index_gen import get_index
 
@@ -8,9 +9,10 @@ class Session:
     #Static Variables
     socket = None
     current_session: 'Session' = None
-    BASE_URL = "http://192.168.99.78:3000"
+    BASE_URL = "http://192.168.99.78"
+    PORT = 3000
     
-    def __init__(self, ui, base_url=None):                
+    def __init__(self, ui, base_url=None, port=None):                
         self.elements = {}
         self.sid = None
         self.message_queue = []
@@ -22,9 +24,10 @@ class Session:
         self.ui_temp = ui
         self.ui = None
 
-        # Set the base URL for API calls
         if base_url:
             Session.BASE_URL = base_url
+        if port:
+            Session.PORT = port
 
     def push_parent(self, parent):
         self.parent_stack.append(parent)
@@ -76,19 +79,22 @@ class Session:
     def cookies_to_dict(self):
         return self.cookies if self.cookies else {}
 
-    def api_call(self, method='GET', endpoint='', data=None, headers=None, json=None, cookies=None, isSecure=True):
+    def api_call(self, method='GET', endpoint='', data=None, headers=None, json=None, cookies=None, usePORT=None):
         try:
-            endpoint = endpoint.lstrip('/')
-            base_url = self.BASE_URL if self.BASE_URL.endswith('/') else self.BASE_URL + '/'
-            full_url = base_url + endpoint
-            
-            cookies_to_use = cookies if cookies else self.cookies_to_dict()
-            which_cookies = "cookies" if cookies else "self.cookies"
-            print(f"API Call: {method} {full_url} with {which_cookies}\nself.cookies: {self.cookies}\ncookies: {cookies}")
+            base_url_with_port = f"{self.BASE_URL}:{self.PORT}" if usePORT else self.BASE_URL
 
-            print("Cookies before request: ", cookies_to_use) # Ensure this prints the correct cookies
+            full_url = urljoin(base_url_with_port, endpoint)
+
+            cookies_to_use = cookies if cookies else self.cookies_to_dict()
+            
             response = requests.request(method, full_url, data=data, cookies=cookies_to_use, headers=headers, json=json)
             return response
+        except MissingSchema as e:
+            print("API Call Error: Missing or incorrect URL schema", e)
+            return None
+        except InvalidURL as e:
+            print("API Call Error: Invalid URL", e)
+            return None
         except Exception as e:
             print("API Call Error: ", e)
             return None
