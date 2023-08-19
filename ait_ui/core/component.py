@@ -33,3 +33,9 @@ class Component(Element):
             str_ += child.render()
         str_ += f"</{self.tag}>"
         return str_
+    
+    def get_client_handler_str(self, event_name):
+        if event_name in ["keydown"]:
+            return f" on{event_name}='clientEmit(this.id,event.keyCode,\"{event_name}\")'"
+        else:
+            return super().get_client_handler_str(event_name)

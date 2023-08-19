@@ -57,6 +57,13 @@ socket.on('from_server', function (data) {
         return;
     }
 
+    if (data.event_name === "focus") {
+        console.log("focus", data.id);
+        let el = document.getElementById(data.id);
+        el.focus();
+        return;
+    }    
+
     if (data.event_name == "init-content") {
         let el = document.getElementById(data.id);
         el.outerHTML = data.value;

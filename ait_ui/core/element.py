@@ -97,6 +97,9 @@ class Element:
     def set_style(self, attr_name, attr_value):
         self.send(self.id, attr_value, "set-"+attr_name)
 
+    def focus(self):
+        self.send(self.id, None, "focus")
+
     # WITH ENTRY - EXIT -------------------------------------------------------------------------------
     def __enter__(self):
         Session.current_session.push_parent(self)
