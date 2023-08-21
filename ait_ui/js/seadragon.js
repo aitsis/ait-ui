@@ -10,6 +10,11 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
             prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/",
             animationTime: 0,
             maxZoomPixelRatio: 4,
+            gestureSettingsMouse: {
+                scrollToZoom: false,
+                clickToZoom: false,
+                dragToPan: false
+            }
         })
     }
 
@@ -63,7 +68,7 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
         var mousePosition = OpenSeadragon.getMousePosition(event);
         on_mouse_move(mousePosition);
     });
-    
+
     // zoom handler
     elements[id].viewer.addHandler('zoom', function (event) {
         if (elements[id].mouse_mode == "draw-mode") {
@@ -74,6 +79,40 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
             }
         }
     });
+
+    console.log(elements[id].viewer.buttonGroup.buttons);
+    let downloadElement = document.createElement("div");
+
+    downloadElement.innerHTML = '<i class="fa-solid fa-file-arrow-down"></i>';
+    downloadElement.style.fontSize = "2em";
+
+    var downloadButton = new OpenSeadragon.Button({
+        tooltip: 'Download Image',
+        srcRest: '',
+        onClick: downloadFullImage,
+        element: downloadElement
+    });
+
+    elements[id].viewer.buttonGroup.buttons.push(downloadButton);
+    elements[id].viewer.buttonGroup.element.appendChild(downloadButton.element);
+
+    function downloadFullImage() {
+        var viewer = elements[id].viewer;
+        var tileSources = viewer.world.getItemAt(0).source;
+        var imageUrl = tileSources.url || tileSources[0].url;
+
+        if (!imageUrl) {
+            console.error('Full image URL not found');
+            return;
+        }
+
+        var link = document.createElement('a');
+        link.href = imageUrl;
+        link.download = `${genRandomNumbers()}.jpg`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
 }
 
 event_handlers["seadragon"] = function (id, command, event_name) {
@@ -88,6 +127,11 @@ event_handlers["seadragon"] = function (id, command, event_name) {
                 elements[id].pointer_element.style.width = elements[id].brush_size * zoom + "px";
                 elements[id].pointer_element.style.height = elements[id].brush_size * zoom + "px";
             }
+            break;
+        case "set-scroll-zoom":
+            elements[id].viewer.gestureSettingsMouse.scrollToZoom = command.value;
+            elements[id].viewer.gestureSettingsMouse.clickToZoom = command.value;
+            elements[id].viewer.gestureSettingsMouse.dragToPan = command.value;
             break;
         case "mouse-mode":
             elements[id].mouse_mode = command.value;
