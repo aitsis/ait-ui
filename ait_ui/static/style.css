@@ -110,6 +110,8 @@ input[type="checkbox"] {
     -moz-appearance: none;
     width: 20px;
     height: 20px;
+    min-width: 20px !important;
+    min-height: 20px !important;
     border: 2px solid gray;
     border-radius: 4px;
     outline: none;
@@ -279,7 +281,7 @@ button:hover{
 .wrapper{
     width: fit-content;
     height: fit-content;
-    background-color: var(--quaternary);
+    background-color: var(--background);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
