@@ -80,23 +80,35 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
         }
     });
 
+    console.log(elements[id].viewer.buttonGroup.buttons);
+    let downloadElement = document.createElement("div");
+
+    downloadElement.innerHTML = '<i class="fa-solid fa-file-arrow-down"></i>';
+    downloadElement.style.fontSize = "2em";
+
     var downloadButton = new OpenSeadragon.Button({
         tooltip: 'Download Image',
-        onClick: downloadImage,
-        srcRest: 'download_rest.png',
-        srcGroup: 'download_grouphover.png',
-        srcHover: 'download_hover.png',
-        srcDown: 'download_down.png'
+        srcRest: '',
+        onClick: downloadFullImage,
+        element: downloadElement
     });
 
     elements[id].viewer.buttonGroup.buttons.push(downloadButton);
     elements[id].viewer.buttonGroup.element.appendChild(downloadButton.element);
 
-    function downloadImage() {
-        var imageUri = elements[id].viewer.drawer.canvas.toDataURL("image/png");
+    function downloadFullImage() {
+        var viewer = elements[id].viewer;
+        var tileSources = viewer.world.getItemAt(0).source;
+        var imageUrl = tileSources.url || tileSources[0].url;
+
+        if (!imageUrl) {
+            console.error('Full image URL not found');
+            return;
+        }
+
         var link = document.createElement('a');
-        link.href = imageUri;
-        link.download = 'downloaded_image.png';
+        link.href = imageUrl;
+        link.download = `${genRandomNumbers()}.jpg`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
