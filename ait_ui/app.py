@@ -49,6 +49,8 @@ def handle_client_connect():
 @socketio.on('from_client')
 def handle_from_client(msg):
     Session.current_session = sessions[request.sid]
+    if msg.get('value') is None:
+        msg['value'] = ''
     Session.current_session.clientHandler(msg['id'], msg['value'], msg['event_name'])
 
 @flask_app.route('/')
