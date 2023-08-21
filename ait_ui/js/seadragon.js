@@ -63,7 +63,7 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
         var mousePosition = OpenSeadragon.getMousePosition(event);
         on_mouse_move(mousePosition);
     });
-    
+
     // zoom handler
     elements[id].viewer.addHandler('zoom', function (event) {
         if (elements[id].mouse_mode == "draw-mode") {
@@ -74,6 +74,28 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
             }
         }
     });
+
+    var downloadButton = new OpenSeadragon.Button({
+        tooltip: 'Download Image',
+        onClick: downloadImage,
+        srcRest: 'download_rest.png',
+        srcGroup: 'download_grouphover.png',
+        srcHover: 'download_hover.png',
+        srcDown: 'download_down.png'
+    });
+    
+    elements[id].viewer.buttonGroup.buttons.push(downloadButton);
+    elements[id].viewer.buttonGroup.element.appendChild(downloadButton.element);
+    
+    function downloadImage() {
+        var imageUri = elements[id].viewer.drawer.canvas.toDataURL("image/png");
+        var link = document.createElement('a');
+        link.href = imageUri;
+        link.download = 'downloaded_image.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }   
 }
 
 event_handlers["seadragon"] = function (id, command, event_name) {
