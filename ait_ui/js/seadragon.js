@@ -10,6 +10,11 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
             prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/",
             animationTime: 0,
             maxZoomPixelRatio: 4,
+            gestureSettingsMouse: {
+                scrollToZoom: false,
+                clickToZoom: false,
+                dragToPan: false
+            }
         })
     }
 
@@ -83,10 +88,10 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
         srcHover: 'download_hover.png',
         srcDown: 'download_down.png'
     });
-    
+
     elements[id].viewer.buttonGroup.buttons.push(downloadButton);
     elements[id].viewer.buttonGroup.element.appendChild(downloadButton.element);
-    
+
     function downloadImage() {
         var imageUri = elements[id].viewer.drawer.canvas.toDataURL("image/png");
         var link = document.createElement('a');
@@ -95,7 +100,7 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    }   
+    }
 }
 
 event_handlers["seadragon"] = function (id, command, event_name) {
@@ -110,6 +115,11 @@ event_handlers["seadragon"] = function (id, command, event_name) {
                 elements[id].pointer_element.style.width = elements[id].brush_size * zoom + "px";
                 elements[id].pointer_element.style.height = elements[id].brush_size * zoom + "px";
             }
+            break;
+        case "set-scroll-zoom":
+            elements[id].viewer.gestureSettingsMouse.scrollToZoom = command.value;
+            elements[id].viewer.gestureSettingsMouse.clickToZoom = command.value;
+            elements[id].viewer.gestureSettingsMouse.dragToPan = command.value;
             break;
         case "mouse-mode":
             elements[id].mouse_mode = command.value;

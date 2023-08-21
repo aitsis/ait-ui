@@ -28,6 +28,9 @@ class ImageViewer(Element):
         print("(python)mouse_mode: " + value)
         self.send(self.id, self.value_to_command("mouse-mode", value), "seadragon")
 
+    def setScrollZoom(self, value):
+        self.send(self.id, self.value_to_command("set-scroll-zoom", value), "seadragon")
+
     def brush_size(self, value):
         self.send(self.id, self.value_to_command("brush-size", value), "seadragon")
     def value_to_command(self,command,value):
