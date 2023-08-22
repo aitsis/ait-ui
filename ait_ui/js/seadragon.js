@@ -1,22 +1,32 @@
 event_handlers["init-seadragon"] = function (id, value, event_name) {
     // create viewer
+
+    let hasButtons = JSON.parse(value.hasButtons);
+    let viewerConfig = {
+        id: id,
+        prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/",
+        animationTime: 0,
+        maxZoomPixelRatio: 4,
+        gestureSettingsMouse: {
+            scrollToZoom: false,
+            clickToZoom: false,
+            dragToPan: false
+        },
+        showNavigationControl: hasButtons,
+        zoomInButton: hasButtons ? undefined : null,
+        zoomOutButton: hasButtons ? undefined : null,
+        homeButton: hasButtons ? undefined : null,
+        fullPageButton: hasButtons ? undefined : null
+    };
+
+    let viewer = OpenSeadragon(viewerConfig);
     elements[id] = {
         mouse_mode: "pan",
         pointer_element: null,
         brush_size: 10,
         canvas: null,
-        viewer: OpenSeadragon({
-            id: id,
-            prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/",
-            animationTime: 0,
-            maxZoomPixelRatio: 4,
-            gestureSettingsMouse: {
-                scrollToZoom: false,
-                clickToZoom: false,
-                dragToPan: false
-            }
-        })
-    }
+        viewer: viewer
+    };
 
     function on_mouse_move(mousePosition) {
         var viewerOffset = elements[id].viewer.canvas.getBoundingClientRect();
@@ -80,38 +90,39 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
         }
     });
 
-    console.log(elements[id].viewer.buttonGroup.buttons);
-    let downloadElement = document.createElement("div");
+    if (hasButtons) {
+        let downloadElement = document.createElement("div");
 
-    downloadElement.innerHTML = '<i class="fa-solid fa-file-arrow-down"></i>';
-    downloadElement.style.fontSize = "2em";
+        downloadElement.innerHTML = '<i class="fa-solid fa-file-arrow-down"></i>';
+        downloadElement.style.fontSize = "2em";
 
-    var downloadButton = new OpenSeadragon.Button({
-        tooltip: 'Download Image',
-        srcRest: '',
-        onClick: downloadFullImage,
-        element: downloadElement
-    });
+        var downloadButton = new OpenSeadragon.Button({
+            tooltip: 'Download Image',
+            srcRest: '',
+            onClick: downloadFullImage,
+            element: downloadElement
+        });
 
-    elements[id].viewer.buttonGroup.buttons.push(downloadButton);
-    elements[id].viewer.buttonGroup.element.appendChild(downloadButton.element);
+        elements[id].viewer.buttonGroup.buttons.push(downloadButton);
+        elements[id].viewer.buttonGroup.element.appendChild(downloadButton.element);
 
-    function downloadFullImage() {
-        var viewer = elements[id].viewer;
-        var tileSources = viewer.world.getItemAt(0).source;
-        var imageUrl = tileSources.url || tileSources[0].url;
+        function downloadFullImage() {
+            var viewer = elements[id].viewer;
+            var tileSources = viewer.world.getItemAt(0).source;
+            var imageUrl = tileSources.url || tileSources[0].url;
 
-        if (!imageUrl) {
-            console.error('Full image URL not found');
-            return;
+            if (!imageUrl) {
+                console.error('Full image URL not found');
+                return;
+            }
+
+            var link = document.createElement('a');
+            link.href = imageUrl;
+            link.download = `${genRandomNumbers()}.jpg`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
-
-        var link = document.createElement('a');
-        link.href = imageUrl;
-        link.download = `${genRandomNumbers()}.jpg`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
     }
 }
 
