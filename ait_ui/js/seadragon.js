@@ -169,6 +169,9 @@ event_handlers["seadragon"] = function (id, command, event_name) {
         case "open":
             elements[id].viewer.open(command.value);
             break;
+        case 'close':
+            elements[id].viewer.close();
+            break;
         case "brush-size":
             elements[id].brush_size = command.value;
             if (elements[id].pointer_element != null) {

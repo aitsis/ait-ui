@@ -25,6 +25,9 @@ class ImageViewer(Element):
             self.queue_for_send(self.id, self.value_to_command("open",{"type": "image","url": self._value}), "seadragon")
         return super().render()
 
+    def closeImage(self):
+        self.send(self.id, self.value_to_command("close", None), "seadragon")
+
     def mouse_mode(self, value):
         print("(python)mouse_mode: " + value)
         self.send(self.id, self.value_to_command("mouse-mode", value), "seadragon")
