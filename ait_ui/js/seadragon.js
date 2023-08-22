@@ -96,30 +96,33 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
         var downloadButton = new OpenSeadragon.Button({
             tooltip: 'Download Image',
             onClick: downloadFullImage,
-            srcRest: 'download.png',
-            srcGroup: 'download.png',
-            srcHover: 'download-hover.png',
-            srcDown: 'download-hover.png',
+            srcRest: 'ivb_download.svg',
+            srcGroup: 'ivb_download.svg',
+            srcHover: 'ivb_download-hover.svg',
+            srcDown: 'ivb_download-hover.svg',
         });
 
         for (let child of downloadButton.element.children) {
-            child.style.width = '30px';
-            child.style.height = '30px';
+            child.style.width = '25px';
+            child.style.height = '25px';
+            child.style.padding = '5px';
         }
 
         elements[id].viewer.buttonGroup.buttons.push(downloadButton);
         elements[id].viewer.buttonGroup.element.appendChild(downloadButton.element);
 
-        const updateButton = (button, filename, extension, width = '30px', height = '30px') => {
+        const updateButton = (button, filename, extension, width = '25px', height = '25px', padding = '5px') => {
             ['imgRest', 'imgGroup'].forEach(imgType => {
                 button[imgType].src = filename + '.' + extension;
                 button[imgType].style.width = width;
                 button[imgType].style.height = height;
+                button[imgType].style.padding = padding;
             });
             ['imgHover', 'imgDown'].forEach(imgType => {
                 button[imgType].src = filename + '-hover.' + extension;
                 button[imgType].style.width = width;
                 button[imgType].style.height = height;
+                button[imgType].style.padding = padding;
             });
         };
 
@@ -127,19 +130,19 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
             console.log(button.tooltip);
             switch (button.tooltip) {
                 case 'Zoom in':
-                    updateButton(button, 'zoom-in', 'png');
+                    updateButton(button, 'ivb_zoom-in', 'svg');
                     break;
                 case 'Zoom out':
-                    updateButton(button, 'zoom-out', 'png');
+                    updateButton(button, 'ivb_zoom-out', 'svg');
                     break;
                 case 'Go home':
-                    updateButton(button, 'home', 'png');
+                    updateButton(button, 'ivb_home', 'svg');
                     break;
                 case 'Toggle full page':
-                    updateButton(button, 'fullscreen', 'png');
+                    updateButton(button, 'ivb_fullscreen', 'svg');
                     break;
                 case 'Download Image':
-                    updateButton(button, 'download', 'png');
+                    updateButton(button, 'ivb_download', 'svg');
                     break;
             }
         }
