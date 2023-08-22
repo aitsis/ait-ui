@@ -112,6 +112,8 @@ input[type="checkbox"] {
     height: 20px;
     min-width: 20px !important;
     min-height: 20px !important;
+    max-width: 20px !important;
+    max-height: 20px !important;
     border: 2px solid gray;
     border-radius: 4px;
     outline: none;
@@ -255,7 +257,7 @@ button:hover{
 	
 .main{
     width: 100vw;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     background-color: var(--secondary);
@@ -299,7 +301,7 @@ button:hover{
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: max-content;
+    height: 100%;
     box-sizing: border-box;
     gap: 10px;
 }

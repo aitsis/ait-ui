@@ -1,7 +1,7 @@
 from ..core import Element
 
 class Label(Element):
-    def __init__(self, id = None, tabindex = None, usefor = None,value = None, autoBind = True):
+    def __init__(self, id = None, tabindex = -1, usefor = None,value = None, autoBind = True):
         super().__init__(id= id , value = value, autoBind= autoBind)
         self.classes.append("label")
         self.usefor = usefor
