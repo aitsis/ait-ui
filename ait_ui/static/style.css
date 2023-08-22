@@ -1,13 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Exo 2');
 
-body {
+body , html{
     background-color: var(--background);
     font-family: var(--ait-text-font);
     font-size: 14px;    
     color: white;
     overflow-x: hidden;
+    overflow-y: hidden;
     padding: 0px;
     margin: 0px;
+    height: 100%;
 }
 h1, h2, h3, h4, h5, h6  {
   font-family: var(--ait-header-text), Tahoma, sans-serif;
