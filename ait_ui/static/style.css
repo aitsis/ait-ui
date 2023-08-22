@@ -357,6 +357,9 @@ button:hover{
     display: none;
 }
 
+.strong {
+    font-weight: bold;
+}
 .w2 { width: 2rem; }
 .w3 { width: 3rem; }
 .w4 { width: 4rem; }
