@@ -91,25 +91,63 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
     });
 
     if (hasButtons) {
-        let downloadElement = document.createElement("div");
-
-        downloadElement.innerHTML = '<i class="fa-solid fa-file-arrow-down"></i>';
-        downloadElement.style.fontSize = "2em";
+        let buttons = elements[id].viewer.buttonGroup.buttons;
 
         var downloadButton = new OpenSeadragon.Button({
             tooltip: 'Download Image',
-            srcRest: '',
             onClick: downloadFullImage,
-            element: downloadElement
+            srcRest: 'download.png',
+            srcGroup: 'download.png',
+            srcHover: 'download-hover.png',
+            srcDown: 'download-hover.png',
         });
+
+        for (let child of downloadButton.element.children) {
+            child.style.width = '30px';
+            child.style.height = '30px';
+        }
 
         elements[id].viewer.buttonGroup.buttons.push(downloadButton);
         elements[id].viewer.buttonGroup.element.appendChild(downloadButton.element);
 
+        const updateButton = (button, filename, extension, width = '30px', height = '30px') => {
+            ['imgRest', 'imgGroup'].forEach(imgType => {
+                button[imgType].src = filename + '.' + extension;
+                button[imgType].style.width = width;
+                button[imgType].style.height = height;
+            });
+            ['imgHover', 'imgDown'].forEach(imgType => {
+                button[imgType].src = filename + '-hover.' + extension;
+                button[imgType].style.width = width;
+                button[imgType].style.height = height;
+            });
+        };
+
+        for (let button of buttons) {
+            console.log(button.tooltip);
+            switch (button.tooltip) {
+                case 'Zoom in':
+                    updateButton(button, 'zoom-in', 'png');
+                    break;
+                case 'Zoom out':
+                    updateButton(button, 'zoom-out', 'png');
+                    break;
+                case 'Go home':
+                    updateButton(button, 'home', 'png');
+                    break;
+                case 'Toggle full page':
+                    updateButton(button, 'fullscreen', 'png');
+                    break;
+                case 'Download Image':
+                    updateButton(button, 'download', 'png');
+                    break;
+            }
+        }
+
         function downloadFullImage() {
-            var viewer = elements[id].viewer;
-            var tileSources = viewer.world.getItemAt(0).source;
-            var imageUrl = tileSources.url || tileSources[0].url;
+            let viewer = elements[id].viewer;
+            let tileSources = viewer.world.getItemAt(0).source;
+            let imageUrl = tileSources.url || tileSources[0].url;
 
             if (!imageUrl) {
                 console.error('Full image URL not found');
