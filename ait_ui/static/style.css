@@ -3,7 +3,7 @@
 body , html{
     background-color: var(--background);
     font-family: var(--ait-text-font);
-    font-size: 14px;    
+    font-size: 14px;  /* Default font size */  
     color: white;
     overflow-x: hidden;
     overflow-y: hidden;
@@ -15,9 +15,23 @@ h1, h2, h3, h4, h5, h6  {
   font-family: var(--ait-header-text), Tahoma, sans-serif;
 }
 
+/* Font size classes */ 
+  .small {
+    font-size: xx-small;
+  }
+  .larger {
+    font-size: larger;
+  }
+  .point {
+    font-size: 24pt;
+  }
+/* Font size classes */ 
+
+
+/* Color variables */ 
 :root {
     --primary: #007a53;
-    --secondary: ;
+    --secondary: gray;
     --tertiary: #444;
     --quaternary: rgba(255,255,255,0.2);
     --ait: #00573d;
@@ -53,8 +67,6 @@ a {
   background: white;
   border-radius: 12px;
 }
-
-
 
 
 input {
@@ -152,8 +164,6 @@ input[type="checkbox"]::after {
     left: 3px;
     color: white;
 }
-
-
 
 
 /********** Range Input Styles **********/
