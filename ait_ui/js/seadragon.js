@@ -102,22 +102,30 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
             srcDown: 'ivb_download-hover.svg',
         });
 
-        for (let child of downloadButton.element.children) {
-            child.style.width = '25px';
-            child.style.height = '25px';
-            child.style.padding = '5px';
-        }
+        var saveButton = new OpenSeadragon.Button({
+            tooltip: 'Save Image',
+            onClick: saveFullImage,
+            srcRest: 'ivb_save.svg',
+            srcGroup: 'ivb_save.svg',
+            srcHover: 'ivb_save-hover.svg',
+            srcDown: 'ivb_save-hover.svg',
+        });
+
 
         elements[id].viewer.buttonGroup.buttons.push(downloadButton);
         elements[id].viewer.buttonGroup.element.appendChild(downloadButton.element);
 
-        const updateButton = (button, filename, extension, width = '25px', height = '25px', padding = '5px', backgroundColor = 'var(--background-mask)') => {
+        elements[id].viewer.buttonGroup.buttons.push(saveButton);
+        elements[id].viewer.buttonGroup.element.appendChild(saveButton.element);
+
+        const updateButton = (button, filename, extension, width = '25px', height = '25px', padding = '5px', backgroundColor = 'var(--background-mask)', backgroundBlur = 'blur(5px)') => {
             ['imgRest', 'imgGroup'].forEach(imgType => {
                 button[imgType].src = filename + '.' + extension;
                 button[imgType].style.width = width;
                 button[imgType].style.height = height;
                 button[imgType].style.padding = padding;
                 button[imgType].style.backgroundColor = backgroundColor;
+                button[imgType].style['backdrop-filter'] = backgroundBlur;
             });
             ['imgHover', 'imgDown'].forEach(imgType => {
                 button[imgType].src = filename + '-hover.' + extension;
@@ -125,6 +133,7 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
                 button[imgType].style.height = height;
                 button[imgType].style.padding = padding;
                 button[imgType].style.backgroundColor = backgroundColor;
+                button[imgType].style['backdrop-filter'] = backgroundBlur;
             });
         };
 
@@ -146,6 +155,9 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
                 case 'Download Image':
                     updateButton(button, 'ivb_download', 'svg');
                     break;
+                case 'Save Image':
+                    updateButton(button, 'ivb_save', 'svg');
+                    break;
             }
         }
 
@@ -166,6 +178,20 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
             link.click();
             document.body.removeChild(link);
         }
+
+        function saveFullImage() {
+            let viewer = elements[id].viewer;
+            let tileSources = viewer.world.getItemAt(0).source;
+            let imageUrl = tileSources.url || tileSources[0].url;
+
+            if (!imageUrl) {
+                console.error('Full image URL not found');
+                return;
+            }
+
+          alert('Assest e kaydedildi. ŞAKA ŞAKA EDİLMEDİ.')
+        }
+
     }
 }
 
