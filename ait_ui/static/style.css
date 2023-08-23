@@ -242,6 +242,12 @@ button:hover{
     background-color: var(--primary);
 }
 
+button:disabled{
+  opacity: 0.3;
+  scale: 1;
+  cursor: no-drop;
+}
+
 .btn-warning {
     background-color: #d6b000;
     color: #fff;

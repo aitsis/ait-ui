@@ -198,6 +198,7 @@ class CSS_TEST(Component):
                         Button(value="Resetle").cls("btn-reset")
                         Button(value="Uyarı").cls("btn-warning")
                         Button(value="Silinecek").cls("btn-red")
+                        Button(value="Disable",disabled=True)
 
 if __name__ == '__main__':
     app.run(ui=CSS_TEST, debug=True)
