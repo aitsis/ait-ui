@@ -7,8 +7,8 @@ body , html{
     color: white;
     overflow-x: hidden;
     overflow-y: hidden;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     height: 100%;
 }
 h1, h2, h3, h4, h5, h6  {
@@ -61,7 +61,6 @@ input {
 	font-family: var(--ait-text-font);	
     outline: none;
     height: 1.2rem;        
-    margin: 2px;
     border: #aaa 1px solid;
     padding: 5px;
     color: white;
@@ -80,7 +79,6 @@ input[type=number]::-webkit-inner-spin-button {
 select {
     font-family: var(--ait-text-font);
     outline: none;
-    margin: 2px;
     border: #aaa 1px solid;
     padding: 5px;
     color: white;
@@ -169,7 +167,7 @@ input[type="range"] {
   opacity: 0.7;
   -webkit-transition: .2s;
   transition: opacity .2s;
-  padding: 0px;
+  padding: 0;
 }
 
 input[type="range"]:hover {
@@ -292,7 +290,7 @@ button:hover{
     justify-content: space-between;
     align-items: center;
     padding: 7px;
-    margin: 0px;
+    margin: 0;
     box-sizing: border-box;
     border-radius: 3px;
     border: 1px solid gray;
@@ -314,7 +312,7 @@ button:hover{
 .row {
     display: flex;
     flex-direction: row;
-    margin: 0px;
+    margin: 0;
     width: 100%;
     height: 100%;
 	align-items: center;
@@ -325,7 +323,7 @@ button:hover{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 0px;
+    margin: 0;
     width: 100%;
     height: 100%;
 	justify-content: center;
@@ -498,8 +496,8 @@ button:hover{
     flex-direction: column;    
     justify-content: flex-start;
     align-items: flex-start;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     height: max-content;    
 }    
 
@@ -512,7 +510,7 @@ button:hover{
     display: flex;
     justify-content: space-between;
     padding: 1px;    
-    margin: 0px;
+    margin: 0;
     width: 98%;
     transition: all 300ms ease-out;
     cursor: pointer;
@@ -532,6 +530,6 @@ button:hover{
 .list-group-item.selected {
     background-color: #eee;
     border: 1px solid #444;
-    padding: 0px;
+    padding: 0;
 }
 /* BURADAN YUKARISI KONTROL EDİLİP SİLİNECEK */
