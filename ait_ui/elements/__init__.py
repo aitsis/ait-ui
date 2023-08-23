@@ -7,6 +7,7 @@ from .file import File
 from .form import Form
 from .image import Image
 from .imageviewer import ImageViewer
+from .imageCropper import ImageCropper
 from .input import Input
 from .label import Label
 from .link import Link
@@ -37,6 +38,7 @@ __all__ = [
     "Form",
     "Image",
     "ImageViewer",
+    "ImageCropper",
     "Input",
     "Label",
     "Link",
