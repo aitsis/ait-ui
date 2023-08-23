@@ -111,18 +111,20 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
         elements[id].viewer.buttonGroup.buttons.push(downloadButton);
         elements[id].viewer.buttonGroup.element.appendChild(downloadButton.element);
 
-        const updateButton = (button, filename, extension, width = '25px', height = '25px', padding = '5px') => {
+        const updateButton = (button, filename, extension, width = '25px', height = '25px', padding = '5px', backgroundColor = 'var(--background-mask)') => {
             ['imgRest', 'imgGroup'].forEach(imgType => {
                 button[imgType].src = filename + '.' + extension;
                 button[imgType].style.width = width;
                 button[imgType].style.height = height;
                 button[imgType].style.padding = padding;
+                button[imgType].style.backgroundColor = backgroundColor;
             });
             ['imgHover', 'imgDown'].forEach(imgType => {
                 button[imgType].src = filename + '-hover.' + extension;
                 button[imgType].style.width = width;
                 button[imgType].style.height = height;
                 button[imgType].style.padding = padding;
+                button[imgType].style.backgroundColor = backgroundColor;
             });
         };
 

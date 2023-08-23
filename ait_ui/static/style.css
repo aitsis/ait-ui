@@ -24,6 +24,7 @@ h1, h2, h3, h4, h5, h6  {
     --red: #ff0000;
 	--background: #282f3a;
 	--background-secondary: #464c56;
+    --background-mask: #00000050;
 	--ait-text-font: "Exo 2";
 	--ait-header-text: "Trebuchet MS";
 }
