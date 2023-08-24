@@ -27,6 +27,12 @@ class ImageCropper(Element):
     def crop_and_move(self, axis, scale):
         self.send(self.id, self.value_to_command("cropAndMove", {"axis": axis, "scale": scale}), "image-cropper")
 
+    def repeatImage(self, value):
+        self.send(self.id, self.value_to_command("repeatImage", value), "image-cropper")
+
+    def resetImage(self):
+        self.send(self.id, self.value_to_command("resetImage", ""), "image-cropper")
+
     def value_to_command(self, command, value):
         command = {
             "action": command,
