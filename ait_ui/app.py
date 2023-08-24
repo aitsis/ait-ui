@@ -44,7 +44,14 @@ def handle_client_connect():
 
     sessions[request.sid] = session_instance
     session_instance.init(request.sid)
-    session_instance.socket.emit('afterconnect', {'message': 'Connection initialized'})
+    session_instance.socket.emit('afterconnect', {'message': 'Connection initialized'}, room=request.sid)
+
+@socketio.on('disconnect')
+def handle_client_disconnect():
+    print('Socket disconnected')
+    if request.sid in sessions:
+        del sessions[request.sid]
+        print("Session deleted")
 
 @socketio.on('from_client')
 def handle_from_client(msg):
