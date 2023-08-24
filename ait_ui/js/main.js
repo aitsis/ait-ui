@@ -12,10 +12,6 @@ const socket = io.connect(`${window.location.origin}`, {
 
 socket.on('connect', function () {
     console.log('Server connected');
-});
-
-socket.on('afterconnect', function(data) {
-    console.log(data.message); // "Connection initialized"
     clientEmit("myapp", "init", "init");
 });
 
