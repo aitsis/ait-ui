@@ -7,9 +7,6 @@ const MAX_SCALE = 5;
 fabric.Object.prototype.hoverCursor = 'default';
 
 event_handlers["init-image-cropper"] = function (id, value, event_name) {
-  document.getElementById('resetButton').addEventListener('click', function () {
-    resetImage('yourCanvasId');
-  });
 
   let canvas = new fabric.Canvas(id);
 
@@ -25,14 +22,17 @@ event_handlers["init-image-cropper"] = function (id, value, event_name) {
     patternGroup: null,
     lastModified: { x: null, y: null },
     latestCombinedImage: null,
+    moveRates: { x: 1, y: 1 },
+    lastAxisMoved: 'x'
   };
 
   if (repeater_checkbox) {
     repeater_checkbox.addEventListener('change', function () {
       if (this.checked) {
-        console.log(currentScale, "checked");
         const imageToUse = elements[id].latestCombinedImage || elements[id].image;
-        elements[id].patternGroup = updateImagePattern(canvas, imageToUse, currentScale, id);
+        let axisToUse = elements[id].lastAxisMoved;
+        let scaleToUse = elements[id].moveRates[axisToUse];
+        updateImagePattern(canvas, elements[id].image, currentScale, id, axisToUse, scaleToUse);
         canvas.remove(elements[id].image);
       } else {
         const imageToUse = elements[id].latestCombinedImage || elements[id].image;
@@ -64,8 +64,9 @@ event_handlers["init-image-cropper"] = function (id, value, event_name) {
 
           var center = canvas.getCenter();
           canvas.zoomToPoint({ x: center.left, y: center.top }, zoom);
-          console.log(currentScale, "checked");
-          updateImagePattern(canvas, elements[id].image, currentScale, id);
+          let axisToUse = elements[id].lastAxisMoved;
+          let scaleToUse = elements[id].moveRates[axisToUse];
+          updateImagePattern(canvas, elements[id].image, currentScale, id, axisToUse, scaleToUse);
           return;
         }
         var zoom = canvas.getZoom();
@@ -96,7 +97,6 @@ function resetImage(id) {
 }
 
 event_handlers["image-cropper"] = function (id, command, event_name) {
-  console.log("image-cropper: " + JSON.stringify(command));
   switch (command.action) {
     case "loadImage":
       fabric.Image.fromURL(command.value, function (img) {
@@ -112,6 +112,8 @@ event_handlers["image-cropper"] = function (id, command, event_name) {
           strokeWidth: 0,
           lockMovementX: true,
           lockMovementY: true,
+          patternGroup: true,
+          objectCaching: false,
         });
 
         elements[id].canvas.add(img);
@@ -120,8 +122,26 @@ event_handlers["image-cropper"] = function (id, command, event_name) {
       break;
     case "cropAndMove":
       let axis = command.value.axis.toLowerCase();
+      elements[id].lastAxisMoved = axis;
       let scale = command.value.scale;
+      const canvas = elements[id].canvas;
+      if (repeater_checkbox && repeater_checkbox.checked) {
+        canvas.clear();
+        const imageToUse = elements[id].latestCombinedImage || elements[id].image;
+        canvas.getObjects().forEach(function (obj) {
+          if (obj.patternGroup) {
+            canvas.remove(obj);
+          }
+        });
+        canvas.add(imageToUse);
+        canvas.requestRenderAll();
+      }
       moveImage(axis, elements[id].canvas, elements[id].image, scale, id);
+      if (repeater_checkbox && repeater_checkbox.checked) {
+        const imageToUse = elements[id].latestCombinedImage || elements[id].image;
+        elements[id].patternGroup = updateImagePattern(canvas, imageToUse, currentScale, id, axis, scale);
+        canvas.remove(elements[id].image);
+      }
       break;
     case "resetImage":
       resetImage(id);
@@ -131,53 +151,40 @@ event_handlers["image-cropper"] = function (id, command, event_name) {
 };
 
 function moveImage(axis, canvas, originalImage, reportRate, id) {
-  const otherAxis = axis === 'x' ? 'y' : 'x';
-
-  const image = elements[id].lastModified[otherAxis] || originalImage;
-
   canvas.clear();
+  elements[id].moveRates[axis] = reportRate;
 
-  const originalWidth = image.width;
-  const originalHeight = image.height;
-  const rate = axis === 'x' ? originalWidth * reportRate : originalHeight * reportRate;
-
-  const firstCanvas = document.createElement('canvas');
-  const secondCanvas = document.createElement('canvas');
-  const finalCanvas = document.createElement('canvas');
-  finalCanvas.width = originalWidth;
-  finalCanvas.height = originalHeight;
-
-  const firstCtx = firstCanvas.getContext('2d');
-  const secondCtx = secondCanvas.getContext('2d');
-  const finalCtx = finalCanvas.getContext('2d');
-
-  if (axis === 'x') {
-    firstCanvas.width = secondCanvas.width = originalWidth;
-    firstCanvas.height = secondCanvas.height = originalHeight / 2;
-
-    firstCtx.drawImage(image._element, 0, 0, originalWidth, originalHeight / 2, 0, 0, originalWidth, originalHeight / 2);
-    secondCtx.drawImage(image._element, 0, originalHeight / 2, rate, originalHeight / 2, originalWidth - rate, 0, rate, originalHeight / 2);
-    secondCtx.drawImage(image._element, rate, originalHeight / 2, originalWidth - rate, originalHeight / 2, 0, 0, originalWidth - rate, originalHeight / 2);
-
-    finalCtx.drawImage(firstCanvas, 0, 0);
-    finalCtx.drawImage(secondCanvas, 0, originalHeight / 2);
-  } else {
-    firstCanvas.width = secondCanvas.width = originalWidth / 2;
-    firstCanvas.height = secondCanvas.height = originalHeight;
-
-    firstCtx.drawImage(image._element, 0, 0, originalWidth / 2, originalHeight, 0, 0, originalWidth / 2, originalHeight);
-    secondCtx.drawImage(image._element, originalWidth / 2, 0, originalWidth / 2, rate, 0, originalHeight - rate, originalWidth / 2, rate);
-    secondCtx.drawImage(image._element, originalWidth / 2, rate, originalWidth / 2, originalHeight - rate, 0, 0, originalWidth / 2, originalHeight - rate);
-
-    finalCtx.drawImage(firstCanvas, 0, 0);
-    finalCtx.drawImage(secondCanvas, originalWidth / 2, 0); // Corrected to secondCanvas
+  if (axis === 'x' && elements[id].moveRates['y'] !== 1) {
+    elements[id].moveRates['y'] = 1;
+  } else if (axis === 'y' && elements[id].moveRates['x'] !== 1) {
+    elements[id].moveRates['x'] = 1;
   }
 
+  const rateX = originalImage.width * elements[id].moveRates['x'];
+  const rateY = originalImage.height * elements[id].moveRates['y'];
+
+  const finalCanvas = document.createElement('canvas');
+  finalCanvas.width = originalImage.width;
+  finalCanvas.height = originalImage.height;
+
+  const finalCtx = finalCanvas.getContext('2d');
+
+  finalCtx.drawImage(originalImage._element, rateX, rateY, originalImage.width - rateX, originalImage.height - rateY, 0, 0, originalImage.width - rateX, originalImage.height - rateY);
+  finalCtx.drawImage(originalImage._element, 0, rateY, rateX, originalImage.height - rateY, originalImage.width - rateX, 0, rateX, originalImage.height - rateY);
+  finalCtx.drawImage(originalImage._element, rateX, 0, originalImage.width - rateX, rateY, 0, originalImage.height - rateY, originalImage.width - rateX, rateY);
+  finalCtx.drawImage(originalImage._element, 0, 0, rateX, rateY, originalImage.width - rateX, originalImage.height - rateY, rateX, rateY);
+
   const expandedImage = new fabric.Image(finalCanvas, {
-    left: image.left,
-    top: image.top,
-    scaleX: image.scaleX,
-    scaleY: image.scaleY,
+    left: originalImage.left,
+    top: originalImage.top,
+    scaleX: originalImage.scaleX,
+    scaleY: originalImage.scaleY,
+    hasControls: false,
+    hasBorders: false,
+    lockScalingFlip: true,
+    transparentCorners: false,
+    noScaleCache: false,
+    strokeWidth: 0,
     lockMovementX: true,
     lockMovementY: true,
   });
@@ -189,11 +196,11 @@ function moveImage(axis, canvas, originalImage, reportRate, id) {
 
   canvas.add(expandedImage);
   elements[id].lastModified[axis] = expandedImage;
-  elements[id].latestCombinedImage = expandedImage
+  elements[id].latestCombinedImage = expandedImage;
   canvas.requestRenderAll();
 }
 
-function updateImagePattern(canvas, originalImage, scale, id) {
+function updateImagePattern(canvas, originalImage, scale, id, axis, reportRate) {
   const image = elements[id].latestCombinedImage || originalImage;
 
   canvas.clear();
@@ -211,25 +218,61 @@ function updateImagePattern(canvas, originalImage, scale, id) {
 
   const imagesArray = [];
 
-  for (let row = -Math.floor(rows / 2); row <= Math.floor(rows / 2); row++) {
-    for (let col = -Math.floor(cols / 2); col <= Math.floor(cols / 2); col++) {
+  let offset = 0;
+
+  const loop1 = axis === 'y' ? cols : rows;
+  const loop2 = axis === 'y' ? rows : cols;
+
+  for (let i = -Math.floor(loop1 / 2); i <= Math.floor(loop1 / 2); i++) {
+    for (let j = -Math.floor(loop2 / 2); j <= Math.floor(loop2 / 2); j++) {
       const clonedImg = fabric.util.object.clone(image);
 
+      let col = axis === 'y' ? i : j;
+      let row = axis === 'y' ? j : i;
+
+      let left = (canvas.width - scaledWidth) / 2 + col * scaledWidth;
+      let top = (canvas.height - scaledHeight) / 2 + row * scaledHeight;
+
+      if (axis === 'x') {
+        left += offset % scaledWidth;
+      } else {
+        top += offset % scaledHeight;
+      }
+
       clonedImg.set({
-        left: (canvas.width - scaledWidth) / 2 + col * scaledWidth,
-        top: (canvas.height - scaledHeight) / 2 + row * scaledHeight,
+        left: left,
+        top: top,
         scaleX: scale,
         scaleY: scale,
+        hasControls: false,
+        hasBorders: false,
+        lockScalingFlip: true,
+        transparentCorners: false,
+        noScaleCache: false,
+        strokeWidth: 0,
+        lockMovementX: true,
+        lockMovementY: true,
+        patternGroup: true,
+        objectCaching: false,
       });
 
       imagesArray.push(clonedImg);
     }
+
+    offset += (axis === 'x' ? scaledWidth : scaledHeight) * reportRate;
   }
 
   const group = new fabric.Group(imagesArray, {
+    hasControls: false,
+    hasBorders: false,
+    lockScalingFlip: true,
+    transparentCorners: false,
+    noScaleCache: false,
+    strokeWidth: 0,
     lockMovementX: true,
     lockMovementY: true,
     patternGroup: true,
+    objectCaching: false,
   });
 
   canvas.add(group);
