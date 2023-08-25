@@ -111,7 +111,9 @@ event_handlers["image-cropper"] = function (id, command, event_name) {
           noScaleCache: false,
           strokeWidth: 0,
           lockMovementX: true,
-          lockMovementY: true
+          lockMovementY: true,
+          patternGroup: true,
+          objectCaching: false,
         });
 
         elements[id].canvas.add(img);
@@ -124,6 +126,7 @@ event_handlers["image-cropper"] = function (id, command, event_name) {
       let scale = command.value.scale;
       const canvas = elements[id].canvas;
       if (repeater_checkbox && repeater_checkbox.checked) {
+        canvas.clear();
         const imageToUse = elements[id].latestCombinedImage || elements[id].image;
         canvas.getObjects().forEach(function (obj) {
           if (obj.patternGroup) {
@@ -148,6 +151,7 @@ event_handlers["image-cropper"] = function (id, command, event_name) {
 };
 
 function moveImage(axis, canvas, originalImage, reportRate, id) {
+  canvas.clear();
   elements[id].moveRates[axis] = reportRate;
 
   if (axis === 'x' && elements[id].moveRates['y'] !== 1) {
@@ -240,6 +244,15 @@ function updateImagePattern(canvas, originalImage, scale, id, axis, reportRate) 
         top: top,
         scaleX: scale,
         scaleY: scale,
+        hasControls: false,
+        hasBorders: false,
+        lockScalingFlip: true,
+        transparentCorners: false,
+        noScaleCache: false,
+        strokeWidth: 0,
+        lockMovementX: true,
+        lockMovementY: true,
+        patternGroup: true,
         objectCaching: false,
       });
 
