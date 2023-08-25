@@ -41,8 +41,7 @@ class Session:
 
     def init(self,sid):
         self.sid = sid
-        self.ui = self.ui_temp()              
-        self.flush_message_queue()
+        self.ui = self.ui_temp()
     
     def send(self,id, value, event_name):    
         Session.socket.emit("from_server", {'id': id, 'value': value, 'event_name': event_name}, room=self.sid)
