@@ -6,3 +6,7 @@ class TextArea(Element):
         self.tag = "textarea"
         self.attrs["placeholder"] = placeholder
         self.classes.append("textarea")
+
+    def disabled(self):
+        self.attrs["disabled"] = "disabled"
+        return self

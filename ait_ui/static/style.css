@@ -80,6 +80,11 @@ input {
     border-radius: 6px;
 }
 
+input:disabled, textarea:disabled, .disabled{
+  opacity: 0.3;
+  cursor: default;
+}
+
 input:focus {
     box-shadow: inset 0 0 6px #88a;
 }
@@ -200,6 +205,11 @@ input[type="range"]::-moz-range-thumb {
   border-radius: 50%;
   background: white;
   cursor: pointer;
+}
+
+input[type="range"]:disabled {
+  opacity: 0.3;
+  cursor: default;
 }
 
 

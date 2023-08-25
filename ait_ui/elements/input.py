@@ -15,3 +15,7 @@ class Input(Element):
 
         if required:
             self.attrs["required"] = "required"
+
+    def disabled(self):
+        self.attrs["disabled"] = "disabled"
+        return self

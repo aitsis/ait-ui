@@ -13,3 +13,7 @@ class Slider(Element):
         self.attrs["min"] = self.min
         self.attrs["max"] = self.max
         self.attrs["step"] = self.step
+
+    def disabled(self):
+        self.attrs["disabled"] = "disabled"
+        return self
