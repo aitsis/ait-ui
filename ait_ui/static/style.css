@@ -277,7 +277,7 @@ button:disabled{
     height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: var(--secondary);
+    background-color: var(--background);
     color: white;
 
 }
