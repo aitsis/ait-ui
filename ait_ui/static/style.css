@@ -177,7 +177,7 @@ input[type="range"] {
   width: 150px;
   height: 6px;
   border-radius: 6px;
-  background: var(--background-secondary);
+  background: var(--ait);
   outline: none;
   opacity: 0.7;
   -webkit-transition: .2s;
