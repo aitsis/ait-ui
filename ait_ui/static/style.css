@@ -239,7 +239,7 @@ button{
     align-items: center;
     cursor: pointer;
     transition: all 300ms ease-out;
-	font-family: var(--ait-text-font);
+	  font-family: var(--ait-text-font);
     font-size: 15px;
     min-width: 100px;
 }
@@ -294,10 +294,10 @@ button:disabled{
 
 .header{
     width: 100%;
-	height: 10vh;
+	  height: 10vh;
     min-height: 70px;
     background-color: var(--background-secondary);
-    border-bottom: 1px solid gray;
+    border-bottom: 0px solid gray;
     display: flex;
     justify-content: center;
     align-items: center;
