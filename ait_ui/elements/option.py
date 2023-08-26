@@ -7,3 +7,11 @@ class Option(Element):
         self.value_name = "innerHTML"
         self.has_content = True
         self.attrs["value"] = value
+
+    def selected(self):
+        self.attrs["selected"] = "true"
+        return self
+    
+    def disabled(self):
+        self.attrs["disabled"] = "disabled"
+        return self

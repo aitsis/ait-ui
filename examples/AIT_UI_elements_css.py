@@ -102,7 +102,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 # ----------------------------------------
 from ait_ui import app
-from ait_ui.elements import ImageViewer, Row, Slider, Radio, Label, Image, Header, Text, Htext, Input, TextArea, Select, Option, Button, Col
+from ait_ui.elements import ImageViewer, Row, Slider, Radio, Label, Image, Header, Text, Htext, Input, TextArea, Select, Option, Button, Col, Check
 from ait_ui.core import Component, Elm, Element
 
 class CSS_TEST(Component):
@@ -113,8 +113,8 @@ class CSS_TEST(Component):
                 Image(value="https://ai.ait.com.tr/wp-content/uploads/AIT_AI_LOGO.png").cls("logo")
             
             Htext(tag="1", value="Örnek Girdi Alanları")
-            with Row():   
-                with Col().style("align-items","flex-start").style("width","fit-content"):
+            with Row().style("gap","10px"):   
+                with Col().style("align-items","flex-start").style("width","fit-content").style("gap","10px"):
                     Label(usefor="text-input", value="Metin Girdi Alanı:")
                     Input(type="text", id="text-input", value="Umut Savaşım")
 
@@ -127,11 +127,17 @@ class CSS_TEST(Component):
                     Label(usefor="number-input", value="Sayı Girdi Alanı:")
                     Input(type="number", id="number-input", value="15")
 
-                    Label(usefor="bos_input", value="Boş test:")
+                    Label(usefor="bos-input", value="Boş test:")
                     Input(type="text", id="bos-input", value="", placeholder="Yazınız..")
+
+                    Label(usefor="disable-input", value="Disable Test (CSS Test):").cls("disabled")
+                    Input(type="text", id="disable-input", value="", placeholder="Bu alan erişilemez..").disabled()
 
                     Label(usefor="date-input", value="Tarih Girdi Alanı:")
                     Input(type="date", id="date-input")
+
+                    Label(usefor="textarea-input", value="Disable Metin Alanı:")
+                    TextArea(id="textarea-input", value="Umut Savaşım Çeliker Umut Savaşım Çeliker Umut Savaşım Çeliker Umut Savaşım Çeliker").style("width","250px").disabled()
 
                 with Col().style("width","fit-content").style("gap","10px"):
                     with Row().style("justify-content","flex-start"):
@@ -139,12 +145,8 @@ class CSS_TEST(Component):
                         Input(type="checkbox", id="checkbox-input")
 
                     with Row().style("justify-content","flex-start"):
-                        Label(usefor="checkbox-input1", value="Onay Kutusu:")
-                        Input(type="checkbox", id="checkbox-input1")
-
-                    with Row().style("justify-content","flex-start"):
-                        Label(usefor="checkbox-input2", value="Onay Kutusu:")
-                        Input(type="checkbox", id="checkbox-input2")
+                        Label(usefor="checkbox-input2", value="Pasif Kutu:")
+                        Input(type="checkbox", id="checkbox-input2").disabled()
 
                     with Col().style("align-items","flex-start"):
                         with Row().style("justify-content","flex-start"):
@@ -156,36 +158,28 @@ class CSS_TEST(Component):
                             Radio(name="radyolar", id="radio-input-2", value="option2")
 
                         with Row().style("justify-content","flex-start"):
-                            Label(usefor="radio-input-3", value="Radyo Düğmesi 3:")
-                            Radio(name="radyolar", id="radio-input-3", value="option3")
+                            Label(usefor="radio-input-3", value="Seçili Ama Seçilemez:")
+                            Radio(name="radyolar", id="radio-input-3", value="option3").checked().disabled()
 
                         with Row().style("justify-content","flex-start"):
                             Label(usefor="radio-input-4", value="Radyo Düğmesi 4:")
                             Radio(name="radyolar", id="radio-input-4", value="option4")
 
+                        with Row().style("justify-content","flex-start"):
+                            Label(usefor="radio-input-5", value="Radyo Düğmesi 5:")
+                            Radio(name="radyolar", id="radio-input-5", value="option5")
+
                     Label(usefor="textarea-input", value="Metin Alanı:")
                     TextArea(id="textarea-input", value="Umut Savaşım Çeliker Umut Savaşım Çeliker Umut Savaşım Çeliker Umut Savaşım Çeliker").style("width","250px")
 
                     Label(usefor="select-input", value="Açılır Liste:")
-                    with Select(id="select-input"):
+                    with Select(id="select-input").style("width","250px"):
                         Option(value="option1", text="Seçenek 1")
-                        Option(value="option2", text="Seçenek 2")
-                        Option(value="option3", text="Seçenek 3")
-                        Option(value="option1", text="Seçenek 1")
-                        Option(value="option2", text="Seçenek 2")
-                        Option(value="option3", text="Seçenek 3")
-                        Option(value="option1", text="Seçenek 1")
-                        Option(value="option2", text="Seçenek 2")
-                        Option(value="option3", text="Seçenek 3")
-                        Option(value="option1", text="Seçenek 1")
-                        Option(value="option2", text="Seçenek 2")
-                        Option(value="option3", text="Seçenek 3")
-                        Option(value="option1", text="Seçenek 1")
-                        Option(value="option2", text="Seçenek 2")
-                        Option(value="option3", text="Seçenek 3")
+                        Option(value="option2", text="Seçilemeyen").disabled()
+                        Option(value="option3", text="Seçili Gelen").selected()
 
                     Label(usefor="file-input", value="Dosya Yükleme Alanı:")
-                    Input(type="file", id="file-input")
+                    Input(type="file", id="file-input").style("width","250px")
 
                     Label(usefor="color-input", value="Renk Seçim Alanı:")
                     Input(type="color", id="color-input")
@@ -193,12 +187,15 @@ class CSS_TEST(Component):
                     Label(usefor="slider", value="Standart Slider:")
                     Slider(id="slider", min="1", max="100", value="25")
 
+                    Label(usefor="slider", value="Disabled Slider:")
+                    Slider(id="slider", min="1", max="100", value="25").disabled()
+
                     with Row().style("gap","10px;").style("justify-content","flex-start"):
                         Button(value="Umut Savaşım Çeliker")
                         Button(value="Resetle").cls("btn-reset")
                         Button(value="Uyarı").cls("btn-warning")
                         Button(value="Silinecek").cls("btn-red")
-                        Button(value="Disable",disabled=True)
+                        Button(value="Disable", disabled=True)
 
 if __name__ == '__main__':
     app.run(ui=CSS_TEST, debug=True)
