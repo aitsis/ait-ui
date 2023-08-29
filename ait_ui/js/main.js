@@ -49,12 +49,8 @@ socket.on('from_server', function (data) {
     }
 
     if (data.event_name === "scroll-to") {
-        try {
-            console.log("scroll-to", data.value.x, data.value.y);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } catch (error) {
-            console.log(error);
-        }
+        const el = document.getElementById(data.id);
+        el.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
         return;
     }
 
