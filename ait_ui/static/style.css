@@ -494,3 +494,7 @@ button:disabled {
 }
 
 /* BURADAN Yukarısı TAB */
+
+.opacity-30 {
+  opacity:0.3 ;
+}
