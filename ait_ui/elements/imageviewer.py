@@ -17,7 +17,8 @@ class ImageViewer(Element):
     @value.setter
     def value(self, value):
         self._value = value
-        self.send(self.id, self.value_to_command("open",{"type": "image","url": self._value}), "seadragon")
+        if self._value is not None:
+            self.send(self.id, self.value_to_command("open",{"type": "image","url": self._value}), "seadragon")
 
     def render(self):
         if self.id is not None:

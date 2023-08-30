@@ -15,7 +15,8 @@ class ImageCropper(Element):
     @value.setter
     def value(self, value):
         self._value = value
-        self.send(self.id, self.value_to_command("loadImage", self._value), "image-cropper")
+        if self._value is not None:
+            self.send(self.id, self.value_to_command("loadImage", self._value), "image-cropper")
 
     def render(self):
         if self.id is not None:
