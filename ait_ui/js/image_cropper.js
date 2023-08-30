@@ -26,28 +26,6 @@ event_handlers["init-image-cropper"] = function (id, value, event_name) {
     lastAxisMoved: 'x'
   };
 
-
-  if (typeof repeater_checkbox !== 'undefined' && repeater_checkbox) {
-    repeater_checkbox.addEventListener('change', function () {
-      if (this.checked) {
-        const imageToUse = elements[id].latestCombinedImage || elements[id].image;
-        let axisToUse = elements[id].lastAxisMoved;
-        let scaleToUse = elements[id].moveRates[axisToUse];
-        updateImagePattern(canvas, elements[id].image, currentScale, id, axisToUse, scaleToUse);
-        canvas.remove(elements[id].image);
-      } else {
-        const imageToUse = elements[id].latestCombinedImage || elements[id].image;
-        canvas.getObjects().forEach(function (obj) {
-          if (obj.patternGroup) {
-            canvas.remove(obj);
-          }
-        });
-        canvas.add(imageToUse);
-        canvas.requestRenderAll();
-      }
-    });
-  }
-
   canvas.on('mouse:wheel', function (opt) {
     var delta = opt.e.deltaY;
     var proposedScale = currentScale;
@@ -85,6 +63,7 @@ event_handlers["init-image-cropper"] = function (id, value, event_name) {
     opt.e.preventDefault();
     opt.e.stopPropagation();
   });
+  event_handlers["repeater-checkbox"](id, value, event_name);
 };
 
 function resetImage(id) {
@@ -156,6 +135,52 @@ event_handlers["image-cropper"] = function (id, command, event_name) {
       console.log("Unknown command: " + command.action);
   }
 };
+
+event_handlers["repeater-checkbox"] = (id, value, event_name) => {
+  if (typeof repeater_checkbox !== 'undefined' && repeater_checkbox) {
+    repeater_checkbox.addEventListener('change', function () {
+      console.log("repeater_checkbox.checked", this.checked);
+      if (this.checked) {
+        console.log(elements);
+        console.log(input_canvas_id, output_canvas_id);
+        let inputCanvas = elements[input_canvas_id].canvas;
+        const imageToUseInput = elements[input_canvas_id].latestCombinedImage || elements[input_canvas_id].image;
+
+        let outputCanvas = elements[output_canvas_id].canvas;
+        const imageToUseOutput = elements[output_canvas_id].latestCombinedImage || elements[output_canvas_id].image;
+
+        let axisToUse = elements[output_canvas_id].lastAxisMoved;
+        let scaleToUse = elements[output_canvas_id].moveRates[axisToUse];
+
+        updateImagePattern(inputCanvas, imageToUseInput, currentScale, input_canvas_id, axisToUse, scaleToUse);
+        updateImagePattern(outputCanvas, imageToUseOutput, currentScale, output_canvas_id, axisToUse, scaleToUse);
+        canvas.remove(elements[input_canvas_id].image);
+        canvas.remove(elements[output_canvas_id].image);
+      } else {
+        let inputCanvas = elements[input_canvas_id].canvas;
+        const imageToUseInput = elements[input_canvas_id].latestCombinedImage || elements[input_canvas_id].image;
+
+        let outputCanvas = elements[output_canvas_id].canvas;
+        const imageToUseOutput = elements[output_canvas_id].latestCombinedImage || elements[output_canvas_id].image;
+
+        inputCanvas.getObjects().forEach(function (obj) {
+          if (obj.patternGroup) {
+            inputCanvas.remove(obj);
+          }
+        });
+        outputCanvas.getObjects().forEach(function (obj) {
+          if (obj.patternGroup) {
+            outputCanvas.remove(obj);
+          }
+        });
+        inputCanvas.add(imageToUseInput);
+        outputCanvas.add(imageToUseOutput);
+        inputCanvas.requestRenderAll();
+        outputCanvas.requestRenderAll();
+      }
+    });
+  }
+}
 
 function moveImage(axis, canvas, originalImage, reportRate, id) {
   canvas.clear();
