@@ -559,3 +559,6 @@ button:disabled{
     padding: 0;
 }
 /* BURADAN YUKARISI KONTROL EDİLİP SİLİNECEK */
+.opacity-30 {
+    opacity: 0.3;
+}

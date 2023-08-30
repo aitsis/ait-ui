@@ -26,7 +26,8 @@ event_handlers["init-image-cropper"] = function (id, value, event_name) {
     lastAxisMoved: 'x'
   };
 
-  if (repeater_checkbox) {
+
+  if (typeof repeater_checkbox !== 'undefined' && repeater_checkbox) {
     repeater_checkbox.addEventListener('change', function () {
       if (this.checked) {
         const imageToUse = elements[id].latestCombinedImage || elements[id].image;
@@ -47,28 +48,13 @@ event_handlers["init-image-cropper"] = function (id, value, event_name) {
     });
   }
 
-  for (const id in elements) {
-    const canvas = elements[id].canvas;
+  canvas.on('mouse:wheel', function (opt) {
+    var delta = opt.e.deltaY;
+    var proposedScale = currentScale;
+    if (proposedScale >= MIN_SCALE && proposedScale <= MAX_SCALE) {
+      currentScale = proposedScale;
 
-    canvas.on('mouse:wheel', function (opt) {
-      var delta = opt.e.deltaY;
-      var proposedScale = currentScale;
-      if (proposedScale >= MIN_SCALE && proposedScale <= MAX_SCALE) {
-        currentScale = proposedScale;
-
-        if (repeater_checkbox && repeater_checkbox.checked) {
-          var zoom = canvas.getZoom();
-          zoom *= 0.999 ** delta;
-          if (zoom > MAX_SCALE) zoom = MAX_SCALE;
-          if (zoom < MIN_SCALE) zoom = MIN_SCALE;
-
-          var center = canvas.getCenter();
-          canvas.zoomToPoint({ x: center.left, y: center.top }, zoom);
-          let axisToUse = elements[id].lastAxisMoved;
-          let scaleToUse = elements[id].moveRates[axisToUse];
-          updateImagePattern(canvas, elements[id].image, currentScale, id, axisToUse, scaleToUse);
-          return;
-        }
+      if (typeof repeater_checkbox !== 'undefined' && repeater_checkbox && repeater_checkbox.checked) {
         var zoom = canvas.getZoom();
         zoom *= 0.999 ** delta;
         if (zoom > MAX_SCALE) zoom = MAX_SCALE;
@@ -76,12 +62,29 @@ event_handlers["init-image-cropper"] = function (id, value, event_name) {
 
         var center = canvas.getCenter();
         canvas.zoomToPoint({ x: center.left, y: center.top }, zoom);
-      }
+        let axisToUse = elements[id].lastAxisMoved;
+        let scaleToUse = elements[id].moveRates[axisToUse];
+        updateImagePattern(canvas, elements[id].image, currentScale, id, axisToUse, scaleToUse);
 
-      opt.e.preventDefault();
-      opt.e.stopPropagation();
-    });
-  }
+        if (typeof input_canvas_id !== 'undefined' && input_canvas_id) {
+          let inputCanvas = elements[input_canvas_id].canvas;
+          inputCanvas.zoomToPoint({ x: center.left, y: center.top }, zoom);
+          updateImagePattern(inputCanvas, elements[input_canvas_id].image, currentScale, input_canvas_id, axisToUse, scaleToUse);
+        }
+        return;
+      }
+      var zoom = canvas.getZoom();
+      zoom *= 0.999 ** delta;
+      if (zoom > MAX_SCALE) zoom = MAX_SCALE;
+      if (zoom < MIN_SCALE) zoom = MIN_SCALE;
+
+      var center = canvas.getCenter();
+      canvas.zoomToPoint({ x: center.left, y: center.top }, zoom);
+    }
+
+    opt.e.preventDefault();
+    opt.e.stopPropagation();
+  });
 };
 
 function resetImage(id) {
@@ -100,6 +103,7 @@ event_handlers["image-cropper"] = function (id, command, event_name) {
   switch (command.action) {
     case "loadImage":
       fabric.Image.fromURL(command.value, function (img) {
+        elements[id].canvas.clear();
         img.scale(ORIGINAL_SCALE);
         img.set({
           left: (elements[id].canvas.width - img.width * img.scaleX) / 2,
@@ -125,7 +129,7 @@ event_handlers["image-cropper"] = function (id, command, event_name) {
       elements[id].lastAxisMoved = axis;
       let scale = command.value.scale;
       const canvas = elements[id].canvas;
-      if (repeater_checkbox && repeater_checkbox.checked) {
+      if (typeof repeater_checkbox !== 'undefined' && repeater_checkbox && repeater_checkbox.checked) {
         canvas.clear();
         const imageToUse = elements[id].latestCombinedImage || elements[id].image;
         canvas.getObjects().forEach(function (obj) {
@@ -137,7 +141,7 @@ event_handlers["image-cropper"] = function (id, command, event_name) {
         canvas.requestRenderAll();
       }
       moveImage(axis, elements[id].canvas, elements[id].image, scale, id);
-      if (repeater_checkbox && repeater_checkbox.checked) {
+      if (typeof repeater_checkbox !== 'undefined' && repeater_checkbox && repeater_checkbox.checked) {
         const imageToUse = elements[id].latestCombinedImage || elements[id].image;
         elements[id].patternGroup = updateImagePattern(canvas, imageToUse, currentScale, id, axis, scale);
         canvas.remove(elements[id].image);
@@ -145,6 +149,9 @@ event_handlers["image-cropper"] = function (id, command, event_name) {
       break;
     case "resetImage":
       resetImage(id);
+    case "close":
+      elements[id].canvas.clear();
+      break;
     default:
       console.log("Unknown command: " + command.action);
   }
@@ -201,6 +208,8 @@ function moveImage(axis, canvas, originalImage, reportRate, id) {
 }
 
 function updateImagePattern(canvas, originalImage, scale, id, axis, reportRate) {
+  console.log(canvas, originalImage, scale, id, axis, reportRate);
+
   const image = elements[id].latestCombinedImage || originalImage;
 
   canvas.clear();
