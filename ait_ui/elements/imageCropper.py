@@ -24,6 +24,9 @@ class ImageCropper(Element):
             self.queue_for_send(self.id, self.value_to_command("loadImage", self._value), "image-cropper")
         return super().render()
 
+    def closeImage(self):
+        self.send(self.id, self.value_to_command("close", None), "image-cropper")
+
     def crop_and_move(self, axis, scale):
         self.send(self.id, self.value_to_command("cropAndMove", {"axis": axis, "scale": scale}), "image-cropper")
 

@@ -212,9 +212,10 @@ event_handlers["seadragon"] = function (id, command, event_name) {
             }
             break;
         case "set-scroll-zoom":
-            elements[id].viewer.gestureSettingsMouse.scrollToZoom = command.value;
-            elements[id].viewer.gestureSettingsMouse.clickToZoom = command.value;
-            elements[id].viewer.gestureSettingsMouse.dragToPan = command.value;
+            const cmd = command.value === "true";
+            elements[id].viewer.gestureSettingsMouse.scrollToZoom = cmd;
+            elements[id].viewer.gestureSettingsMouse.clickToZoom = cmd;
+            elements[id].viewer.gestureSettingsMouse.dragToPan = cmd;
             break;
         case "mouse-mode":
             elements[id].mouse_mode = command.value;
