@@ -101,6 +101,10 @@ event_handlers["image-cropper"] = function (id, command, event_name) {
 
         elements[id].canvas.add(img);
         elements[id].image = img;
+        elements[id].latestCombinedImage = img;
+        if (typeof repeater_checkbox !== 'undefined' && repeater_checkbox) {
+          repeater_checkbox.checked = false;
+        }
       });
       break;
     case "cropAndMove":
