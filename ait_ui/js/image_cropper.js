@@ -27,6 +27,7 @@ event_handlers["init-image-cropper"] = function (id, value, event_name) {
   };
 
   canvas.on('mouse:wheel', function (opt) {
+    opt.e.preventDefault();
     var delta = opt.e.deltaY;
     var proposedScale = currentScale;
     if (proposedScale >= MIN_SCALE && proposedScale <= MAX_SCALE) {
@@ -60,7 +61,6 @@ event_handlers["init-image-cropper"] = function (id, value, event_name) {
       canvas.zoomToPoint({ x: center.left, y: center.top }, zoom);
     }
 
-    opt.e.preventDefault();
     opt.e.stopPropagation();
   });
   event_handlers["repeater-checkbox"](id, value, event_name);
@@ -93,8 +93,8 @@ event_handlers["image-cropper"] = function (id, command, event_name) {
           transparentCorners: false,
           noScaleCache: false,
           strokeWidth: 0,
-          lockMovementX: true,
-          lockMovementY: true,
+          //lockMovementX: true,
+          //lockMovementY: true,
           patternGroup: true,
           objectCaching: false,
         });
@@ -221,8 +221,8 @@ function moveImage(axis, canvas, originalImage, reportRate, id) {
     transparentCorners: false,
     noScaleCache: false,
     strokeWidth: 0,
-    lockMovementX: true,
-    lockMovementY: true,
+    //lockMovementX: true,
+    //lockMovementY: true,
   });
 
   canvas.remove(originalImage);
@@ -288,8 +288,8 @@ function updateImagePattern(canvas, originalImage, scale, id, axis, reportRate) 
         transparentCorners: false,
         noScaleCache: false,
         strokeWidth: 0,
-        lockMovementX: true,
-        lockMovementY: true,
+        //lockMovementX: true,
+        //lockMovementY: true,
         patternGroup: true,
         objectCaching: false,
       });
@@ -307,8 +307,8 @@ function updateImagePattern(canvas, originalImage, scale, id, axis, reportRate) 
     transparentCorners: false,
     noScaleCache: false,
     strokeWidth: 0,
-    lockMovementX: true,
-    lockMovementY: true,
+    //lockMovementX: true,
+    //lockMovementY: true,
     patternGroup: true,
     objectCaching: false,
   });
