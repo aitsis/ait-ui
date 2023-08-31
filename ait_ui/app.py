@@ -2,7 +2,7 @@ import os
 import tempfile
 from http.cookies import SimpleCookie
 
-from flask import Flask, request, send_from_directory, abort
+from flask import Flask, request, send_from_directory, abort, jsonify
 from flask_cors import CORS
 from flask_socketio import SocketIO
 
@@ -74,12 +74,33 @@ def files(path):
 
 @flask_app.route('/file-upload', methods=['POST'])
 def upload():
-    id = request.form['id']
-    file = request.files['file']
-    uid = request.form['uid']
-    if file:
-        file.save(os.path.join(tempfile.gettempdir(), uid))
-    return 'File uploaded successfully.'    #TODO: add error handling here
+    try:
+        id = request.form.get('id')
+        uid = request.form.get('uid')
+        file = request.files.get('file')
+
+        if not id or not uid or not file:
+            return jsonify({'error': 'Missing parameters', 'status': 400}), 400
+
+        if file.filename == '':
+            return jsonify({'error': 'No selected file', 'status': 400}), 400
+
+        allowed_extensions = {'png', 'jpg', 'jpeg', 'tif', 'tiff'}
+        if '.' not in file.filename or file.filename.rsplit('.', 1)[1].lower() not in allowed_extensions:
+            return jsonify({'error': 'Invalid file extension', 'status': 400}), 400
+
+        max_file_size = 5 * 1024 * 1024
+        if len(file.read()) > max_file_size:
+            return jsonify({'error': 'File size exceeds the limit', 'status': 400}), 400
+        file.seek(0)
+
+        file_path = os.path.join(tempfile.gettempdir(), uid)
+        file.save(file_path)
+
+        return jsonify({'message': 'File uploaded successfully', 'status': 200}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e), 'status': 500}), 500
 
 @flask_app.route('/js/<path:path>')
 def js_files(path):

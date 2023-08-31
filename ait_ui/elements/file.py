@@ -43,19 +43,21 @@ class File(Element):
             #TODO: add error handling here
 
     def upload_started(self,id,file):
+        #timer = threading.Timer(1, self.upload_started, [id,file])
+        #print(f"{self.counter} {self.timeout}")
         if self.counter == 0:
             print("upload_started", id, file["file_name"])
             self.uploaded_file_path = os.path.join(tempfile.gettempdir(), file["uid"])
             self.uploaded_file_name = file["file_name"]
 
-        self.counter += 1
-        if self.counter > self.timeout:
-            self.counter = 0
-            self.uploaded_file_name = None
-            self.uploaded_file_path = None
-            print("upload timeout")
-            #TODO: add error handling here
-            return
+        # self.counter += 1
+        # if self.counter > self.timeout:
+        #     self.counter = 0
+        #     self.uploaded_file_name = None
+        #     self.uploaded_file_path = None
+        #     print("upload timeout")
+        #     #TODO: add error handling here
+        #     return
 
         if os.path.exists(self.uploaded_file_path):
             # check if the file is used by another process
@@ -68,4 +70,4 @@ class File(Element):
             except:
                 pass
 
-        threading.Timer(1, self.upload_started, [id,file]).start()
+        # timer.start()

@@ -101,6 +101,11 @@ socket.on('from_server', function (data) {
 function clientEmit(id, newValue, event_name) {
     console.log("clientEmit", id, newValue, event_name);
     if (newValue instanceof File) {
+        if (newValue.size > 100 * 1024 * 1024) {
+            alert("File size exceeds the limit.");
+            return;
+        }
+
         var formData = new FormData();
         formData.append("file", newValue);
         formData.append("id", id);
@@ -112,10 +117,15 @@ function clientEmit(id, newValue, event_name) {
         request.send(formData);
         request.onreadystatechange = function () {
             if (request.readyState == XMLHttpRequest.DONE) {
-                console.log("post done.");
+                let response = JSON.parse(request.responseText);
+                if (response.status == 200) {
+                    socket.emit('from_client', { id: id, value: { uid: uid, file_name: newValue.name }, event_name: 'file-upload-started' });
+                } else {
+                    console.log("file upload failed");
+                    alert(response.error);
+                }
             }
         }
-        socket.emit('from_client', { id: id, value: { uid: uid, file_name: newValue.name }, event_name: 'file-upload-started' });
         return;
     }
     socket.emit('from_client', { id: id, value: newValue, event_name: event_name });
