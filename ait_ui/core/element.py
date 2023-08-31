@@ -91,6 +91,12 @@ class Element:
     def toggle_class(self, class_name):
         self.send(self.id, class_name, "toggle-class")
 
+    def add_class(self, class_name):
+        self.send(self.id, class_name, "add-class")
+
+    def remove_class(self, class_name):
+        self.send(self.id, class_name, "remove-class")
+
     def set_attr(self, attr_name, attr_value):
         self.send(self.id, attr_value, "change-"+attr_name)
 

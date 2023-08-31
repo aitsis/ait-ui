@@ -76,6 +76,16 @@ socket.on('from_server', function (data) {
         el.classList.toggle(data.value);
         return;
     }
+    if (data.event_name == "add-class") {
+        let el = document.getElementById(data.id);
+        el.classList.add(data.value);
+        return;
+    }
+    if (data.event_name == "remove-class") {
+        let el = document.getElementById(data.id);
+        el.classList.remove(data.value);
+        return;
+    }
     if (data.event_name.startsWith("change-")) {
         if (data.event_name.split("-")[1] == "location") {
             window.location = data.value;
