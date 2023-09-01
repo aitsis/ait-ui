@@ -5,7 +5,7 @@ class ImageCropper(Element):
         super().__init__(id=id, value=value, autoBind=autoBind)
         self.tag = "canvas"
         self.value_name = None
-        self.add_script_source('fabric-js-lib', '<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>')
+        self.add_script_source('fabric-js-lib', '<script src="fabric.min.js"></script>')
         self.add_script_source('image-cropper', '<script src="js/image_cropper.js"></script>')
 
     @property

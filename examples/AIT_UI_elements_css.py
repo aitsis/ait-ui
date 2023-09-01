@@ -110,7 +110,7 @@ class CSS_TEST(Component):
         super().__init__(id=id, autoBind=autoBind, **kwargs)
         with self:
             with Header():
-                Image(value="https://ai.ait.com.tr/wp-content/uploads/AIT_AI_LOGO.png").cls("logo")
+                Image(value="AIT_AI_LOGO.png").cls("logo")
             
             Htext(tag="1", value="Örnek Girdi Alanları")
             with Row().style("gap","10px"):   
