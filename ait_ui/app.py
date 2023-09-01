@@ -89,7 +89,7 @@ def upload():
         if '.' not in file.filename or file.filename.rsplit('.', 1)[1].lower() not in allowed_extensions:
             return jsonify({'error': 'Invalid file extension', 'status': 400}), 400
 
-        max_file_size = 5 * 1024 * 1024
+        max_file_size = 100 * 1024 * 1024
         if len(file.read()) > max_file_size:
             return jsonify({'error': 'File size exceeds the limit', 'status': 400}), 400
         file.seek(0)
