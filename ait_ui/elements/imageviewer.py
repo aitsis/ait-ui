@@ -7,7 +7,7 @@ class ImageViewer(Element):
         self.value_name = None
         self.hasButtons = hasButtons
         self.ableToZoom = ableToZoom
-        self.add_script_source('seadragon-js-lib', '<script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/openseadragon.min.js"></script>')
+        self.add_script_source('seadragon-js-lib', '<script src="openseadragon.min.js"></script>')
         self.add_script_source('seadragon', '<script src="js/seadragon.js"></script>')
 
     @property

@@ -5,8 +5,8 @@ class Dropzone(Element):
         super().__init__(id=id, value=value, autoBind=autoBind)
         self.tag = "div"
         self.value_name = None
-        self.add_header_item('dropzone-css','<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" />')
-        self.add_script_source('dropzone-js-lib', '<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>')
+        self.add_header_item('dropzone-css','<link rel="stylesheet" href="dropzone.min.css" />')
+        self.add_script_source('dropzone-js-lib', '<script src="dropzone.min.js"></script>')
         self.add_script_source('dropzone', '<script src="js/dropzone.js"></script>')
 
     @property

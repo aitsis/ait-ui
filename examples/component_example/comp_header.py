@@ -16,6 +16,6 @@ class Comp_Imaginer_Header(Component):
         with self:
             with Header().cls("imaginer-header"):
                 with Element().cls("imaginer-header-left") :
-                    Image(value="https://ai.ait.com.tr/wp-content/uploads/AIT_AI_LOGO.png").style("width", "100px")            
+                    Image(value="AIT_AI_LOGO.png").style("width", "100px")            
                 with Element().cls("imaginer-header-right"):
                     Text(value = "Imaginer").style("margin", "0")
