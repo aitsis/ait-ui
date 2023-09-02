@@ -91,6 +91,12 @@ input {
   border-radius: 6px;
 }
 
+.disabled {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.3;
+}
+
 input:disabled,
 textarea:disabled,
 .disabled {
