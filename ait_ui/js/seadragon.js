@@ -189,7 +189,7 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
                 return;
             }
 
-          alert('Assest e kaydedildi. ŞAKA ŞAKA EDİLMEDİ.')
+            clientEmit(elements[id].viewer.element.id, "", 'savefile');
         }
 
     }
