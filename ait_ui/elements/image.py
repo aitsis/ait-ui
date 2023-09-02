@@ -7,3 +7,5 @@ class Image(Element):
         self.value_name = "src"
         self.has_content = False
         self.attrs["src"] = value if value else ""
+        self.attrs["alt"] = "image"
+        self.attrs["loading"] = "lazy"
