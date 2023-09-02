@@ -63,6 +63,19 @@ event_handlers["init-image-cropper"] = function (id, value, event_name) {
 
     opt.e.stopPropagation();
   });
+
+  canvas.on('mouse:move', function (opt) {
+    if (opt.e.buttons === 1 && !opt.e.ctrlKey) {
+      var delta = new fabric.Point(opt.e.movementX, opt.e.movementY);
+      canvas.relativePan(delta);
+
+      if (typeof input_canvas_id !== 'undefined' && input_canvas_id) {
+        let inputCanvas = elements[input_canvas_id].canvas;
+        inputCanvas.relativePan(delta);
+      }
+    }
+  });
+  
   event_handlers["repeater-checkbox"](id, value, event_name);
 };
 
