@@ -23,6 +23,75 @@ h6 {
   font-family: var(--ait-header-text), Tahoma, sans-serif;
 }
 
+/* Small screens (e.g., smartphones) */
+@media screen and (max-width: 480px) {
+  /* Styles for small screens here */
+}
+
+/* Small screens (e.g., smartphones in landscape mode) */
+@media screen and (max-width: 767px) {
+  .container {
+    width: 100% !important;
+  }
+  .wrapper {
+    width: 100% !important;
+  }
+  .row {
+    width: 100% !important;
+  }
+}
+
+/* Tablets in portrait mode */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .container {
+    width: 100% !important;
+  }
+  .wrapper {
+    width: 100% !important;
+  }
+  .row {
+    width: 100% !important;
+  }
+}
+
+/* Tablets in landscape mode */
+@media screen and (min-width: 1024px) and (max-width: 1279px) {
+  .container {
+    width: 100% !important;
+  }
+  .wrapper {
+    width: 100% !important;
+  }
+  .row {
+    width: 100% !important;
+  }
+}
+
+/* Standard screens */
+@media screen and (min-width: 1280px) and (max-width: 1919px) {
+  /* Styles for standard screens here */
+}
+
+/* Larger screens (e.g., 4K displays) */
+@media screen and (min-width: 1920px) {
+  /* Styles for larger screens here */
+}
+
+/* High-DPI (Retina) Screens */
+@media screen and (min-resolution: 192dpi) {
+  /* Styles for high-DPI screens here */
+}
+
+/* Print Styles */
+@media print {
+  /* Styles for print here */
+}
+
+/* Custom Breakpoints */
+@media screen and (min-width: 600px) and (max-width: 800px) {
+  /* Styles for custom breakpoint here */
+}
+
 /* Font size classes */
 .small {
   font-size: xx-small;
@@ -77,6 +146,20 @@ a:hover {
 ::-webkit-scrollbar-thumb:hover {
   background: white;
   border-radius: 12px;
+}
+
+.modal {
+  position: fixed;
+  z-index: 999999999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  background-color: var(--background-mask);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
