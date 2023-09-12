@@ -100,6 +100,8 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+ait_comp_path = "D:\\Work\\Dev\\Projects\\ait-ui-examples\\components"
+sys.path.append(ait_comp_path)
 # ----------------------------------------
 from ait_ui import app
 from ait_ui.elements import ImageViewer, Row, Slider, Radio, Label, Image, Header, Text, Htext, Input, TextArea, Select, Option, Button, Col, Check

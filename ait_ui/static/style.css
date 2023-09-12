@@ -349,19 +349,17 @@ button {
 }
 
 button:active {
-  scale: 0.9 !important;
+  scale: 0.95 !important;
   background-color: rgba(0, 0, 0, 0.9) !important;
 }
 
 button:hover {
-  background-color: var(--ait);
-  scale: 1.05;
+  background-color: var(--primary);
 }
 
 button:disabled {
+  pointer-events: none;
   opacity: 0.3;
-  scale: 1;
-  cursor: no-drop;
 }
 
 .btn-warning {
