@@ -115,28 +115,38 @@ function clientEmit(id, newValue, event_name) {
             alert("File size exceeds the limit.");
             return;
         }
-
-        var formData = new FormData();
-        formData.append("file", newValue);
-        formData.append("id", id);
-        uid = genRandomNumbers();
-        formData.append("uid", uid);
-        console.log("formData", formData);
-        var request = new XMLHttpRequest();
-        request.open("POST", "/file-upload");
-        request.send(formData);
-        request.onreadystatechange = function () {
-            if (request.readyState == XMLHttpRequest.DONE) {
-                let response = JSON.parse(request.responseText);
-                if (response.status == 200) {
-                    socket.emit('from_client', { id: id, value: { uid: uid, file_name: newValue.name }, event_name: 'file-upload-started' });
-                } else {
-                    console.log("file upload failed");
-                    alert(response.error);
-                }
-            }
-        }
-        return;
+        uploadFile(newValue, id);
     }
     socket.emit('from_client', { id: id, value: newValue, event_name: event_name });
+}
+
+function uploadFile(newValue, id) {
+  const uid = genRandomNumbers();
+  const formData = new FormData();
+  formData.append("file", newValue);
+  formData.append("id", id);
+  formData.append("uid", uid);
+
+  // FOR PYTHON USAGE MAKE CALL TO /file-upload
+  //url to call = /file-upload
+
+  return fetch("http://192.168.99.78:3000/api/images/", {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+  })
+  .then((response) => {
+      if (!response.ok) {
+          throw new Error("File upload failed");
+      }
+      return response.json();
+  })
+  .then((data) => {
+      console.log("Response Data:", data);
+      socket.emit('from_client', { id: id, value: { uid: uid, file_name: newValue.name, data }, event_name: 'file-upload-started' });
+  })
+  .catch((error) => {
+      console.error("Error:", error);
+      alert(error.message);
+  });
 }
