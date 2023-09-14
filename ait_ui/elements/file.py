@@ -26,6 +26,7 @@ class File(Element):
         self.events["file-upload-started"] = self.upload_started_API if useAPI else self.upload_started
         self.events["change"] = lambda id, value: print("change", id)
         self.on_upload_done = on_upload_done
+        self.useAPI = useAPI
 
     def get_client_handler_str(self, event_name):
         if event_name in ["input","change"]:
@@ -33,9 +34,9 @@ class File(Element):
         else:
             return super().get_client_handler_str(event_name)
 
-    def upload_done(self, uploaded_file_path, uploaded_file_name, isAPI=False, data=None):
+    def upload_done(self, uploaded_file_path, uploaded_file_name, data=None):
         try:
-            if not isAPI:
+            if not self.useAPI:
               if self.save_path:
                   save_file_path = os.path.join(self.save_path, uploaded_file_name)
                   shutil.move(uploaded_file_path, save_file_path)
@@ -68,7 +69,7 @@ class File(Element):
     def upload_started_API(self, id, data):
         print("upload_started", id, data["file_name"])
         try:
-            self.upload_done(None, None, isAPI=True, data=data)
+            self.upload_done(None, None, data=data)
             return
         except Exception as e:
             print(e)
