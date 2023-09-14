@@ -100,6 +100,9 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+ait_comp_path = "D:\\Work\\Dev\\Projects\\ait-ui-examples\\components"
+sys.path.append(ait_comp_path)
+from comp_alert import Comp_Alert
 # ----------------------------------------
 from ait_ui import app
 from ait_ui.elements import ImageViewer, Row, Slider, Radio, Label, Image, Header, Text, Htext, Input, TextArea, Select, Option, Button, Col, Check
@@ -109,6 +112,8 @@ class CSS_TEST(Component):
     def __init__(self, id=None, autoBind=True, **kwargs):
         super().__init__(id=id, autoBind=autoBind, **kwargs)
         with self:
+            # if need notifications add this class
+            self.alert = Comp_Alert(id="globalAlert")
             with Header():
                 Image(value="AIT_AI_LOGO.png").cls("logo")
             
@@ -191,11 +196,12 @@ class CSS_TEST(Component):
                     Slider(id="slider", min="1", max="100", value="25").disabled()
 
                     with Row().style("gap","10px;").style("justify-content","flex-start"):
-                        Button(value="Umut Savaşım Çeliker")
-                        Button(value="Resetle").cls("btn-reset")
-                        Button(value="Uyarı").cls("btn-warning")
-                        Button(value="Silinecek").cls("btn-red")
+                        Button(value="Umut Savaşım Çeliker").on("click", lambda id, value: self.alert.open("alert-success","Onay mesajı"))
+                        Button(value="Resetle").on("click", lambda id, value: self.alert.open("alert-normal","Normal mesaj")).cls("btn-reset")
+                        Button(value="Uyarı").on("click", lambda id, value: self.alert.open("alert-warning","Uyarı mesajı")).cls("btn-warning")
+                        Button(value="Silinecek").on("click", lambda id, value: self.alert.open("alert-danger","Tehlikeli mesaj")).cls("btn-red")
                         Button(value="Disable", disabled=True)
+                        Button(value="Bilgi").on("click", lambda id, value: self.alert.open("alert-info","Bilgilendirme mesajı")).cls("btn-info")
 
 if __name__ == '__main__':
     app.run(ui=CSS_TEST, debug=True)

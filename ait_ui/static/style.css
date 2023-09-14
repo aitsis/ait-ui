@@ -108,7 +108,7 @@ h6 {
 /* Font size classes */
 
 
-/* Color variables */
+/* AIT Style Variables */
 :root {
   --primary: #007a53;
   --secondary: gray;
@@ -119,12 +119,17 @@ h6 {
   --background: #282f3a;
   --background-secondary: #464c56;
   --background-mask: #00000050;
+  --success-color: var(--ait);
+  --warning-color: #b49300;
+  --danger-color: #d50000;
+  --info-color: #0071aa;
+  --normal-color: gray;
   --ait-text-font: "Exo 2";
   --ait-header-text: "Trebuchet MS";
 }
 
 a {
-  color: #00aaff;
+  color: var(--info-color);
   text-decoration: none;
 }
 
@@ -349,46 +354,36 @@ button {
 }
 
 button:active {
-  scale: 0.9 !important;
+  scale: 0.95 !important;
   background-color: rgba(0, 0, 0, 0.9) !important;
 }
 
 button:hover {
-  background-color: var(--ait);
-  scale: 1.05;
+  filter: brightness(150%);
 }
 
 button:disabled {
+  pointer-events: none;
   opacity: 0.3;
-  scale: 1;
-  cursor: no-drop;
 }
 
 .btn-warning {
-  background-color: #d6b000;
+  background-color: var(--warning-color);
   color: #fff;
-}
-
-.btn-warning:hover {
-  background-color: #ffd200;
 }
 
 .btn-red {
-  background-color: #d50000;
+  background-color: var(--danger-color);
   color: #fff;
-}
-
-.btn-red:hover {
-  background-color: #ff0000;
 }
 
 .btn-reset {
-  background-color: #858585;
+  background-color: var(--normal-color);
   color: #fff;
 }
 
-.btn-reset:hover {
-  background-color: #b2b2b2;
+.btn-info {
+  background-color: var(--info-color);    
 }
 
 .main {
