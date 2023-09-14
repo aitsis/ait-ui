@@ -9,7 +9,7 @@ class Session:
     #Static Variables
     socket = None
     current_session: 'Session' = None
-    BASE_URL = "http://192.168.99.78"
+    BASE_URL = "http://127.0.0.1"
     PORT = 3000
     
     def __init__(self, ui, base_url=None, port=None):                
@@ -19,6 +19,7 @@ class Session:
         self.root = None
         self.parent_stack = []
         self.cookies = None
+        self.user = {}
 
         Session.current_session = self
         self.ui_temp = ui
