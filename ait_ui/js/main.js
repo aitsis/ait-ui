@@ -127,6 +127,9 @@ function uploadFile(newValue, id) {
   formData.append("id", id);
   formData.append("uid", uid);
 
+  // FOR PYTHON USAGE MAKE CALL TO /file-upload
+  //url to call = /file-upload
+
   return fetch("http://192.168.99.78:3000/api/images/", {
       method: "POST",
       body: formData,
