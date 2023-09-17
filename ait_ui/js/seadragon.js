@@ -173,7 +173,8 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
 
             var link = document.createElement('a');
             link.href = imageUrl;
-            link.download = `${genRandomNumbers()}.jpg`;
+            const fileExtension = imageUrl.split('.').pop();
+            link.download = `${genRandomNumbers()}.${fileExtension}`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);

@@ -10,7 +10,7 @@ def Elm(id):
         return None
 
 class Element:
-    def __init__(self, id = None,value = None, autoBind = True):
+    def __init__(self, id = None,value = None, autoBind = True, **kwargs):
         self.tag = "div"
         self.id = id if id is not None else str(uuid.uuid4())[:8]
         self._value = value
