@@ -60,13 +60,6 @@ def handle_from_client(msg):
         msg['value'] = ''
     Session.current_session.clientHandler(msg['id'], msg['value'], msg['event_name'])
 
-@flask_app.route('/')
-def home():
-    session = Session(ui_root)
-    un_init_sessions.append(session)
-    session.clear_index()
-    ui_root()
-    return session.get_index()
 
 @flask_app.route('/<path:path>')
 def files(path):
@@ -135,8 +128,17 @@ def add_custom_route(route, ui_class, middlewares=[]):
 
 def run(ui = None, port=5000, debug=True):
     global ui_root
-    assert ui is not None, "ui is None"
-    ui_root = ui
+    if ui is not None:
+        ui_root = ui
+
+        @flask_app.route('/')
+        def home():
+            session = Session(ui_root)
+            un_init_sessions.append(session)
+            session.clear_index()
+            ui_root()
+            return session.get_index()
+
     flask_app.run(host="0.0.0.0",port=port, debug=debug)
 
 if __name__ == '__main__':
