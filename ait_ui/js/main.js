@@ -108,19 +108,19 @@ socket.on('from_server', function (data) {
     }
 });
 
-function clientEmit(id, newValue, event_name) {
+async function clientEmit(id, newValue, event_name) {
     console.log("clientEmit", id, newValue, event_name);
     if (newValue instanceof File) {
         if (newValue.size > 100 * 1024 * 1024) {
             alert("File size exceeds the limit.");
             return;
         }
-        uploadFile(newValue, id);
+        return await uploadFile(newValue, id);
     }
     socket.emit('from_client', { id: id, value: newValue, event_name: event_name });
 }
 
-function uploadFile(newValue, id) {
+async function uploadFile(newValue, id) {
   const uid = genRandomNumbers();
   const formData = new FormData();
   formData.append("file", newValue);
@@ -130,7 +130,7 @@ function uploadFile(newValue, id) {
   // FOR PYTHON USAGE MAKE CALL TO /file-upload
   //url to call = /file-upload
 
-  return fetch("http://192.168.99.78:3000/api/images/", {
+  return fetch("/api/images/", {
       method: "POST",
       body: formData,
       credentials: "include",
