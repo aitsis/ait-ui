@@ -1,6 +1,8 @@
 event_handlers["init-seadragon"] = function (id, value, event_name) {
     // create viewer
 
+    let tool=value.tool_id;
+    
     let hasButtons = JSON.parse(value.hasButtons);
     let viewerConfig = {
         id: id,
@@ -92,7 +94,7 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
 
     if (hasButtons) {
         let buttons = elements[id].viewer.buttonGroup.buttons;
-
+    
         var downloadButton = new OpenSeadragon.Button({
             tooltip: 'Download Image',
             onClick: downloadFullImage,
@@ -111,12 +113,40 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
             srcDown: 'ivb_save-hover.svg',
         });
 
+      
+        var sendToRepeater = new OpenSeadragon.Button({
+                tooltip: 'Send To Repeater',
+                onClick: sendToRepeaterFunction,
+                srcRest: 'send_to_repeater.svg',
+                srcGroup: 'send_to_repeater.svg',
+                srcHover: 'send_to_repeater-hover.svg',
+                srcDown: 'send_to_repeater-hover.svg',
+            });
+
+        var sendToUpscaler = new OpenSeadragon.Button({
+            tooltip: 'Send To Upscaler',
+            onClick: sendToUpscalerFunction,
+            srcRest: 'send_to_upscaler.svg',
+            srcGroup: 'send_to_upscaler.svg',
+            srcHover: 'send_to_upscaler-hover.svg',
+            srcDown: 'send_to_upscaler-hover.svg',
+        });
+
+        console.log("tool: "+tool);
 
         elements[id].viewer.buttonGroup.buttons.push(downloadButton);
         elements[id].viewer.buttonGroup.element.appendChild(downloadButton.element);
 
         elements[id].viewer.buttonGroup.buttons.push(saveButton);
         elements[id].viewer.buttonGroup.element.appendChild(saveButton.element);
+
+        if (tool=="imagine"||tool=="home"){
+        elements[id].viewer.buttonGroup.buttons.push(sendToRepeater);
+        elements[id].viewer.buttonGroup.element.appendChild(sendToRepeater.element);
+
+        elements[id].viewer.buttonGroup.buttons.push(sendToUpscaler);
+        elements[id].viewer.buttonGroup.element.appendChild(sendToUpscaler.element);
+        }
 
         const updateButton = (button, filename, extension, width = '25px', height = '25px', padding = '5px', backgroundColor = 'var(--background-mask)', backgroundBlur = 'blur(5px)') => {
             ['imgRest', 'imgGroup'].forEach(imgType => {
@@ -158,6 +188,12 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
                 case 'Save Image':
                     updateButton(button, 'ivb_save', 'svg');
                     break;
+                case 'Send To Repeater':
+                    updateButton(button, 'send_to_repeater', 'svg');
+                    break;
+                case 'Send To Upscaler':
+                    updateButton(button, 'send_to_upscaler', 'svg');
+                    break;
             }
         }
 
@@ -191,6 +227,14 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
             }
 
             clientEmit(elements[id].viewer.element.id, "", 'savefile');
+        }
+
+        function sendToRepeaterFunction() {
+            console.log("send to repeater");
+        }
+
+        function sendToUpscalerFunction() {
+            console.log("send to upscaler");
         }
 
     }
