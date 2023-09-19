@@ -1,13 +1,13 @@
 from ..core import Element
 
 class ImageViewer(Element):
-    def __init__(self, id=None, value=None, hasButtons=True, ableToZoom=False, autoBind=True, tool_id=None):
+    def __init__(self, id=None, value=None, hasButtons=True, ableToZoom=False, autoBind=True, tool=None):
         super().__init__(id=id, value=value, autoBind=autoBind)
         self.tag = "div"
         self.value_name = None
         self.hasButtons = hasButtons
         self.ableToZoom = ableToZoom
-        self.tool_id = tool_id
+        self.tool = tool
         
         self.add_script_source('seadragon-js-lib', '<script src="openseadragon.min.js"></script>')
         self.add_script_source('seadragon', '<script src="js/seadragon.js"></script>')
@@ -25,7 +25,7 @@ class ImageViewer(Element):
 
     def render(self):
         if self.id is not None:
-            self.queue_for_send(self.id, {"hasButtons": str(self.hasButtons).lower(), "tool_id":self.tool_id}, "init-seadragon")
+            self.queue_for_send(self.id, {"hasButtons": str(self.hasButtons).lower(), "tool":self.tool}, "init-seadragon")
         if self.value is not None:
             self.queue_for_send(self.id, self.value_to_command("open",{"type": "image","url": self._value}), "seadragon")
         if self.ableToZoom is not None:

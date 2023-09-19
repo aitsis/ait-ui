@@ -1,8 +1,6 @@
 event_handlers["init-seadragon"] = function (id, value, event_name) {
     // create viewer
 
-    let tool=value.tool_id;
-    
     let hasButtons = JSON.parse(value.hasButtons);
     let viewerConfig = {
         id: id,
@@ -132,20 +130,18 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
             srcDown: 'send_to_upscaler-hover.svg',
         });
 
-        console.log("tool: "+tool);
-
         elements[id].viewer.buttonGroup.buttons.push(downloadButton);
         elements[id].viewer.buttonGroup.element.appendChild(downloadButton.element);
 
         elements[id].viewer.buttonGroup.buttons.push(saveButton);
         elements[id].viewer.buttonGroup.element.appendChild(saveButton.element);
 
-        if (tool=="imagine"||tool=="home"){
-        elements[id].viewer.buttonGroup.buttons.push(sendToRepeater);
-        elements[id].viewer.buttonGroup.element.appendChild(sendToRepeater.element);
+        if (value.tool & value.tool == "imagine"){
+          elements[id].viewer.buttonGroup.buttons.push(sendToRepeater);
+          elements[id].viewer.buttonGroup.element.appendChild(sendToRepeater.element);
 
-        elements[id].viewer.buttonGroup.buttons.push(sendToUpscaler);
-        elements[id].viewer.buttonGroup.element.appendChild(sendToUpscaler.element);
+          elements[id].viewer.buttonGroup.buttons.push(sendToUpscaler);
+          elements[id].viewer.buttonGroup.element.appendChild(sendToUpscaler.element);
         }
 
         const updateButton = (button, filename, extension, width = '25px', height = '25px', padding = '5px', backgroundColor = 'var(--background-mask)', backgroundBlur = 'blur(5px)') => {
