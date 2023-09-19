@@ -229,6 +229,14 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
             clientEmit(elements[id].viewer.element.id, "", 'savefile');
         }
 
+        function sendToRepeaterFunction() {
+            console.log("send to repeater");
+        }
+
+        function sendToUpscalerFunction() {
+            console.log("send to upscaler");
+        }
+
     }
 }
 
