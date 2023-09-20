@@ -20,6 +20,7 @@ class Session:
         self.parent_stack = []
         self.cookies = None
         self.user = {}
+        self.clientPublicData = {}
 
         Session.current_session = self
         self.ui_temp = ui
@@ -42,7 +43,7 @@ class Session:
 
     def init(self,sid):
         self.sid = sid
-        self.ui = self.ui_temp()
+        self.ui = self.ui_temp(clientPublicData=self.clientPublicData)
     
     def send(self,id, value, event_name):    
         Session.socket.emit("from_server", {'id': id, 'value': value, 'event_name': event_name}, room=self.sid)
