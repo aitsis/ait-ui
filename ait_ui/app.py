@@ -29,6 +29,7 @@ un_init_sessions = []
 def handle_client_connect():
     print('Socket connected')
     cookie_str = request.args.get('cookie')
+    clientPublicData = request.args.get('clientPublicData')
 
     cookies_dict = {}
     if cookie_str and cookie_str.strip():
@@ -41,6 +42,7 @@ def handle_client_connect():
 
     session_instance = un_init_sessions.pop()
     session_instance.cookies = cookies_dict
+    session_instance.clientPublicData = clientPublicData
 
     sessions[request.sid] = session_instance
     session_instance.init(request.sid)

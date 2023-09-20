@@ -4,10 +4,18 @@ this.genRandomNumbers = () => {
     return Array.from(array).map(n => n.toString(16)).join('');
 };
 
+const clientPublicData = {
+    locale: navigator.language || navigator.userLanguage,
+    userAgent: navigator.userAgent,
+  };  
+
 let elements = {};
 let event_handlers = {};
 const socket = io.connect(`${window.location.origin}`, {
-    query: { cookie: document.cookie }
+    query: { 
+        cookie: document.cookie,
+        clientPublicData: JSON.stringify(clientPublicData)
+    }
 });
 
 socket.on('connect', function () {
