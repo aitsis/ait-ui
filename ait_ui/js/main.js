@@ -4,10 +4,45 @@ this.genRandomNumbers = () => {
     return Array.from(array).map(n => n.toString(16)).join('');
 };
 
+class AlertHandler {
+    constructor(element) {
+        this.element = document.getElementById(element);
+    }
+
+    removeClass(className) {
+        this.element.classList.remove(className);
+    }
+
+    addClass(className) {
+        this.element.classList.add(className);
+    }
+
+    close(id, value) {
+        this.removeClass('alert-start');
+        this.addClass('alert-end');
+    }
+
+    open(type, message) {
+        ['alert-normal', 'alert-success', 'alert-info', 'alert-warning', 'alert-danger']
+            .forEach(cls => this.removeClass(cls));
+
+        this.addClass(type);
+
+        this.element.textContent = message;
+
+        this.removeClass('alert-end');
+        this.removeClass('alert-start');
+
+        setTimeout(() => {
+            this.addClass('alert-start');
+        }, 100);
+    }
+}
+
 const COOKIE_ATTRIBUTES = ['maxAge', 'path', 'httponly', 'secure', 'samesite'];
 
 const clientPublicData = {
-    locale: navigator.language || navigator.userLanguage,
+    locale: localStorage.getItem('locale') ? localStorage.getItem('locale') : navigator.language || navigator.userLanguage,
     userAgent: navigator.userAgent,
 };
 
@@ -80,7 +115,11 @@ async function uploadFile(newValue, id) {
             socket.emit('from_client', { id: id, value: { uid: uid, file_name: newValue.name, data }, event_name: 'file-upload-started' });
         })
         .catch((error) => {
-            console.error("Error:", error);
+            if (window.comp_alert) {
+                console.log(window.comp_alert);
+                window.comp_alert.open('alert-danger', error.message);
+                return;
+            }
             alert(error.message);
         });
 }
