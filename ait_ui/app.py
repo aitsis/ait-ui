@@ -1,8 +1,9 @@
 import os
 import tempfile
+from functools import wraps
 from http.cookies import SimpleCookie
 
-from flask import Flask, request, send_from_directory, abort, jsonify
+from flask import Flask, request, send_from_directory, abort, jsonify, make_response
 from flask_cors import CORS
 from flask_socketio import SocketIO
 
@@ -111,8 +112,19 @@ def custom_files(route, file_path):
         abort(404)
     return send_from_directory(dir_routes[route], file_path)
 
+def nocache(view):
+    @wraps(view)
+    def no_cache(*args, **kwargs):
+        response = make_response(view(*args, **kwargs))
+        response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '-1'
+        return response
+    return no_cache
+
 def add_custom_route(route, ui_class, middlewares=[]):
     @flask_app.route(route, endpoint=f"{ui_class.__name__}")
+    @nocache
     def custom_route_func():
         session = Session(ui_class)
         un_init_sessions.append(session)
