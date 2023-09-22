@@ -3,6 +3,8 @@ import tempfile
 from functools import wraps
 from http.cookies import SimpleCookie
 
+from collections import deque
+
 from flask import Flask, request, send_from_directory, abort, jsonify, make_response
 from flask_cors import CORS
 from flask_socketio import SocketIO
@@ -24,7 +26,7 @@ ui_root = None
 
 dir_routes = {}
 sessions = {}
-un_init_sessions = []
+un_init_sessions = deque()
 
 @socketio.on('connect')
 def handle_client_connect():
@@ -41,13 +43,16 @@ def handle_client_connect():
         except Exception as e:
             print(f"Error parsing cookie: {e}")
 
-    session_instance = un_init_sessions.pop()
-    session_instance.cookies = cookies_dict
-    session_instance.clientPublicData = clientPublicData
+    if un_init_sessions:
+        session_instance = un_init_sessions.pop()
+        session_instance.cookies = cookies_dict
+        session_instance.clientPublicData = clientPublicData
 
-    sessions[request.sid] = session_instance
-    session_instance.init(request.sid)
-    session_instance.socket.emit('afterconnect', {'message': 'Connection initialized'}, room=request.sid)
+        sessions[request.sid] = session_instance
+        session_instance.init(request.sid)
+        session_instance.socket.emit('afterconnect', {'message': 'Connection initialized'}, room=request.sid)
+    else:
+        print("No session available")
 
 @socketio.on('disconnect')
 def handle_client_disconnect():
