@@ -78,7 +78,6 @@ const socketEvents = {
 };
 
 async function clientEmit(id, newValue, event_name) {
-    console.log("clientEmit", id, newValue, event_name);
     if (newValue instanceof File) {
         if (newValue.size > 100 * 1024 * 1024) {
             alert("File size exceeds the limit.");
@@ -116,7 +115,10 @@ async function uploadFile(newValue, id) {
         })
         .catch((error) => {
             if (window.comp_alert) {
-                console.log(window.comp_alert);
+                const inputElement = document.getElementById(id);
+                if (inputElement) {
+                    inputElement.value = '';
+                }
                 window.comp_alert.open('alert-danger', error.message);
                 return;
             }
