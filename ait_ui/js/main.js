@@ -4,15 +4,17 @@ this.genRandomNumbers = () => {
     return Array.from(array).map(n => n.toString(16)).join('');
 };
 
+localStorage.setItem("locale", localStorage.getItem("locale") ? localStorage.getItem("locale") : (navigator.language || navigator.userLanguage));
+
 const clientPublicData = {
-    locale: navigator.language || navigator.userLanguage,
+    locale: localStorage.getItem("locale"),
     userAgent: navigator.userAgent,
-  };  
+};
 
 let elements = {};
 let event_handlers = {};
 const socket = io.connect(`${window.location.origin}`, {
-    query: { 
+    query: {
         cookie: document.cookie,
         clientPublicData: JSON.stringify(clientPublicData)
     }
@@ -129,32 +131,32 @@ async function clientEmit(id, newValue, event_name) {
 }
 
 async function uploadFile(newValue, id) {
-  const uid = genRandomNumbers();
-  const formData = new FormData();
-  formData.append("file", newValue);
-  formData.append("id", id);
-  formData.append("uid", uid);
+    const uid = genRandomNumbers();
+    const formData = new FormData();
+    formData.append("file", newValue);
+    formData.append("id", id);
+    formData.append("uid", uid);
 
-  // FOR PYTHON USAGE MAKE CALL TO /file-upload
-  //url to call = /file-upload
+    // FOR PYTHON USAGE MAKE CALL TO /file-upload
+    //url to call = /file-upload
 
-  return fetch("/api/images/", {
-      method: "POST",
-      body: formData,
-      credentials: "include",
-  })
-  .then((response) => {
-      if (!response.ok) {
-          throw new Error("File upload failed");
-      }
-      return response.json();
-  })
-  .then((data) => {
-      console.log("Response Data:", data);
-      socket.emit('from_client', { id: id, value: { uid: uid, file_name: newValue.name, data }, event_name: 'file-upload-started' });
-  })
-  .catch((error) => {
-      console.error("Error:", error);
-      alert(error.message);
-  });
+    return fetch("/api/images/", {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("File upload failed");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log("Response Data:", data);
+            socket.emit('from_client', { id: id, value: { uid: uid, file_name: newValue.name, data }, event_name: 'file-upload-started' });
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+            alert(error.message);
+        });
 }
