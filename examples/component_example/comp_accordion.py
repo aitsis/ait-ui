@@ -13,8 +13,8 @@ class Comp_Accordion(Component):
         super().__init__(id=id, autoBind=autoBind, **kwargs)
         
         self.isAccordionOpen = True
-        self.add_header_item("accordion-css", """<style>
-                                    .accordion-element-wrapper{
+        self.add_css("accordion-css", """
+                     .accordion-element-wrapper{
                                         width: 100%;
                                         height: 100px;
                                         box-sizing: border-box;
@@ -83,7 +83,7 @@ class Comp_Accordion(Component):
                                         justify-content: center;
                                         align-items: center;
                                         transition: all 300ms ease-out;
-                                    }</style>""")
+                                    }""")
         
         self.cls("accordion").style("height","5%").style("background-color","#434952").style("border","1px solid gray").style("border-radius","3px").style("padding","10px").style("box-sizing","border-box")
 

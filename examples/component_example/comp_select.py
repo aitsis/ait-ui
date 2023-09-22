@@ -14,7 +14,7 @@ class Comp_Select(Component):
         self.options = options
         self.callback = callback
         self.value = self.options[0]
-        self.add_header_item("select-css", """<style>                                  
+        self.add_css("select-css", """                                  
                         .select-wrapper{
                             border: 1px solid gray;
                             border-radius: 3px;
@@ -53,8 +53,7 @@ class Comp_Select(Component):
                             align-items: center;
                             cursor: pointer;
                             transition: all 300ms ease-out;
-                        }
-        </style>""")
+                        }""")
 
         with self:
             with Select().cls("select").on("change", self.on_change):
