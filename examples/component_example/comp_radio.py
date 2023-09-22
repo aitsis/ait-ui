@@ -16,8 +16,8 @@ class Comp_Radio(Component):
         super().__init__(id=id, autoBind=autoBind, **kwargs)
         self.callback = callback
         self.value_list=value_list
-        self.add_header_item("radio-css", """
-                                  <style>.btn input[type="radio"] {
+        self.add_css("radio-css", """
+                             .btn input[type="radio"] {
                                     display: block;
                                     position: absolute;
                                     top: 0;
@@ -35,7 +35,7 @@ class Comp_Radio(Component):
 
                                 .lbl{
                                     font-size: 0.9em !important;
-                                }</style>""")
+                                }""")
         
         self.cls("container").style("flex-direction","row").style("height","50px").style("justify-content","space-around")
         with self:

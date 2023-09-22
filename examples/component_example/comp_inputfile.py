@@ -12,7 +12,7 @@ class Comp_InputFile(Component):
     def __init__(self, id=None , save_path=None, autoBind=True, **kwargs):
         super().__init__(id=id, autoBind=autoBind, **kwargs)
         self.save_path = save_path
-        self.add_header_item("inputfile-css", """<style>                                  
+        self.add_css("inputfile-css", """                                 
                             .dropzone-label{
                                 width: 100%;
                                 height: 100%;
@@ -26,8 +26,7 @@ class Comp_InputFile(Component):
                                 font-size: 20px;
                                 font-weight: 600;
                                 cursor: pointer;
-                            }
-                            </style>""")
+                            }""")
         
         self.style("height","100%").style("width","100%")
         with self:

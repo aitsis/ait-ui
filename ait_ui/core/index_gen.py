@@ -1,6 +1,7 @@
 #index_gen.py
 # create index.html from index.html.template
 #
+import re
 
 default_header_items = {
     'meta-charset': '<meta charset="UTF-8">',
@@ -27,6 +28,15 @@ scripts = {}
 
 styles = {}
 
+def minify_js(js_code):
+    return re.sub(r'\s+', ' ', re.sub(r'//.*?\n|/\*.*?\*/', '', js_code)).strip()
+
+def minify_css(css_code):
+    return re.sub(r'\s+', ' ', re.sub(r'/\*.*?\*/', '', css_code)).strip()
+
+def minify_html(html_code):
+    return re.sub(r'>\s+<', '><', re.sub(r'<!--.*?-->', '', html_code)).strip()
+
 def get_index():
     global header_items
     global scripts
@@ -42,13 +52,13 @@ def get_index():
     # STYLES ----------------------------------------------------------------
     for key in styles:
         index_str += '<style>'
-        index_str += styles[key]
+        index_str += minify_css(styles[key])
         index_str += '</style>'
     index_str += '</head>'
     # BODY ------------------------------------------------------------------
     index_str += '<body>'
     index_str += "<div id='myapp'></div>"
-    # SCRIPTS ----------------------------------------------------------------
+    # SCRIPTS ---------------------------------------------------------------
     for key in default_script_sources:
         index_str += default_script_sources[key]
     for key in script_sources:
@@ -56,11 +66,15 @@ def get_index():
     if len(scripts) > 0:
         index_str += '<script>'
         for id in scripts:
-            index_str += scripts[id]
+            index_str += minify_js(scripts[id])
         index_str += '</script>'
     index_str += '</body>'
     index_str += '</html>'
+    index_str = minify_html(index_str)
     return index_str
+
+def get_minified_index():
+    return minify_html(get_index())
 
 def clear_index():
     global header_items
