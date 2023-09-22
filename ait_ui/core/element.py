@@ -82,7 +82,7 @@ class Element:
             return
         scripts[id] = script
 
-    def add_style(self, id, style):
+    def add_css(self, id, style):
         if id in styles:
             return
         styles[id] = style
