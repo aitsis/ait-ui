@@ -12,7 +12,7 @@ from flask_socketio import SocketIO
 from .core import Session, clear_index
 
 flask_app = Flask(__name__)
-socketio = SocketIO(flask_app)
+socketio = SocketIO(flask_app, cors_allowed_origins="*")
 
 # Global definitions for convenience
 server = flask_app
@@ -65,6 +65,9 @@ def handle_client_disconnect():
 
 @socketio.on('from_client')
 def handle_from_client(msg):
+    if request.sid not in sessions:
+        #print("No session available")
+        return
     Session.current_session = sessions[request.sid]
     if msg.get('value') is None:
         msg['value'] = ''
