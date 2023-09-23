@@ -103,7 +103,7 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
         });
 
         var saveButton = new OpenSeadragon.Button({
-            tooltip: 'Save Image',
+            tooltip: 'Add to Favorites',
             onClick: saveFullImage,
             srcRest: 'ivb_save.svg',
             srcGroup: 'ivb_save.svg',
