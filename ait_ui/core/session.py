@@ -49,7 +49,7 @@ class Session:
         Session.socket.emit("from_server", {'id': id, 'value': value, 'event_name': event_name}, room=self.sid)
 
     def queue_for_send(self, id, value, event_name):
-        print("queueing for send", id, value, event_name)
+        #print("queueing for send", id, value, event_name)
         self.message_queue.append({'id': id, 'value': value, 'event_name': event_name})
 
     def flush_message_queue(self):
@@ -69,7 +69,7 @@ class Session:
     def clientHandler(self, id, value,event_name):
         if id == "myapp":
             if value == "init":                
-                print("Client Initialized")
+                #print("Client Initialized")
                 self.send("myapp", self.ui.render(), "init-content")
                 self.flush_message_queue()
         else:
@@ -94,11 +94,11 @@ class Session:
             response = requests.request(method, full_url, data=data, cookies=cookies_to_use, headers=headers, json=json)
             return response
         except MissingSchema as e:
-            print("API Call Error: Missing or incorrect URL schema", e)
+            #print("API Call Error: Missing or incorrect URL schema", e)
             return None
         except InvalidURL as e:
-            print("API Call Error: Invalid URL", e)
+            #print("API Call Error: Invalid URL", e)
             return None
         except Exception as e:
-            print("API Call Error: ", e)
+            #print("API Call Error: ", e)
             return None
