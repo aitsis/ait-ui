@@ -5,35 +5,28 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 #----------------------------------------
-
 from ait_ui import app
-from ait_ui.elements import Element, Elm
-from ait_ui.elements import Text
-from ait_ui.elements import Image
-from ait_ui.elements import ImageViewer
-from ait_ui.elements import Canvas
-from ait_ui.elements import Row
-from ait_ui.elements import Button
-from ait_ui.elements import Slider
-from ait_ui.elements import Radio
-from ait_ui.elements import Label
+from ait_ui.elements import ImageViewer, Row, Slider, Radio, Label
+from ait_ui.core import Component, Elm
 
-def on_mouse_mode(id, value):
-    print(f"Mouse mode {id} changed to: " + str(value))
-    Elm("view1").mouse_mode(id)
+class MyApp(Component):
+    def __init__(self, id=None, autoBind=True, **kwargs):
+        super().__init__(id=id, autoBind=autoBind, **kwargs)
+        with self:
+            with Row(id="toolbar") as toolbar:
+                toolbar.style("border", "1px solid black").style("width", "100%").style("height", "50px")
+                Label(usefor= "pan-mode", value="Pan Mode:")
+                Radio(id="pan-mode", name = "mouse-mode").on("change", self.on_mouse_mode)
+                Label(usefor= "draw-mode", value="Draw Mode:")
+                Radio(id="draw-mode", value = "Draw", name = "mouse-mode").on("change", self.on_mouse_mode)
+                Label(usefor= "brush-size", value="Brush Size:")
+                Slider(id="brush-size", min=1, max=100, value=10).on("change", lambda id, value: Elm("view1").brush_size(value))
+            self.view1 = ImageViewer(id="view1", value='https://www.w3schools.com/w3css/img_lights.jpg').style("border", "1px solid black")
+            self.view1.style("width", "100%").style("height", "800px")
 
-with Element() as main:
-    with Row(id="toolbar") as toolbar:
-        toolbar.style("border", "1px solid black").style("width", "100%").style("height", "50px")
-        Label(usefor= "pan-mode", value="Pan Mode:")
-        Radio(id="pan-mode", name = "mouse-mode").on("change", on_mouse_mode)
-        Label(usefor= "draw-mode", value="Draw Mode:")
-        Radio(id="draw-mode", value = "Draw", name = "mouse-mode").on("change", on_mouse_mode)
-        Label(usefor= "brush-size", value="Brush Size:")
-        Slider(id="brush-size", min=1, max=100, value=10).on("change", lambda id, value: Elm("view1").brush_size(value))
-    view1 = ImageViewer(id="view1").style("border", "1px solid black")
-    view1.style("width", "100%").style("height", "800px")
-    view1.value = "https://www.w3schools.com/w3css/img_lights.jpg"
+    def on_mouse_mode(self, id, value):
+        print(f"Mouse mode {id} changed to: " + str(value))
+        self.view1.mouse_mode(id)
 
 if __name__ == '__main__':
-    app.run(ui = main, debug=True)
+    app.run(ui = MyApp, debug=True)

@@ -1,9 +1,12 @@
-from .element import Element
+from ..core import Element
+
 class TextArea(Element):
-    def __init__(self,id = None, value = None , placeholder = None):
-        super().__init__(id, value)
+    def __init__(self,id = None, value = None , placeholder = None, autoBind=True):
+        super().__init__(id=id, value=value, autoBind=autoBind)
         self.tag = "textarea"
-        self.value_name = "innerHTML"
-        self.has_content = True
         self.attrs["placeholder"] = placeholder
-        
+        self.classes.append("textarea")
+
+    def disabled(self):
+        self.attrs["disabled"] = "disabled"
+        return self

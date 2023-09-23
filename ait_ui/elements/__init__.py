@@ -3,11 +3,11 @@ from .canvas import Canvas
 from .check import Check
 from .col import Col
 from .dropzone import Dropzone
-from .element import Element, Elm
 from .file import File
 from .form import Form
 from .image import Image
 from .imageviewer import ImageViewer
+from .imageCropper import ImageCropper
 from .input import Input
 from .label import Label
 from .link import Link
@@ -23,7 +23,11 @@ from .video import Video
 from .orderedlist import OrderedList
 from .unorderedlist import UnorderedList
 from .listitem import ListItem
-
+from .source import Source
+from .picture import Picture
+from .page import Page
+from .htext import Htext
+from .modal import Modal
 
 __all__ = [
     "Button",
@@ -31,11 +35,11 @@ __all__ = [
     "Check",
     "Col",
     "Dropzone",
-    "Element",
     "File",
     "Form",
     "Image",
     "ImageViewer",
+    "ImageCropper",
     "Input",
     "Label",
     "Link",
@@ -50,5 +54,10 @@ __all__ = [
     "Video",
     "OrderedList",
     "UnorderedList",
-    "Listitem"
+    "ListItem",
+    "Source",
+    "Picture",
+    "Page",
+    "Htext",
+    "Modal"
 ]
