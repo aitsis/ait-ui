@@ -6,11 +6,12 @@ import re
 default_header_items = {
     'meta-charset': '<meta charset="UTF-8">',
     'meta-viewport': '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
-    'title': '<title>Document</title>',
+    #'title': '<title>Document</title>',
     'socket.io': '<script src="js/socket.io.min.js"></script>',
     # 'font-awesome-css': '<link rel="stylesheet" href="font-awesome_6.4.2.all.min.css" referrerpolicy="no-referrer">',
     # 'font-awesome-js': '<script src="/js/font-awesome_6.4.2.all.min.js" referrerpolicy="no-referrer"></script>',
-    'style': '<link rel="stylesheet" href="style.css">'
+    'style': '<link rel="stylesheet" href="style.css">',
+    'favicon': '<link rel="icon" href="https://ai.ait.com.tr/wp-content/uploads/cropped-favicon_aiait-32x32.png" sizes="32x32" />'
 }
 
 global header_items
