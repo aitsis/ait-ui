@@ -1,7 +1,7 @@
 from ..core import Element
 
 class Image(Element):
-    def __init__(self, id=None, value=None, autoBind=True, lazy=True):
+    def __init__(self, id=None, value=None, autoBind=True, lazy=False):
         super().__init__(id=id, value=value, autoBind=autoBind)
         self.tag = "img"
         self.value_name = "src"
