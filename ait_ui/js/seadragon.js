@@ -103,7 +103,7 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
         });
 
         var saveButton = new OpenSeadragon.Button({
-            tooltip: 'Save Image',
+            tooltip: 'Add to Favorites',
             onClick: saveFullImage,
             srcRest: 'ivb_save.svg',
             srcGroup: 'ivb_save.svg',
@@ -112,23 +112,23 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
         });
 
       
-        var sendToRepeater = new OpenSeadragon.Button({
-                tooltip: 'Send To Repeater',
-                onClick: sendToRepeaterFunction,
-                srcRest: 'send_to_repeater.svg',
-                srcGroup: 'send_to_repeater.svg',
-                srcHover: 'send_to_repeater-hover.svg',
-                srcDown: 'send_to_repeater-hover.svg',
-            });
+        // var sendToRepeater = new OpenSeadragon.Button({
+        //         tooltip: 'Send To Repeater',
+        //         onClick: sendToRepeaterFunction,
+        //         srcRest: 'send_to_repeater.svg',
+        //         srcGroup: 'send_to_repeater.svg',
+        //         srcHover: 'send_to_repeater-hover.svg',
+        //         srcDown: 'send_to_repeater-hover.svg',
+        //     });
 
-        var sendToUpscaler = new OpenSeadragon.Button({
-            tooltip: 'Send To Upscaler',
-            onClick: sendToUpscalerFunction,
-            srcRest: 'send_to_upscaler.svg',
-            srcGroup: 'send_to_upscaler.svg',
-            srcHover: 'send_to_upscaler-hover.svg',
-            srcDown: 'send_to_upscaler-hover.svg',
-        });
+        // var sendToUpscaler = new OpenSeadragon.Button({
+        //     tooltip: 'Send To Upscaler',
+        //     onClick: sendToUpscalerFunction,
+        //     srcRest: 'send_to_upscaler.svg',
+        //     srcGroup: 'send_to_upscaler.svg',
+        //     srcHover: 'send_to_upscaler-hover.svg',
+        //     srcDown: 'send_to_upscaler-hover.svg',
+        // });
 
         elements[id].viewer.buttonGroup.buttons.push(downloadButton);
         elements[id].viewer.buttonGroup.element.appendChild(downloadButton.element);
@@ -136,13 +136,13 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
         elements[id].viewer.buttonGroup.buttons.push(saveButton);
         elements[id].viewer.buttonGroup.element.appendChild(saveButton.element);
 
-        if (value.tool & value.tool == "imagine"){
-          elements[id].viewer.buttonGroup.buttons.push(sendToRepeater);
-          elements[id].viewer.buttonGroup.element.appendChild(sendToRepeater.element);
+        // if (value.tool & value.tool == "imagine"){
+        //   elements[id].viewer.buttonGroup.buttons.push(sendToRepeater);
+        //   elements[id].viewer.buttonGroup.element.appendChild(sendToRepeater.element);
 
-          elements[id].viewer.buttonGroup.buttons.push(sendToUpscaler);
-          elements[id].viewer.buttonGroup.element.appendChild(sendToUpscaler.element);
-        }
+        //   elements[id].viewer.buttonGroup.buttons.push(sendToUpscaler);
+        //   elements[id].viewer.buttonGroup.element.appendChild(sendToUpscaler.element);
+        // }
 
         const updateButton = (button, filename, extension, width = '25px', height = '25px', padding = '5px', backgroundColor = 'var(--background-mask)', backgroundBlur = 'blur(5px)') => {
             ['imgRest', 'imgGroup'].forEach(imgType => {
