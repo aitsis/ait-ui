@@ -36,7 +36,7 @@ class ImageViewer(Element):
         self.send(self.id, self.value_to_command("close", None), "seadragon")
 
     def mouse_mode(self, value):
-        print("(python)mouse_mode: " + value)
+        #print("(python)mouse_mode: " + value)
         self.send(self.id, self.value_to_command("mouse-mode", value), "seadragon")
 
     def setScrollZoom(self, value):

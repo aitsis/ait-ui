@@ -45,10 +45,11 @@ class File(Element):
                 if data:
                     self.on_upload_done(data)
         except Exception as e:
-            print(e)
+            #print(e)
+            pass
 
     def upload_started(self, id, file):
-        print("upload_started", id, file["file_name"])
+        #print("upload_started", id, file["file_name"])
         uploaded_file_path = os.path.join(tempfile.gettempdir(), file["uid"])
         uploaded_file_name = file["file_name"]
 
@@ -60,17 +61,17 @@ class File(Element):
                 self.upload_done(uploaded_file_path, uploaded_file_name)
                 return
             except Exception as e:
-                print(e)
+                #print(e)
                 pass
         else:
-            print("File not found:", uploaded_file_path)
+            #print("File not found:", uploaded_file_path)
             return -1
 
     def upload_started_API(self, id, data):
-        print("upload_started", id, data["file_name"])
+        #print("upload_started", id, data["file_name"])
         try:
             self.upload_done(None, None, data=data)
             return
         except Exception as e:
-            print(e)
+            #print(e)
             pass

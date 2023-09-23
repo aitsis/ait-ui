@@ -30,7 +30,7 @@ un_init_sessions = deque()
 
 @socketio.on('connect')
 def handle_client_connect():
-    print('Socket connected')
+    #print('Socket connected')
     cookie_str = request.args.get('cookie')
     clientPublicData = request.args.get('clientPublicData')
 
@@ -41,7 +41,8 @@ def handle_client_connect():
             parsed_cookie.load(cookie_str)
             cookies_dict = {key: morsel.value for key, morsel in parsed_cookie.items()}
         except Exception as e:
-            print(f"Error parsing cookie: {e}")
+            #print(f"Error parsing cookie: {e}")
+            pass
 
     if un_init_sessions:
         session_instance = un_init_sessions.pop()
@@ -52,14 +53,15 @@ def handle_client_connect():
         session_instance.init(request.sid)
         session_instance.socket.emit('afterconnect', {'message': 'Connection initialized'}, room=request.sid)
     else:
-        print("No session available")
+        #print("No session available")
+        pass
 
 @socketio.on('disconnect')
 def handle_client_disconnect():
-    print('Socket disconnected')
+    #print('Socket disconnected')
     if request.sid in sessions:
         del sessions[request.sid]
-        print("Session deleted")
+        #print("Session deleted")
 
 @socketio.on('from_client')
 def handle_from_client(msg):
@@ -108,7 +110,7 @@ def js_files(path):
     return send_from_directory("js", path)
 
 def add_static_route(route, osDirPath):
-    print("Route Path:",osDirPath)  # Ensure the path is correct
+    #print("Route Path:",osDirPath)  # Ensure the path is correct
     dir_routes[route] = osDirPath
 
 @flask_app.route('/<route>/<path:file_path>')
