@@ -1,6 +1,5 @@
 event_handlers["init-canvas"] = function (id, value, event_name) {
     canvas = document.getElementById(id);
-    console.log("init-canvas", id, value, event_name, canvas);
     elements[id] = { canvas: canvas, ctx: canvas.getContext('2d') };
 }
 

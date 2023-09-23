@@ -53,7 +53,6 @@ let event_handlers = {};
 // Utility functions
 const setCookie = (data) => {
     const value = data.value;
-    console.log('Setting cookie', value);
     let cookieString = `${value.name}=${value.value};`;
     COOKIE_ATTRIBUTES.forEach(attr => {
         if (value[attr]) {
@@ -162,21 +161,16 @@ const handleDynamicEvents = (data) => {
 
 const initSocketEvents = () => {
     const socket = getSocketInstance();
-    console.log('Connecting to server...\nSOCKET:', socket);
 
     if (socket.disconnected) {
-        console.log('Reconnecting...');
         socket.connect();
     }
 
     socket.on('connect', () => {
-        console.log('Server connected');
         clientEmit('myapp', 'init', 'init');
     });
 
-    socket.on('disconnect', () => {
-        console.log('Server disconnected');
-    });
+    socket.on('disconnect', () => {});
 
     socket.on('from_server', (data) => {
         if (socketEvents[data.event_name]) {
@@ -185,14 +179,10 @@ const initSocketEvents = () => {
             return;
         } else if (event_handlers[data.event_name]) {
             event_handlers[data.event_name](data.id, data.value, data.event_name);
-        } else {
-            console.log(`No handler for ${data.event_name}`);
         }
     });
 
-    socket.on('error', (error) => {
-        console.log('Error in socket', error);
-    });
+    socket.on('error', (error) => {});
 };
 
 
@@ -207,11 +197,9 @@ const detachSocketEvents = () => {
 };
 
 window.addEventListener('load', () => {
-    console.log('Page loaded');
     initSocketEvents();
 });
 
 window.addEventListener('beforeunload', () => {
-    console.log('Page unloaded');
     detachSocketEvents();
 });

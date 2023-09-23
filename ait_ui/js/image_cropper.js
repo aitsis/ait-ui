@@ -149,17 +149,14 @@ event_handlers["image-cropper"] = function (id, command, event_name) {
       elements[id].canvas.clear();
       break;
     default:
-      console.log("Unknown command: " + command.action);
+      break;
   }
 };
 
 event_handlers["repeater-checkbox"] = (id, value, event_name) => {
   if (typeof repeater_checkbox !== 'undefined' && repeater_checkbox) {
     repeater_checkbox.addEventListener('change', function () {
-      console.log("repeater_checkbox.checked", this.checked);
       if (this.checked) {
-        console.log(elements);
-        console.log(input_canvas_id, output_canvas_id);
         let inputCanvas = elements[input_canvas_id].canvas;
         const imageToUseInput = elements[input_canvas_id].latestCombinedImage || elements[input_canvas_id].image;
 
@@ -171,8 +168,8 @@ event_handlers["repeater-checkbox"] = (id, value, event_name) => {
 
         updateImagePattern(inputCanvas, imageToUseInput, currentScale, input_canvas_id, axisToUse, scaleToUse);
         updateImagePattern(outputCanvas, imageToUseOutput, currentScale, output_canvas_id, axisToUse, scaleToUse);
-        canvas.remove(elements[input_canvas_id].image);
-        canvas.remove(elements[output_canvas_id].image);
+        inputCanvas.remove(elements[input_canvas_id].image);
+        outputCanvas.remove(elements[output_canvas_id].image);
       } else {
         let inputCanvas = elements[input_canvas_id].canvas;
         const imageToUseInput = elements[input_canvas_id].latestCombinedImage || elements[input_canvas_id].image;
@@ -250,85 +247,87 @@ function moveImage(axis, canvas, originalImage, reportRate, id) {
 }
 
 function updateImagePattern(canvas, originalImage, scale, id, axis, reportRate) {
-  console.log(canvas, originalImage, scale, id, axis, reportRate);
 
   const image = elements[id].latestCombinedImage || originalImage;
 
   canvas.clear();
 
-  const scaledWidth = image.width * scale;
-  const scaledHeight = image.height * scale;
+  if(image){
 
-  const zoomFactor = canvas.getZoom();
-
-  const visibleWidth = canvas.width / zoomFactor;
-  const visibleHeight = canvas.height / zoomFactor;
-
-  const cols = Math.ceil(visibleWidth / scaledWidth) * 2 + 1;
-  const rows = Math.ceil(visibleHeight / scaledHeight) * 2 + 1;
-
-  const imagesArray = [];
-
-  let offset = 0;
-
-  const loop1 = axis === 'y' ? cols : rows;
-  const loop2 = axis === 'y' ? rows : cols;
-
-  for (let i = -Math.floor(loop1 / 2); i <= Math.floor(loop1 / 2); i++) {
-    for (let j = -Math.floor(loop2 / 2); j <= Math.floor(loop2 / 2); j++) {
-      const clonedImg = fabric.util.object.clone(image);
-
-      let col = axis === 'y' ? i : j;
-      let row = axis === 'y' ? j : i;
-
-      let left = (canvas.width - scaledWidth) / 2 + col * scaledWidth;
-      let top = (canvas.height - scaledHeight) / 2 + row * scaledHeight;
-
-      if (axis === 'x') {
-        left += offset % scaledWidth;
-      } else {
-        top += offset % scaledHeight;
+    const scaledWidth = image.width * scale;
+    const scaledHeight = image.height * scale;
+  
+    const zoomFactor = canvas.getZoom();
+  
+    const visibleWidth = canvas.width / zoomFactor;
+    const visibleHeight = canvas.height / zoomFactor;
+  
+    const cols = Math.ceil(visibleWidth / scaledWidth) * 2 + 1;
+    const rows = Math.ceil(visibleHeight / scaledHeight) * 2 + 1;
+  
+    const imagesArray = [];
+  
+    let offset = 0;
+  
+    const loop1 = axis === 'y' ? cols : rows;
+    const loop2 = axis === 'y' ? rows : cols;
+  
+    for (let i = -Math.floor(loop1 / 2); i <= Math.floor(loop1 / 2); i++) {
+      for (let j = -Math.floor(loop2 / 2); j <= Math.floor(loop2 / 2); j++) {
+        const clonedImg = fabric.util.object.clone(image);
+  
+        let col = axis === 'y' ? i : j;
+        let row = axis === 'y' ? j : i;
+  
+        let left = (canvas.width - scaledWidth) / 2 + col * scaledWidth;
+        let top = (canvas.height - scaledHeight) / 2 + row * scaledHeight;
+  
+        if (axis === 'x') {
+          left += offset % scaledWidth;
+        } else {
+          top += offset % scaledHeight;
+        }
+  
+        clonedImg.set({
+          left: left,
+          top: top,
+          scaleX: scale,
+          scaleY: scale,
+          hasControls: false,
+          hasBorders: false,
+          lockScalingFlip: true,
+          transparentCorners: false,
+          noScaleCache: false,
+          strokeWidth: 0,
+          //lockMovementX: true,
+          //lockMovementY: true,
+          patternGroup: true,
+          objectCaching: false,
+        });
+  
+        imagesArray.push(clonedImg);
       }
-
-      clonedImg.set({
-        left: left,
-        top: top,
-        scaleX: scale,
-        scaleY: scale,
-        hasControls: false,
-        hasBorders: false,
-        lockScalingFlip: true,
-        transparentCorners: false,
-        noScaleCache: false,
-        strokeWidth: 0,
-        //lockMovementX: true,
-        //lockMovementY: true,
-        patternGroup: true,
-        objectCaching: false,
-      });
-
-      imagesArray.push(clonedImg);
+  
+      offset += (axis === 'x' ? scaledWidth : scaledHeight) * reportRate;
     }
-
-    offset += (axis === 'x' ? scaledWidth : scaledHeight) * reportRate;
+  
+    const group = new fabric.Group(imagesArray, {
+      hasControls: false,
+      hasBorders: false,
+      lockScalingFlip: true,
+      transparentCorners: false,
+      noScaleCache: false,
+      strokeWidth: 0,
+      //lockMovementX: true,
+      //lockMovementY: true,
+      patternGroup: true,
+      objectCaching: false,
+    });
+  
+    canvas.add(group);
+  
+    canvas.requestRenderAll();
+  
+    return group;
   }
-
-  const group = new fabric.Group(imagesArray, {
-    hasControls: false,
-    hasBorders: false,
-    lockScalingFlip: true,
-    transparentCorners: false,
-    noScaleCache: false,
-    strokeWidth: 0,
-    //lockMovementX: true,
-    //lockMovementY: true,
-    patternGroup: true,
-    objectCaching: false,
-  });
-
-  canvas.add(group);
-
-  canvas.requestRenderAll();
-
-  return group;
 }

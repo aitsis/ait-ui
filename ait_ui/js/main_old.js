@@ -19,12 +19,10 @@ const socket = io.connect(`${window.location.origin}`, {
 });
 
 socket.on('connect', function () {
-    console.log('Server connected');
     clientEmit("myapp", "init", "init");
 });
 
 socket.on('disconnect', function () {
-    console.log('Server disconnected');
     location.reload(true);
 });
 
@@ -68,7 +66,6 @@ socket.on('from_server', function (data) {
     }
 
     if (data.event_name === "focus") {
-        console.log("focus", data.id);
         let el = document.getElementById(data.id);
         el.focus();
         return;
@@ -111,13 +108,9 @@ socket.on('from_server', function (data) {
     if (data.event_name in event_handlers) {
         event_handlers[data.event_name](data.id, data.value, data.event_name);
     }
-    else {
-        console.log("no handler for", data.event_name);
-    }
 });
 
 async function clientEmit(id, newValue, event_name) {
-    console.log("clientEmit", id, newValue, event_name);
     if (newValue instanceof File) {
         if (newValue.size > 100 * 1024 * 1024) {
             alert("File size exceeds the limit.");
@@ -150,7 +143,6 @@ async function uploadFile(newValue, id) {
       return response.json();
   })
   .then((data) => {
-      console.log("Response Data:", data);
       socket.emit('from_client', { id: id, value: { uid: uid, file_name: newValue.name, data }, event_name: 'file-upload-started' });
   })
   .catch((error) => {

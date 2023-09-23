@@ -164,7 +164,6 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
         };
 
         for (let button of buttons) {
-            console.log(button.tooltip);
             switch (button.tooltip) {
                 case 'Zoom in':
                     updateButton(button, 'ivb_zoom-in', 'svg');
@@ -225,13 +224,9 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
             clientEmit(elements[id].viewer.element.id, "", 'savefile');
         }
 
-        function sendToRepeaterFunction() {
-            console.log("send to repeater");
-        }
+        function sendToRepeaterFunction() {}
 
-        function sendToUpscalerFunction() {
-            console.log("send to upscaler");
-        }
+        function sendToUpscalerFunction() {}
 
     }
 }
@@ -260,7 +255,6 @@ event_handlers["seadragon"] = function (id, command, event_name) {
             break;
         case "mouse-mode":
             elements[id].mouse_mode = command.value;
-            console.log("mouse-mode: " + elements[id].mouse_mode)
             if (elements[id].mouse_mode == "draw-mode") {
                 if (elements[id].pointer_element == null) {
                     elements[id].pointer_element = document.createElement("div");
@@ -279,8 +273,6 @@ event_handlers["seadragon"] = function (id, command, event_name) {
                     let tiledImage = elements[id].viewer.world.getItemAt(0); // Get the first image
                     let imageWidthInPixels = tiledImage.source.width;
                     let imageHeightInPixels = tiledImage.source.height;
-                    console.log("imageWidthInPixels: " + imageWidthInPixels);
-                    console.log("imageHeightInPixels: " + imageHeightInPixels);
                     elements[id].canvas = document.createElement("canvas");
                     elements[id].canvas.width = imageWidthInPixels;
                     elements[id].canvas.height = imageHeightInPixels;
@@ -297,6 +289,6 @@ event_handlers["seadragon"] = function (id, command, event_name) {
             }
             break;
         default:
-            console.log("Unknown command: " + command.action);
+            break;
     }
 }
