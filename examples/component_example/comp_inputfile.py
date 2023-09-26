@@ -6,14 +6,10 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from ait_ui.elements import Text, File, Label, Col, Image
-from ait_ui.core import Component
+from ait_ui.core import Component, index_gen
 
-class Comp_InputFile(Component):
-    def __init__(self, id=None , save_path=None, autoBind=True, **kwargs):
-        super().__init__(id=id, autoBind=autoBind, **kwargs)
-        self.save_path = save_path
-        self.add_css("inputfile-css", """                                 
-                            .dropzone-label{
+index_gen.add_css("inputfile-css", """
+                  .dropzone-label{
                                 width: 100%;
                                 height: 100%;
                                 border: 1px dashed gray;
@@ -27,7 +23,12 @@ class Comp_InputFile(Component):
                                 font-weight: 600;
                                 cursor: pointer;
                             }""")
-        
+
+class Comp_InputFile(Component):
+    def __init__(self, id=None , save_path=None, autoBind=True, **kwargs):
+        super().__init__(id=id, autoBind=autoBind, **kwargs)
+        self.save_path = save_path
+
         self.style("height","100%").style("width","100%")
         with self:
             self.file = File(save_path=self.save_path, on_upload_done=self.on_upload_done)

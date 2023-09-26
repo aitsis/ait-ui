@@ -1,13 +1,14 @@
-from ..core import Element
+from ..core import Element, index_gen
+
+index_gen.add_header_item('dropzone-css','<link rel="stylesheet" href="dropzone.min.css" />')
+index_gen.add_script_source('dropzone-js-lib', '<script src="dropzone.min.js"></script>')
+index_gen.add_script_source('dropzone', '<script src="js/dropzone.js"></script>')
 
 class Dropzone(Element):
     def __init__(self, id=None, value=None, autoBind=True):
         super().__init__(id=id, value=value, autoBind=autoBind)
         self.tag = "div"
         self.value_name = None
-        self.add_header_item('dropzone-css','<link rel="stylesheet" href="dropzone.min.css" />')
-        self.add_script_source('dropzone-js-lib', '<script src="dropzone.min.js"></script>')
-        self.add_script_source('dropzone', '<script src="js/dropzone.js"></script>')
 
     @property
     def value(self):

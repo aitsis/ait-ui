@@ -1,4 +1,7 @@
-from ..core import Element
+from ..core import Element, index_gen
+
+index_gen.add_script_source('seadragon-js-lib', '<script src="openseadragon.min.js"></script>')
+index_gen.add_script_source('seadragon', '<script src="js/seadragon.js"></script>')
 
 class ImageViewer(Element):
     def __init__(self, id=None, value=None, hasButtons=True, ableToZoom=False, autoBind=True, tool=None):
@@ -7,11 +10,7 @@ class ImageViewer(Element):
         self.value_name = None
         self.hasButtons = hasButtons
         self.ableToZoom = ableToZoom
-        self.tool = tool
-        
-        self.add_script_source('seadragon-js-lib', '<script src="openseadragon.min.js"></script>')
-        self.add_script_source('seadragon', '<script src="js/seadragon.js"></script>')
-       
+        self.tool = tool       
         
     @property
     def value(self):

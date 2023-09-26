@@ -1,12 +1,13 @@
-from ..core import Element
+from ..core import Element, index_gen
+
+index_gen.add_script_source('fabric-js-lib', '<script src="fabric.min.js"></script>')
+index_gen.add_script_source('image-cropper', '<script src="js/image_cropper.js"></script>')
 
 class ImageCropper(Element):
     def __init__(self, id=None, value=None, autoBind=True):
         super().__init__(id=id, value=value, autoBind=autoBind)
         self.tag = "canvas"
         self.value_name = None
-        self.add_script_source('fabric-js-lib', '<script src="fabric.min.js"></script>')
-        self.add_script_source('image-cropper', '<script src="js/image_cropper.js"></script>')
 
     @property
     def value(self):

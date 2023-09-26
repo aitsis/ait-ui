@@ -1,11 +1,12 @@
-from ..core import Element
+from ..core import Element, index_gen
+
+index_gen.add_script_source('canvas-js-lib', '<script src="js/canvas.js"></script>')
 
 class Canvas(Element):
     def __init__(self, id=None, value=None, autoBind=True):
         super().__init__(id=id, value=value, autoBind=autoBind)
         self.tag = "canvas"
         self.value_name = None
-        self.add_script_source("canvas","<script src='js/canvas.js'></script>")
 
     def render(self):
         if id is not None:

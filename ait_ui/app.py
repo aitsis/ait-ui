@@ -1,15 +1,14 @@
 import os
 import tempfile
 from functools import wraps
-from http.cookies import SimpleCookie
-
-from collections import deque
 
 from flask import Flask, request, send_from_directory, abort, jsonify, make_response
 from flask_cors import CORS
 from flask_socketio import SocketIO
 
-from .core import Session, clear_index
+from .core import Session, index_gen
+
+from uuid import uuid4
 
 flask_app = Flask(__name__)
 socketio = SocketIO(flask_app, cors_allowed_origins="*")
@@ -26,34 +25,20 @@ ui_root = None
 
 dir_routes = {}
 sessions = {}
-un_init_sessions = deque()
+un_init_sessions = {}
 
 @socketio.on('connect')
 def handle_client_connect():
     #print('Socket connected')
-    cookie_str = request.args.get('cookie')
+    session_id = request.args.get('session_id')
     clientPublicData = request.args.get('clientPublicData')
 
-    cookies_dict = {}
-    if cookie_str and cookie_str.strip():
-        parsed_cookie = SimpleCookie()
-        try:
-            parsed_cookie.load(cookie_str)
-            cookies_dict = {key: morsel.value for key, morsel in parsed_cookie.items()}
-        except Exception as e:
-            #print(f"Error parsing cookie: {e}")
-            pass
-
-    if un_init_sessions:
-        session_instance = un_init_sessions.pop()
-        session_instance.cookies = cookies_dict
+    if session_id and session_id in un_init_sessions:
+        session_instance = un_init_sessions.pop(session_id)
         session_instance.clientPublicData = clientPublicData
-
         sessions[request.sid] = session_instance
         session_instance.init(request.sid)
-        session_instance.socket.emit('afterconnect', {'message': 'Connection initialized'}, room=request.sid)
     else:
-        #print("No session available")
         pass
 
 @socketio.on('disconnect')
@@ -72,7 +57,6 @@ def handle_from_client(msg):
     if msg.get('value') is None:
         msg['value'] = ''
     Session.current_session.clientHandler(msg['id'], msg['value'], msg['event_name'])
-
 
 @flask_app.route('/<path:path>')
 def files(path):
@@ -140,8 +124,6 @@ def add_custom_route(route, ui_class, middlewares=[]):
         un_init_sessions.append(session)
     
         # Apply all middleware decorators
-        session.clear_index()
-        ui_class()
         wrapped_func = session.get_index
         for middleware in reversed(middlewares):
             wrapped_func = middleware(wrapped_func)
@@ -157,11 +139,12 @@ def run(ui = None, port=5000, debug=True):
 
         @flask_app.route('/')
         def home():
-            session = Session(ui_root)
-            un_init_sessions.append(session)
-            session.clear_index()
-            ui_root()
-            return session.get_index()
+            session_id = str(uuid4())
+            session = Session(ui_root, cookies=request.cookies)
+            un_init_sessions[session_id] = session
+            response = make_response(index_gen.get_index())
+            response.set_cookie('session_id', session_id)
+            return response
 
     flask_app.run(host="0.0.0.0",port=port, debug=debug)
 
