@@ -39,6 +39,13 @@ class AlertHandler {
     }
 }
 
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+}
+
 const COOKIE_ATTRIBUTES = ['maxAge', 'path', 'httponly', 'secure', 'samesite'];
 
 const clientPublicData = {
@@ -131,6 +138,7 @@ const getSocketInstance = () => {
         socket = io.connect(`${window.location.origin}`, {
             query: {
                 clientPublicData: JSON.stringify(clientPublicData),
+                session_id: getCookie('session_id'),
             },
             reconnection: true,
             reconnectionAttempts: 5,
@@ -169,7 +177,7 @@ const initSocketEvents = () => {
         clientEmit('myapp', 'init', 'init');
     });
 
-    socket.on('disconnect', () => {});
+    socket.on('disconnect', () => { });
 
     socket.on('from_server', (data) => {
         if (socketEvents[data.event_name]) {
@@ -181,7 +189,7 @@ const initSocketEvents = () => {
         }
     });
 
-    socket.on('error', (error) => {});
+    socket.on('error', (error) => { });
 };
 
 

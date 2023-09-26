@@ -3,8 +3,6 @@ import requests
 from urllib.parse import urljoin
 from requests.exceptions import MissingSchema, InvalidURL
 
-from .index_gen import get_index, clear_index
-
 class Session:
     #Static Variables
     socket = None
@@ -12,7 +10,7 @@ class Session:
     BASE_URL = "http://127.0.0.1"
     PORT = 3000
     
-    def __init__(self, ui, base_url=None, port=None):                
+    def __init__(self, ui, base_url=None, port=None, cookies=None):                
         self.elements = {}
         self.sid = None
         self.message_queue = []
@@ -21,10 +19,10 @@ class Session:
         self.cookies = None
         self.user = {}
         self.clientPublicData = {}
+        self.cookies = cookies
 
         Session.current_session = self
-        self.ui_temp = ui
-        self.ui = None
+        self.ui = ui()
 
         if base_url:
             Session.BASE_URL = base_url
@@ -43,7 +41,6 @@ class Session:
 
     def init(self,sid):
         self.sid = sid
-        self.ui = self.ui_temp(clientPublicData=self.clientPublicData)
     
     def send(self,id, value, event_name):    
         Session.socket.emit("from_server", {'id': id, 'value': value, 'event_name': event_name}, room=self.sid)
@@ -57,12 +54,6 @@ class Session:
             self.send(item['id'], item['value'], item['event_name'])
         self.message_queue = []
 
-    def get_index(self):
-        return get_index()
-    
-    def clear_index(self):
-        return clear_index()
-    
     def navigate(self, path):
         self.send("myapp", path, "navigate")
     

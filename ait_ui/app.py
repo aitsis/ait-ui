@@ -1,15 +1,14 @@
 import os
 import tempfile
 from functools import wraps
-from http.cookies import SimpleCookie
-
-from collections import deque
 
 from flask import Flask, request, send_from_directory, abort, jsonify, make_response
 from flask_cors import CORS
 from flask_socketio import SocketIO
 
-from .core import Session, clear_index
+from .core import Session, index_gen
+
+from uuid import uuid4
 
 flask_app = Flask(__name__)
 socketio = SocketIO(flask_app, cors_allowed_origins="*")
@@ -26,21 +25,20 @@ ui_root = None
 
 dir_routes = {}
 sessions = {}
-un_init_sessions = deque()
+un_init_sessions = {}
 
 @socketio.on('connect')
 def handle_client_connect():
     #print('Socket connected')
+    session_id = request.args.get('session_id')
     clientPublicData = request.args.get('clientPublicData')
 
-    if un_init_sessions:
-        session_instance = un_init_sessions.pop()
+    if session_id and session_id in un_init_sessions:
+        session_instance = un_init_sessions.pop(session_id)
         session_instance.clientPublicData = clientPublicData
-
         sessions[request.sid] = session_instance
         session_instance.init(request.sid)
     else:
-        #print("No session available")
         pass
 
 @socketio.on('disconnect')
@@ -141,9 +139,12 @@ def run(ui = None, port=5000, debug=True):
 
         @flask_app.route('/')
         def home():
-            session = Session(ui_root)
-            un_init_sessions.append(session)
-            return session.get_index()
+            session_id = str(uuid4())
+            session = Session(ui_root, cookies=request.cookies)
+            un_init_sessions[session_id] = session
+            response = make_response(index_gen.get_index())
+            response.set_cookie('session_id', session_id)
+            return response
 
     flask_app.run(host="0.0.0.0",port=port, debug=debug)
 
