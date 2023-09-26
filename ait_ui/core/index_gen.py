@@ -96,15 +96,3 @@ def get_index():
 
 def get_minified_index():
     return minify_html(get_index())
-
-def clear_index():
-    global header_items
-    global script_sources
-    global scripts
-    global styles
-
-    header_items.clear()
-    script_sources.clear()
-    scripts.clear()
-    styles.clear()
-    return -1
