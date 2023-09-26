@@ -29,6 +29,26 @@ scripts = {}
 
 styles = {}
 
+def add_header_item(id, item):
+    if id in header_items:
+        return
+    header_items[id] = item
+
+def add_script_source(id, script):
+    if id in scripts:
+        return
+    script_sources[id] = script
+
+def add_script(id, script):
+    if id in scripts:
+        return
+    scripts[id] = script
+
+def add_css(id, style):
+    if id in styles:
+        return
+    styles[id] = style
+
 def minify_js(js_code):
     return re.sub(r'\s+', ' ', re.sub(r'//.*?\n|/\*.*?\*/', '', js_code)).strip()
 
@@ -65,10 +85,10 @@ def get_index():
     for key in script_sources:
         index_str += script_sources[key]
     if len(scripts) > 0:
-        index_str += '<script>'
         for id in scripts:
+            index_str += '<script>'
             index_str += minify_js(scripts[id])
-        index_str += '</script>'
+            index_str += '</script>'
     index_str += '</body>'
     index_str += '</html>'
     index_str = minify_html(index_str)

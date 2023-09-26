@@ -6,14 +6,9 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from ait_ui.elements import Button
-from ait_ui.core import Component, Element
+from ait_ui.core import Component, Element, index_gen
 
-class Comp_Accordion(Component):
-    def __init__(self, id=None, elements=None, autoBind=True, **kwargs):
-        super().__init__(id=id, autoBind=autoBind, **kwargs)
-        
-        self.isAccordionOpen = True
-        self.add_css("accordion-css", """
+index_gen.add_css("accordion-css", """
                      .accordion-element-wrapper{
                                         width: 100%;
                                         height: 100px;
@@ -84,6 +79,12 @@ class Comp_Accordion(Component):
                                         align-items: center;
                                         transition: all 300ms ease-out;
                                     }""")
+
+class Comp_Accordion(Component):
+    def __init__(self, id=None, elements=None, autoBind=True, **kwargs):
+        super().__init__(id=id, autoBind=autoBind, **kwargs)
+        
+        self.isAccordionOpen = True
         
         self.cls("accordion").style("height","5%").style("background-color","#434952").style("border","1px solid gray").style("border-radius","3px").style("padding","10px").style("box-sizing","border-box")
 

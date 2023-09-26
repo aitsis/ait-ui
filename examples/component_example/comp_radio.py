@@ -6,8 +6,29 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from ait_ui.elements import Radio, Label
-from ait_ui.core import Component, Element
+from ait_ui.core import Component, Element, index_gen
 
+index_gen.add_css("accordion-css", """
+    .btn input[type="radio"] {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0.011;
+        z-index: 100;
+        height: 100%;
+    }
+    
+    .btn input[type="radio"]:checked + .container{
+        background-color: rgba(255,255,255,0.3);
+    }
+
+    .lbl{
+        font-size: 0.9em !important;
+    }""")
+                  
 class Comp_Radio(Component):
     
     save_path = os.getcwd() + "/assets"
@@ -16,26 +37,6 @@ class Comp_Radio(Component):
         super().__init__(id=id, autoBind=autoBind, **kwargs)
         self.callback = callback
         self.value_list=value_list
-        self.add_css("radio-css", """
-                             .btn input[type="radio"] {
-                                    display: block;
-                                    position: absolute;
-                                    top: 0;
-                                    left: 0;
-                                    right: 0;
-                                    bottom: 0;
-                                    opacity: 0.011;
-                                    z-index: 100;
-                                    height: 100%;
-                                }
-                                
-                                .btn input[type="radio"]:checked + .container{
-                                    background-color: rgba(255,255,255,0.3);
-                                }
-
-                                .lbl{
-                                    font-size: 0.9em !important;
-                                }""")
         
         self.cls("container").style("flex-direction","row").style("height","50px").style("justify-content","space-around")
         with self:
