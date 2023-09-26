@@ -130,7 +130,6 @@ const getSocketInstance = () => {
     if (!socket) {
         socket = io.connect(`${window.location.origin}`, {
             query: {
-                cookie: document.cookie,
                 clientPublicData: JSON.stringify(clientPublicData),
             },
             reconnection: true,

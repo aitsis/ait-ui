@@ -31,27 +31,14 @@ un_init_sessions = deque()
 @socketio.on('connect')
 def handle_client_connect():
     #print('Socket connected')
-    cookie_str = request.args.get('cookie')
     clientPublicData = request.args.get('clientPublicData')
-
-    cookies_dict = {}
-    if cookie_str and cookie_str.strip():
-        parsed_cookie = SimpleCookie()
-        try:
-            parsed_cookie.load(cookie_str)
-            cookies_dict = {key: morsel.value for key, morsel in parsed_cookie.items()}
-        except Exception as e:
-            #print(f"Error parsing cookie: {e}")
-            pass
 
     if un_init_sessions:
         session_instance = un_init_sessions.pop()
-        session_instance.cookies = cookies_dict
         session_instance.clientPublicData = clientPublicData
 
         sessions[request.sid] = session_instance
         session_instance.init(request.sid)
-        session_instance.socket.emit('afterconnect', {'message': 'Connection initialized'}, room=request.sid)
     else:
         #print("No session available")
         pass
@@ -72,7 +59,6 @@ def handle_from_client(msg):
     if msg.get('value') is None:
         msg['value'] = ''
     Session.current_session.clientHandler(msg['id'], msg['value'], msg['event_name'])
-
 
 @flask_app.route('/<path:path>')
 def files(path):
@@ -140,8 +126,6 @@ def add_custom_route(route, ui_class, middlewares=[]):
         un_init_sessions.append(session)
     
         # Apply all middleware decorators
-        session.clear_index()
-        ui_class()
         wrapped_func = session.get_index
         for middleware in reversed(middlewares):
             wrapped_func = middleware(wrapped_func)
@@ -159,8 +143,6 @@ def run(ui = None, port=5000, debug=True):
         def home():
             session = Session(ui_root)
             un_init_sessions.append(session)
-            session.clear_index()
-            ui_root()
             return session.get_index()
 
     flask_app.run(host="0.0.0.0",port=port, debug=debug)
