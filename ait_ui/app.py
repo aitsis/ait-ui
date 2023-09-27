@@ -6,6 +6,8 @@ import os
 from . import socket_handler
 from . import index_gen
 from . import Session
+
+from threading import Lock
 flask_app = Flask(__name__)
 socketio = SocketIO(flask_app)
 socket_handler.socket = socketio
@@ -19,6 +21,9 @@ ui_root2 = None
 dir_routes = {}
 sessions = {}
 un_init_sessions = []
+
+lock = Lock()
+lock_socket = Lock()
 @socketio.on('connect')
 def handle_from_client(json):
     print('Socket connected')
@@ -30,14 +35,16 @@ def handle_from_client(json):
 @socketio.on('from_client')
 def handle_from_client(json):
     print('Received json: ' + str(json))
-    Session.current_session = sessions[request.sid]
-    Session.current_session.clientHandler(json['id'], json['value'], json['event_name'])
+    with lock_socket:
+        Session.current_session = sessions[request.sid]
+        Session.current_session.clientHandler(json['id'], json['value'], json['event_name'])
 
 @flask_app.route('/')
 def home():
-    session = Session(ui_root2)
-    un_init_sessions.append(session)
-    return session.get_index()
+    with lock:
+        session = Session(ui_root2)
+        un_init_sessions.append(session)
+        return session.get_index()
 
 @flask_app.route('/<path:path>')
 def files(path):    
