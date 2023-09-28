@@ -143,6 +143,7 @@ const getSocketInstance = () => {
             reconnection: true,
             reconnectionAttempts: 5,
             reconnectionDelay: 5000,
+            transports: ['websocket']
         });
     }
     return socket;
@@ -167,7 +168,7 @@ const handleDynamicEvents = (data) => {
 };
 
 const initSocketEvents = () => {
-    const socket = getSocketInstance();
+    socket = getSocketInstance();
 
     if (socket.disconnected) {
         socket.connect();
@@ -194,7 +195,7 @@ const initSocketEvents = () => {
 
 
 const detachSocketEvents = () => {
-    const socket = getSocketInstance();
+    socket = getSocketInstance();
     socket.off('connect');
     socket.off('disconnect');
     socket.off('from_server');
@@ -203,10 +204,7 @@ const detachSocketEvents = () => {
     socket = null;
 };
 
-window.addEventListener('load', () => {
-    initSocketEvents();
-});
 
-window.addEventListener('beforeunload', () => {
-    detachSocketEvents();
-});
+window.addEventListener('load', initSocketEvents);
+
+window.addEventListener('beforeunload', detachSocketEvents);
