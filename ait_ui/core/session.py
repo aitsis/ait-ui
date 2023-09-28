@@ -10,14 +10,13 @@ class Session:
     BASE_URL = "http://127.0.0.1"
     PORT = 3000
     
-    def __init__(self, ui, base_url=None, port=None, cookies=None):                
+    def __init__(self, ui, base_url=None, port=None, cookies=None, user=None):                
         self.elements = {}
         self.sid = None
         self.message_queue = []
         self.root = None
         self.parent_stack = []
-        self.cookies = None
-        self.user = {}
+        self.user = user if user else {}
         self.clientPublicData = {}
         self.cookies = cookies
 
