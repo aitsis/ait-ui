@@ -1,6 +1,8 @@
 import os
 import tempfile
 from functools import wraps
+from uuid import uuid4
+from threading import Lock
 
 from flask import Flask, request, send_from_directory, abort, jsonify, make_response
 from flask_cors import CORS
@@ -8,10 +10,13 @@ from flask_socketio import SocketIO
 
 from .core import Session, index_gen
 
-from uuid import uuid4
+# DISABLE LOGGING
+import logging
+logging.getLogger('werkzeug').disabled = True
 
 flask_app = Flask(__name__)
-socketio = SocketIO(flask_app, cors_allowed_origins="*")
+socketio = SocketIO(flask_app, cors_allowed_origins="*", transports=["websocket"])
+#socketio = SocketIO(flask_app, cors_allowed_origins="*")
 
 # Global definitions for convenience
 server = flask_app
@@ -26,6 +31,10 @@ ui_root = None
 dir_routes = {}
 sessions = {}
 un_init_sessions = {}
+
+# Thread Locks
+route_lock = Lock()
+socket_lock = Lock()
 
 @socketio.on('connect')
 def handle_client_connect():
@@ -43,20 +52,13 @@ def handle_client_connect():
 
 @socketio.on('disconnect')
 def handle_client_disconnect():
-    #print('Socket disconnected')
-    if request.sid in sessions:
-        del sessions[request.sid]
-        #print("Session deleted")
+    del sessions[request.sid]
 
 @socketio.on('from_client')
 def handle_from_client(msg):
-    if request.sid not in sessions:
-        #print("No session available")
-        return
-    Session.current_session = sessions[request.sid]
-    if msg.get('value') is None:
-        msg['value'] = ''
-    Session.current_session.clientHandler(msg['id'], msg['value'], msg['event_name'])
+    with socket_lock:
+        Session.current_session = sessions[request.sid]
+        Session.current_session.clientHandler(msg['id'], msg.get('value', ""), msg['event_name'])
 
 @flask_app.route('/<path:path>')
 def files(path):
@@ -116,23 +118,29 @@ def nocache(view):
         return response
     return no_cache
 
+@DeprecationWarning
 def add_custom_route(route, ui_class, middlewares=[]):
     @flask_app.route(route, endpoint=f"{ui_class.__name__}")
-    @nocache
     def custom_route_func():
-        session = Session(ui_class)
-        un_init_sessions.append(session)
-    
-        # Apply all middleware decorators
-        wrapped_func = session.get_index
-        for middleware in reversed(middlewares):
-            wrapped_func = middleware(wrapped_func)
+        with route_lock:
+            session_id = str(uuid4())
+            session = Session(ui_class, cookies=request.cookies)
+            un_init_sessions.append(session)
 
-        return wrapped_func()
+            wrapped_func = session.get_index
+            for middleware in reversed(middlewares):
+                wrapped_func = middleware(wrapped_func)
+
+            response_data = wrapped_func()
+            response = make_response(response_data)
+
+            response.set_cookie('session_id', session_id)
+
+            return response
     
     return custom_route_func
 
-def run(ui = None, port=5000, debug=True):
+def run(ui = None, port=5000, debug='production'):
     global ui_root
     if ui is not None:
         ui_root = ui

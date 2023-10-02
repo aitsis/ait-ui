@@ -180,7 +180,7 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
                 case 'Download Image':
                     updateButton(button, 'ivb_download', 'svg');
                     break;
-                case 'Save Image':
+                case 'Add to Favorites':
                     updateButton(button, 'ivb_save', 'svg');
                     break;
                 case 'Send To Repeater':
