@@ -4,6 +4,8 @@ this.genRandomNumbers = () => {
     return Array.from(array).map(n => n.toString(16)).join('');
 };
 
+document.cookie = `locale=${localStorage.getItem('locale') || navigator.language || navigator.userLanguage}; path=/`;
+
 class AlertHandler {
     constructor(element) {
         this.element = document.getElementById(element);

@@ -10,7 +10,7 @@ class Session:
     BASE_URL = "http://127.0.0.1"
     PORT = 3000
     
-    def __init__(self, ui, base_url=None, port=None, cookies=None, user=None):                
+    def __init__(self, ui, base_url=None, port=None, cookies=None, user=None, locale='en-US'):                
         self.elements = {}
         self.sid = None
         self.message_queue = []
@@ -19,9 +19,10 @@ class Session:
         self.user = user if user else {}
         self.clientPublicData = {}
         self.cookies = cookies
+        self.locale = locale
 
         Session.current_session = self
-        self.ui = ui()
+        self.ui = ui(locale=locale)
 
         if base_url:
             Session.BASE_URL = base_url
