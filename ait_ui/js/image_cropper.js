@@ -1,15 +1,13 @@
 let ORIGINAL_SCALE = 0.3;
 let currentScale = ORIGINAL_SCALE;
+let brushSize = 70;
 
 const MIN_SCALE = 0.15;
 const MAX_SCALE = 5;
-
 fabric.Object.prototype.hoverCursor = 'default';
 
 event_handlers["init-image-cropper"] = function (id, value, event_name) {
-
   let canvas = new fabric.Canvas(id);
-
   let firstParent = document.getElementById(id).parentElement;
   let parentElement = firstParent.parentElement;
 
@@ -23,7 +21,7 @@ event_handlers["init-image-cropper"] = function (id, value, event_name) {
     lastModified: { x: null, y: null },
     latestCombinedImage: null,
     moveRates: { x: 1, y: 1 },
-    lastAxisMoved: 'x'
+    lastAxisMoved: 'x',
   };
 
   canvas.on('mouse:wheel', function (opt) {
@@ -32,7 +30,6 @@ event_handlers["init-image-cropper"] = function (id, value, event_name) {
     var proposedScale = currentScale;
     if (proposedScale >= MIN_SCALE && proposedScale <= MAX_SCALE) {
       currentScale = proposedScale;
-
       if (typeof repeater_checkbox !== 'undefined' && repeater_checkbox && repeater_checkbox.checked) {
         var zoom = canvas.getZoom();
         zoom *= 0.999 ** delta;
@@ -61,6 +58,7 @@ event_handlers["init-image-cropper"] = function (id, value, event_name) {
       canvas.zoomToPoint({ x: center.left, y: center.top }, zoom);
     }
 
+
     opt.e.stopPropagation();
   });
 
@@ -75,9 +73,10 @@ event_handlers["init-image-cropper"] = function (id, value, event_name) {
       }
     }
   });
-  
+
   event_handlers["repeater-checkbox"](id, value, event_name);
 };
+
 
 function resetImage(id) {
   const canvas = elements[id].canvas;
@@ -90,7 +89,6 @@ function resetImage(id) {
   canvas.add(originalImage);
   canvas.requestRenderAll();
 }
-
 event_handlers["image-cropper"] = function (id, command, event_name) {
   switch (command.action) {
     case "loadImage":
@@ -111,47 +109,64 @@ event_handlers["image-cropper"] = function (id, command, event_name) {
           patternGroup: true,
           objectCaching: false,
         });
-
         elements[id].canvas.add(img);
         elements[id].image = img;
         elements[id].latestCombinedImage = img;
-        if (typeof repeater_checkbox !== 'undefined' && repeater_checkbox) {
-          repeater_checkbox.checked = false;
-        }
       });
       break;
     case "cropAndMove":
-      let axis = command.value.axis.toLowerCase();
-      elements[id].lastAxisMoved = axis;
-      let scale = command.value.scale;
-      const canvas = elements[id].canvas;
-      if (typeof repeater_checkbox !== 'undefined' && repeater_checkbox && repeater_checkbox.checked) {
+      const axis = command.value.axis.toLowerCase();
+      const element = elements[id];
+      const canvas = element.canvas;
+
+      // Define a function to update the pattern and perform image movement
+      const updateAndMoveImage = () => {
+        const imageToUse = element.latestCombinedImage || element.image;
+        element.lastAxisMoved = axis;
+        element.scale = command.value.scale;
         canvas.clear();
-        const imageToUse = elements[id].latestCombinedImage || elements[id].image;
-        canvas.getObjects().forEach(function (obj) {
+
+        canvas.getObjects().forEach(obj => {
           if (obj.patternGroup) {
             canvas.remove(obj);
           }
         });
+
         canvas.add(imageToUse);
         canvas.requestRenderAll();
-      }
-      moveImage(axis, elements[id].canvas, elements[id].image, scale, id);
-      if (typeof repeater_checkbox !== 'undefined' && repeater_checkbox && repeater_checkbox.checked) {
-        const imageToUse = elements[id].latestCombinedImage || elements[id].image;
-        elements[id].patternGroup = updateImagePattern(canvas, imageToUse, currentScale, id, axis, scale);
-        canvas.remove(elements[id].image);
-      }
+
+        moveImage(axis, canvas, elements[id].image, element.scale, id);
+
+        if (repeater_checkbox && repeater_checkbox.checked) {
+          element.patternGroup = updateImagePattern(canvas, imageToUse, currentScale, id, axis, element.scale);
+          canvas.remove(element.image);
+        }
+      };
+
+      // Event listeners
+      isBrushChecked.addEventListener('change', updateAndMoveImage);
+
+      brush_element_id.addEventListener('input', function (e) {
+        brushSize = this.value * 2;
+        updateAndMoveImage();
+      });
+
+      updateAndMoveImage(); // Initial update
+
       break;
+
+
     case "resetImage":
       resetImage(id);
     case "close":
-      elements[id].canvas.clear();
+      elements[id].canvas.clear();;
       break;
+
     default:
       break;
   }
 };
+
 
 event_handlers["repeater-checkbox"] = (id, value, event_name) => {
   if (typeof repeater_checkbox !== 'undefined' && repeater_checkbox) {
@@ -168,8 +183,10 @@ event_handlers["repeater-checkbox"] = (id, value, event_name) => {
 
         updateImagePattern(inputCanvas, imageToUseInput, currentScale, input_canvas_id, axisToUse, scaleToUse);
         updateImagePattern(outputCanvas, imageToUseOutput, currentScale, output_canvas_id, axisToUse, scaleToUse);
+
         inputCanvas.remove(elements[input_canvas_id].image);
         outputCanvas.remove(elements[output_canvas_id].image);
+
       } else {
         let inputCanvas = elements[input_canvas_id].canvas;
         const imageToUseInput = elements[input_canvas_id].latestCombinedImage || elements[input_canvas_id].image;
@@ -192,9 +209,11 @@ event_handlers["repeater-checkbox"] = (id, value, event_name) => {
         inputCanvas.requestRenderAll();
         outputCanvas.requestRenderAll();
       }
+
     });
+
   }
-}
+};
 
 function moveImage(axis, canvas, originalImage, reportRate, id) {
   canvas.clear();
@@ -220,6 +239,11 @@ function moveImage(axis, canvas, originalImage, reportRate, id) {
   finalCtx.drawImage(originalImage._element, rateX, 0, originalImage.width - rateX, rateY, 0, originalImage.height - rateY, originalImage.width - rateX, rateY);
   finalCtx.drawImage(originalImage._element, 0, 0, rateX, rateY, originalImage.width - rateX, originalImage.height - rateY, rateX, rateY);
 
+
+  if (id === input_canvas_id && isBrushChecked.checked) {
+    drawRect(finalCtx, originalImage, brushSize, rateX, rateY);
+  }
+
   const expandedImage = new fabric.Image(finalCanvas, {
     left: originalImage.left,
     top: originalImage.top,
@@ -240,10 +264,13 @@ function moveImage(axis, canvas, originalImage, reportRate, id) {
     canvas.remove(elements[id].lastModified[axis]);
   }
 
+
   canvas.add(expandedImage);
   elements[id].lastModified[axis] = expandedImage;
   elements[id].latestCombinedImage = expandedImage;
   canvas.requestRenderAll();
+
+
 }
 
 function updateImagePattern(canvas, originalImage, scale, id, axis, reportRate) {
@@ -252,42 +279,42 @@ function updateImagePattern(canvas, originalImage, scale, id, axis, reportRate) 
 
   canvas.clear();
 
-  if(image){
+  if (image) {
 
     const scaledWidth = image.width * scale;
     const scaledHeight = image.height * scale;
-  
+
     const zoomFactor = canvas.getZoom();
-  
+
     const visibleWidth = canvas.width / zoomFactor;
     const visibleHeight = canvas.height / zoomFactor;
-  
+
     const cols = Math.ceil(visibleWidth / scaledWidth) * 2 + 1;
     const rows = Math.ceil(visibleHeight / scaledHeight) * 2 + 1;
-  
+
     const imagesArray = [];
-  
+
     let offset = 0;
-  
+
     const loop1 = axis === 'y' ? cols : rows;
     const loop2 = axis === 'y' ? rows : cols;
-  
+
     for (let i = -Math.floor(loop1 / 2); i <= Math.floor(loop1 / 2); i++) {
       for (let j = -Math.floor(loop2 / 2); j <= Math.floor(loop2 / 2); j++) {
         const clonedImg = fabric.util.object.clone(image);
-  
+
         let col = axis === 'y' ? i : j;
         let row = axis === 'y' ? j : i;
-  
+
         let left = (canvas.width - scaledWidth) / 2 + col * scaledWidth;
         let top = (canvas.height - scaledHeight) / 2 + row * scaledHeight;
-  
+
         if (axis === 'x') {
           left += offset % scaledWidth;
         } else {
           top += offset % scaledHeight;
         }
-  
+
         clonedImg.set({
           left: left,
           top: top,
@@ -304,13 +331,14 @@ function updateImagePattern(canvas, originalImage, scale, id, axis, reportRate) 
           patternGroup: true,
           objectCaching: false,
         });
-  
         imagesArray.push(clonedImg);
       }
-  
+
+
       offset += (axis === 'x' ? scaledWidth : scaledHeight) * reportRate;
+
     }
-  
+
     const group = new fabric.Group(imagesArray, {
       hasControls: false,
       hasBorders: false,
@@ -323,11 +351,38 @@ function updateImagePattern(canvas, originalImage, scale, id, axis, reportRate) 
       patternGroup: true,
       objectCaching: false,
     });
-  
+
     canvas.add(group);
-  
+
     canvas.requestRenderAll();
-  
+
     return group;
   }
 }
+
+
+function drawRect(finalCtx, originalImage, brushSize, rateX, rateY) {
+  finalCtx.beginPath();
+
+  finalCtx.rect((originalImage.width - rateX) - brushSize / 2, 0, brushSize, originalImage.height);
+  finalCtx.rect(0, (originalImage.height - rateY) - brushSize / 2, originalImage.width, brushSize);
+
+  if (originalImage.width - rateX == 0 || rateX == 0) {
+    finalCtx.rect((originalImage.width) - brushSize / 2, 0, brushSize, originalImage.height);
+    finalCtx.rect(0, 0, brushSize / 2, originalImage.height);
+  }
+  if(originalImage.height - rateY == 0 || rateY == 0) {
+    finalCtx.rect(0, (originalImage.height) - brushSize / 2, originalImage.width, brushSize);
+    finalCtx.rect(0, 0, originalImage.width, brushSize / 2);
+  }
+  finalCtx.fillStyle = 'rgba(0,0,0,0.5)';
+  finalCtx.fill();
+  finalCtx.closePath();
+
+}
+
+
+
+
+
+
