@@ -22,6 +22,7 @@ setup(
         "aitsisui": [ "*.pyc", "requirements.txt", "README.md" ]
     },
     python_requires = ">=3.6",
+    long_description = "AIT UI",
 
 
     install_requires = [
