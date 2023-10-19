@@ -21,4 +21,4 @@ class MyApp(Component):
         Elm(id).toggle_class("selected")
 
 if __name__ == '__main__':
-    app.run(ui = MyApp, debug=True)
+    app.run(ui = MyApp,port = 5002, debug=True)
