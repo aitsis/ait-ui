@@ -75,6 +75,10 @@ event_handlers["init-image-cropper"] = function (id, value, event_name) {
   });
 
   event_handlers["repeater-checkbox"](id, value, event_name);
+  brush_element_id.addEventListener('input', function (e) {
+    brushSize = this.value * 2;
+    updateAndMoveImage(id, elements[id], elements[id].lastAxisMoved, elements[id].canvas, elements[input_canvas_id].scale);
+  });
 };
 
 
@@ -89,6 +93,7 @@ function resetImage(id) {
   canvas.add(originalImage);
   canvas.requestRenderAll();
 }
+
 event_handlers["image-cropper"] = function (id, command, event_name) {
   switch (command.action) {
     case "loadImage":
@@ -112,61 +117,28 @@ event_handlers["image-cropper"] = function (id, command, event_name) {
         elements[id].canvas.add(img);
         elements[id].image = img;
         elements[id].latestCombinedImage = img;
+        if (id === input_canvas_id)
+          updateAndMoveImage(id, elements[id], 'x', elements[id].canvas, 1);
       });
+
       break;
     case "cropAndMove":
+      console.log(command.value);
       const axis = command.value.axis.toLowerCase();
       const element = elements[id];
       const canvas = element.canvas;
-
-      // Define a function to update the pattern and perform image movement
-      const updateAndMoveImage = () => {
-        const imageToUse = element.latestCombinedImage || element.image;
-        element.lastAxisMoved = axis;
-        element.scale = command.value.scale;
-        canvas.clear();
-
-        canvas.getObjects().forEach(obj => {
-          if (obj.patternGroup) {
-            canvas.remove(obj);
-          }
-        });
-
-        canvas.add(imageToUse);
-        canvas.requestRenderAll();
-
-        moveImage(axis, canvas, elements[id].image, element.scale, id);
-
-        if (repeater_checkbox && repeater_checkbox.checked) {
-          element.patternGroup = updateImagePattern(canvas, imageToUse, currentScale, id, axis, element.scale);
-          canvas.remove(element.image);
-        }
-      };
-
-      // Event listeners
-      isBrushChecked.addEventListener('change', updateAndMoveImage);
-
-      brush_element_id.addEventListener('input', function (e) {
-        brushSize = this.value * 2;
-        updateAndMoveImage();
-      });
-
-      updateAndMoveImage(); // Initial update
-
+      const scale = command.value.scale;
+      updateAndMoveImage(id, element, axis, canvas, scale);
       break;
-
-
     case "resetImage":
       resetImage(id);
     case "close":
       elements[id].canvas.clear();;
       break;
-
     default:
       break;
   }
 };
-
 
 event_handlers["repeater-checkbox"] = (id, value, event_name) => {
   if (typeof repeater_checkbox !== 'undefined' && repeater_checkbox) {
@@ -212,6 +184,30 @@ event_handlers["repeater-checkbox"] = (id, value, event_name) => {
 
     });
 
+  }
+};
+
+// Define a function to update the pattern and perform image movement
+const updateAndMoveImage = (id, element, axis, canvas, scale) => {
+  const imageToUse = element.latestCombinedImage || element.image;
+  element.lastAxisMoved = axis;
+  element.scale = scale;
+  canvas.clear();
+
+  canvas.getObjects().forEach(obj => {
+    if (obj.patternGroup) {
+      canvas.remove(obj);
+    }
+  });
+
+  canvas.add(imageToUse);
+  canvas.requestRenderAll();
+
+  moveImage(axis, canvas, element.image, element.scale, id);
+
+  if (repeater_checkbox && repeater_checkbox.checked) {
+    element.patternGroup = updateImagePattern(canvas, imageToUse, currentScale, id, axis, element.scale);
+    canvas.remove(element.image);
   }
 };
 
@@ -371,7 +367,7 @@ function drawRect(finalCtx, originalImage, brushSize, rateX, rateY) {
     finalCtx.rect((originalImage.width) - brushSize / 2, 0, brushSize, originalImage.height);
     finalCtx.rect(0, 0, brushSize / 2, originalImage.height);
   }
-  if(originalImage.height - rateY == 0 || rateY == 0) {
+  if (originalImage.height - rateY == 0 || rateY == 0) {
     finalCtx.rect(0, (originalImage.height) - brushSize / 2, originalImage.width, brushSize);
     finalCtx.rect(0, 0, originalImage.width, brushSize / 2);
   }
