@@ -119,8 +119,10 @@ class Element:
         return self.render()
 
     # RENDER -----------------------------------------------------------------------------------------
-    def cls(self,class_name):
-        self.classes.append(class_name)
+    def cls(self, class_names):
+        if isinstance(class_names, str):
+            classes = class_names.split()
+            self.classes.extend([cls.strip() for cls in classes])
         return self
 
     def style(self,style,value):
