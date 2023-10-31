@@ -422,9 +422,9 @@ label{
   .direction{
           gap: 10px;}
  
-  textarea,button,p,label,input,.tablink{
+  /* textarea,button,p,label,input,.tablink{
     font-size: x-large !important;
-  }
+  } */
 
   @media screen and (min-height: 1500px){
     .input{
