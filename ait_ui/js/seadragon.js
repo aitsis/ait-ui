@@ -1,6 +1,5 @@
 event_handlers["init-seadragon"] = function (id, value, event_name) {
     // create viewer
-
     let hasButtons = JSON.parse(value.hasButtons);
     let viewerConfig = {
         id: id,
@@ -130,6 +129,15 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
         //     srcDown: 'send_to_upscaler-hover.svg',
         // });
 
+        var sendToInput= new OpenSeadragon.Button({
+            tooltip: 'Send To Input',
+            onClick:sendToInputFunction,
+            srcRest: 'send_to_input.svg',
+            srcGroup: 'send_to_input.svg',
+            srcHover: 'send_to_input-hover.svg',
+            srcDown: 'send_to_input-hover.svg',
+        }); 
+
         elements[id].viewer.buttonGroup.buttons.push(downloadButton);
         elements[id].viewer.buttonGroup.element.appendChild(downloadButton.element);
 
@@ -143,7 +151,8 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
         //   elements[id].viewer.buttonGroup.buttons.push(sendToUpscaler);
         //   elements[id].viewer.buttonGroup.element.appendChild(sendToUpscaler.element);
         // }
-
+        elements[id].viewer.buttonGroup.buttons.push(sendToInput);
+        elements[id].viewer.buttonGroup.element.appendChild(sendToInput.element); 
         const updateButton = (button, filename, extension, width = '25px', height = '25px', padding = '5px', backgroundColor = 'var(--background-mask)', backgroundBlur = 'blur(5px)') => {
             ['imgRest', 'imgGroup'].forEach(imgType => {
                 button[imgType].src = filename + '.' + extension;
@@ -189,6 +198,9 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
                 case 'Send To Upscaler':
                     updateButton(button, 'send_to_upscaler', 'svg');
                     break;
+                case 'Send To Input':
+                    updateButton(button, 'send_to_input', 'svg');
+                    break;
             }
         }
 
@@ -215,7 +227,6 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
             let viewer = elements[id].viewer;
             let tileSources = viewer.world.getItemAt(0).source;
             let imageUrl = tileSources.url || tileSources[0].url;
-
             if (!imageUrl) {
                 console.error('Full image URL not found');
                 return;
@@ -228,6 +239,17 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
 
         function sendToUpscalerFunction() {}
 
+        function sendToInputFunction() {
+            let viewer = elements[id].viewer;
+            let tileSources = viewer.world.getItemAt(0).source;
+            let imageUrl = tileSources.url || tileSources[0].url;
+        
+            if (imageUrl == "AIT_AI_LOGO.png") {
+                console.error('Full image URL not found');
+                return;
+            }
+            clientEmit(elements[id].viewer.element.id, imageUrl, 'sendtoinput');
+        }
     }
 }
 
