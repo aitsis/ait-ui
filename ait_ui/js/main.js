@@ -196,7 +196,7 @@ function generateCertificatePDF(data) {
     const yCoordinate = 370;
 
     // Add the image with specified height and centered horizontally
-    doc.addImage(data.value.url, 'JPEG', xCoordinate, yCoordinate, 0, newHeight, '', 'FAST');
+    doc.addImage(data.value.from_url, 'JPEG', xCoordinate, yCoordinate, 0, newHeight, '', 'FAST');
 
     // Add the text below the image
     doc.setFontSize(18);
@@ -228,7 +228,7 @@ const getSocketInstance = () => {
             reconnection: true,
             reconnectionAttempts: 5,
             reconnectionDelay: 5000,
-            transports: ['websocket']
+            //transports: ['websocket']
         });
     }
     return socket;
