@@ -137,7 +137,7 @@ async function uploadFile(newValue, id) {
 
 function generateCertificatePDF(data) {
     // Create a new instance of jsPDF
-    const doc = new jsPDF('p', 'pt', 'a4', true);
+    const doc = new jspdf.jsPDF('p', 'pt', 'a4', true);
 
     // Set document properties (optional)
     doc.setProperties({
@@ -196,7 +196,7 @@ function generateCertificatePDF(data) {
     const yCoordinate = 370;
 
     // Add the image with specified height and centered horizontally
-    doc.addImage("http://127.00.1:3000" + data.value.url, 'JPEG', xCoordinate, yCoordinate, 0, newHeight, '', 'FAST');
+    doc.addImage(data.value.url, 'JPEG', xCoordinate, yCoordinate, 0, newHeight, '', 'FAST');
 
     // Add the text below the image
     doc.setFontSize(18);
