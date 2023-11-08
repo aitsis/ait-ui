@@ -412,19 +412,12 @@ label{
 
 /* Standard screens */
 @media screen and (min-width: 1280px) and (max-width: 1919px) {
- 
-  .accordion{
-    z-index: 9999
-        }
+
   .accordion-element-wrapper{
   height: max-content !important;
   }
   .direction{
           gap: 10px;}
- 
-  /* textarea,button,p,label,input,.tablink{
-    font-size: x-large !important;
-  } */
 
   @media screen and (min-height: 1500px){
     .input{
