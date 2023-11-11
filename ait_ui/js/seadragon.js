@@ -160,7 +160,7 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
                 button[imgType].style.height = height;
                 button[imgType].style.padding = padding;
                 button[imgType].style.backgroundColor = backgroundColor;
-                button[imgType].style['backdrop-filter'] = backgroundBlur;
+                //button[imgType].style['backdrop-filter'] = backgroundBlur;
             });
             ['imgHover', 'imgDown'].forEach(imgType => {
                 button[imgType].src = filename + '-hover.' + extension;
@@ -168,7 +168,7 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
                 button[imgType].style.height = height;
                 button[imgType].style.padding = padding;
                 button[imgType].style.backgroundColor = backgroundColor;
-                button[imgType].style['backdrop-filter'] = backgroundBlur;
+                //button[imgType].style['backdrop-filter'] = backgroundBlur;
             });
         };
 
