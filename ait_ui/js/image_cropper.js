@@ -1,6 +1,6 @@
 let ORIGINAL_SCALE = 0.3;
 let currentScale = ORIGINAL_SCALE;
-let brushSize = 70;
+let brushSize = 140;
 
 const MIN_SCALE = 0.15;
 const MAX_SCALE = 5;
@@ -75,9 +75,14 @@ event_handlers["init-image-cropper"] = function (id, value, event_name) {
   });
 
   event_handlers["repeater-checkbox"](id, value, event_name);
-  brush_element_id.addEventListener('input', function (e) {
+  brush_element_id.addEventListener('change', function (e) {
     brushSize = this.value * 2;
     updateAndMoveImage(id, elements[id], elements[id].lastAxisMoved, elements[id].canvas, elements[input_canvas_id].scale);
+  });
+
+  brush_slider_text_input_id.addEventListener('change', function (e) {
+    brush_element_id.value = this.value;
+    brush_element_id.dispatchEvent(new Event('change'));
   });
 };
 
