@@ -135,7 +135,7 @@ async function uploadFile(newValue, id) {
         });
 }
 
-function generateCertificatePDF(data) {
+async function generateCertificatePDF(data) {
     const doc = new jspdf.jsPDF('p', 'pt', 'a4', true);
 
     doc.setProperties({
