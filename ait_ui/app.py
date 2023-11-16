@@ -62,7 +62,9 @@ def handle_from_client(msg):
 
 @flask_app.route('/<path:path>')
 def files(path):
-    return send_from_directory("static", path)
+    response = send_from_directory("static", path)
+    response.headers['Cache-Control'] = 'max-age=31536000'
+    return response
 
 @flask_app.route('/file-upload', methods=['POST'])
 def upload():
@@ -96,7 +98,9 @@ def upload():
 
 @flask_app.route('/js/<path:path>')
 def js_files(path):
-    return send_from_directory("js", path)
+    response = send_from_directory("js", path)
+    response.headers['Cache-Control'] = 'max-age=31536000'
+    return response
 
 def add_static_route(route, osDirPath):
     #print("Route Path:",osDirPath)  # Ensure the path is correct
@@ -106,7 +110,9 @@ def add_static_route(route, osDirPath):
 def custom_files(route, file_path):
     if route not in dir_routes:
         abort(404)
-    return send_from_directory(dir_routes[route], file_path)
+    response = send_from_directory(dir_routes[route], file_path)
+    response.headers['Cache-Control'] = 'max-age=31536000'
+    return response
 
 def nocache(view):
     @wraps(view)
