@@ -146,7 +146,7 @@ def add_custom_route(route, ui_class, middlewares=[]):
     
     return custom_route_func
 
-def run(ui = None, port=5000, debug='production'):
+def run(ui = None,host = "0.0.0.0", port=5000, debug='production'):
     global ui_root
     if ui is not None:
         ui_root = ui
@@ -154,7 +154,7 @@ def run(ui = None, port=5000, debug='production'):
         @flask_app.route('/')
         def home():
             session_id = str(uuid4())
-            session = Session(ui_root, cookies=request.cookies)
+            session = Session(ui = ui_root, base_url = f"http://{host}", cookies=request.cookies)
             un_init_sessions[session_id] = session
             response = make_response(index_gen.get_index())
             response.set_cookie('session_id', session_id)
