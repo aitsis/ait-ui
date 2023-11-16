@@ -27,7 +27,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-# .github/workflows
+.github/workflows
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -163,8 +163,8 @@ cython_debug/
 #.idea/
 
 #workflow files for GitHub Actions
-#.github/workflows/*.yml
-#.github/
+.github/workflows/*.yml
+.github/
 
 
 myImages/*
