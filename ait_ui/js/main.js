@@ -136,10 +136,8 @@ async function uploadFile(newValue, id) {
 }
 
 function generateCertificatePDF(data) {
-    // Create a new instance of jsPDF
     const doc = new jspdf.jsPDF('p', 'pt', 'a4', true);
 
-    // Set document properties (optional)
     doc.setProperties({
         title: 'Certificate',
         author: 'Your Name',
@@ -150,21 +148,18 @@ function generateCertificatePDF(data) {
     doc.addFont('Exo2.ttf', 'Exo2', 'normal');
     doc.setFont('Exo2');
 
-    const imgSrc = 'certificate_background.png'; // URL to the image
+    const imgSrc = 'certificate_background.png';
 
-    // Add a background image to cover the entire page
     const pageWidth = doc.internal.pageSize.width;
     const pageHeight = doc.internal.pageSize.height;
     doc.addImage(imgSrc, 'JPEG', 0, 0, pageWidth, pageHeight, '', 'FAST');
 
-    // Add "Certificated By" text at the top
     doc.setFontSize(20);
-    doc.setTextColor(255, 255, 255); // White text
+    doc.setTextColor(255, 255, 255);
     doc.text('Certificated By', 170, 300);
     doc.setFontSize(14);
 
-    // Add the logo
-    const logoSrc = 'AIT_White.png'; // URL to the logo image
+    const logoSrc = 'AIT_White.png';
     const logoWidth = 100;
     const logoHeight = 50;
     const logoX = 220 + doc.getTextWidth('Certificated By');
@@ -176,7 +171,6 @@ function generateCertificatePDF(data) {
     const imgWidth = data.value.dimensions.width;
     const imgHeight = data.value.dimensions.height;
 
-    // Define the maximum height constraint
     const maxHeight = 170;
 
     let newWidth, newHeight, xCoordinate;
@@ -192,13 +186,10 @@ function generateCertificatePDF(data) {
         xCoordinate = (doc.internal.pageSize.getWidth() - newWidth / 2) / 2;
     }
 
-    // Define the y-coordinate where you want to place the image
     const yCoordinate = 370;
 
-    // Add the image with specified height and centered horizontally
     doc.addImage(data.value.from_url, 'JPEG', xCoordinate, yCoordinate, 0, newHeight, '', 'FAST');
 
-    // Add the text below the image
     doc.setFontSize(18);
     doc.text('CERTIFICATE OF AUTHENTICITY ', 130, pageHeight - 270);
     doc.setFontSize(12);
@@ -207,11 +198,9 @@ function generateCertificatePDF(data) {
     doc.text('The AI model employed for this purpose is a product of cutting-edge ', 130, pageHeight - 190);
     doc.text('technology and creative algorithms.  ', 130, pageHeight - 170);
 
-    // Add the date at the bottom
     doc.setFontSize(12);
     doc.text(`Creation Date : ${data.value.createdOn}`, 200, pageHeight - 70);
 
-    // Save the PDF
     doc.save('certificate.pdf');
 }
 
@@ -228,7 +217,7 @@ const getSocketInstance = () => {
             reconnection: true,
             reconnectionAttempts: 5,
             reconnectionDelay: 5000,
-            //transports: ['websocket']
+            transports: ['websocket']
         });
     }
     return socket;
