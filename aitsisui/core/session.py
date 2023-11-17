@@ -62,15 +62,14 @@ class Session:
             if value == "init":                
                 #print("Client Initialized")
                 self.send("myapp", self.ui.render(), "init-content")
-                self.flush_message_queue()
+                
         else:
             if id in self.elements:
                 elm = self.elements[id]
                 if elm is not None:            
                     if event_name in elm.events:
                         elm.events[event_name](id, value)
-
-    # Cookie handling
+        self.flush_message_queue()
     def cookies_to_dict(self):
         return self.cookies if self.cookies else {}
 
