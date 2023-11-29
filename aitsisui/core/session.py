@@ -69,6 +69,7 @@ class Session:
                 if elm is not None:            
                     if event_name in elm.events:
                         elm.events[event_name](id, value)
+        self.flush_message_queue()
 
     # Cookie handling
     def cookies_to_dict(self):
