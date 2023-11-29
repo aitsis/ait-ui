@@ -28,6 +28,14 @@ from .picture import Picture
 from .page import Page
 from .htext import Htext
 from .modal import Modal
+from .table import Table
+from .tbody import Tbody
+from .thead import Thead
+from .tfoot import Tfoot
+from .tr import Tr
+from .th import Th
+from .td import Td
+
 
 __all__ = [
     "Button",
@@ -59,5 +67,13 @@ __all__ = [
     "Picture",
     "Page",
     "Htext",
-    "Modal"
+    "Modal",
+    "Table",
+    "Tbody",
+    "Thead",
+    "Tfoot",
+    "Tr",
+    "Th",
+    "Td",
+
 ]
