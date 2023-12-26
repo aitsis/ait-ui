@@ -12,6 +12,8 @@ class File(Element):
                  multiple = False,
                  save_path = None,
                  on_upload_done = None,
+                 on_upload_started = None,
+                 on_error = None,
                  autoBind=True,
                  useAPI=False):
         super().__init__(id = id, value = value, autoBind=autoBind)
@@ -24,9 +26,14 @@ class File(Element):
         self.style("display", "none")
         self.save_path = save_path
         self.events["file-upload-started"] = self.upload_started_API if useAPI else self.upload_started
-        self.events["change"] = lambda id, value: print("change", id)
+        self.events["file-change-started"] = self.on_change_started
+        self.events["file-upload-error"] = self.on_upload_error
+        self.on_upload_started = on_upload_started
         self.on_upload_done = on_upload_done
+        self.on_error = on_error
         self.useAPI = useAPI
+
+        self.on("change", self.upload_started_API if useAPI else self.upload_started)
 
     def get_client_handler_str(self, event_name):
         if event_name in ["input","change"]:
@@ -49,7 +56,6 @@ class File(Element):
             pass
 
     def upload_started(self, id, file):
-        #print("upload_started", id, file["file_name"])
         uploaded_file_path = os.path.join(tempfile.gettempdir(), file["uid"])
         uploaded_file_name = file["file_name"]
 
@@ -68,10 +74,21 @@ class File(Element):
             return -1
 
     def upload_started_API(self, id, data):
-        #print("upload_started", id, data["file_name"])
         try:
             self.upload_done(None, None, data=data)
             return
         except Exception as e:
-            #print(e)
             pass
+
+    def on_change_started(self, id, value):
+        if self.on_upload_started:
+            self.on_upload_started(value)
+        else:
+            pass
+
+    def on_upload_error(self, id, value):
+        if self.on_error:
+            self.on_error(value)
+        else:
+            pass
+
