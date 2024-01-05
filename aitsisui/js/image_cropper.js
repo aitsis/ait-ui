@@ -11,6 +11,15 @@ event_handlers["init-image-cropper"] = function (id, value, event_name) {
   let firstParent = document.getElementById(id).parentElement;
   let parentElement = firstParent.parentElement;
 
+  canvas.on('object:added', function(event) {
+    // Check if the added object is an image
+    if (event.target.type === 'image') {
+        clientEmit(id, {"message": "Image loaded"}, "image-loaded");
+
+        // Additional actions here
+    } 
+});
+
   canvas.setWidth(parentElement.offsetWidth);
   canvas.setHeight(parentElement.offsetHeight);
 
