@@ -10,9 +10,8 @@ class ImageViewer(Element):
         self.value_name = None
         self.hasButtons = hasButtons
         self.ableToZoom = ableToZoom
-        self.tool = tool       
-        self.imageLoaded = imageLoaded
-        self.events["image-loaded"] = self.image_loaded
+        self.tool = tool
+        self.events["image-loaded"] = imageLoaded if imageLoaded is not None and callable else lambda id, value: None
         
     @property
     def value(self):
@@ -32,12 +31,6 @@ class ImageViewer(Element):
         if self.ableToZoom is not None:
             self.queue_for_send(self.id, self.value_to_command("set-scroll-zoom", str(self.ableToZoom).lower()), "seadragon")
         return super().render()
-    
-    def image_loaded(self, id, value):
-        if self.imageLoaded is not None:
-            self.imageLoaded(id, value)
-        else :
-            print("image_loaded")
 
     def closeImage(self):
         self.send(self.id, self.value_to_command("close", None), "seadragon")
