@@ -4,10 +4,12 @@ index_gen.add_script_source('fabric-js-lib', '<script src="fabric.min.js"></scri
 index_gen.add_script_source('image-cropper', '<script src="js/image_cropper.js"></script>')
 
 class ImageCropper(Element):
-    def __init__(self, id=None, value=None, autoBind=True):
+    def __init__(self, id=None, value=None, imageLoaded = None, autoBind=True):
         super().__init__(id=id, value=value, autoBind=autoBind)
         self.tag = "canvas"
         self.value_name = None
+        self.imageLoaded = imageLoaded
+        self.events["image-loaded"] = self.image_loaded
 
     @property
     def value(self):
@@ -18,6 +20,12 @@ class ImageCropper(Element):
         self._value = value
         if self._value is not None:
             self.send(self.id, self.value_to_command("loadImage", self._value), "image-cropper")
+
+    def image_loaded(self, id, value):
+        if self.imageLoaded is not None:
+            self.imageLoaded(id, value)
+        else :
+            print("image_loaded fabric")
 
     def render(self):
         if self.id is not None:
