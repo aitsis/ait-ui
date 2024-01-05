@@ -10,7 +10,7 @@ default_header_items = {
     'socket.io': '<script src="js/socket.io.min.js"></script>',
     # 'font-awesome-css': '<link rel="stylesheet" href="font-awesome_6.4.2.all.min.css" referrerpolicy="no-referrer">',
     # 'font-awesome-js': '<script src="/js/font-awesome_6.4.2.all.min.js" referrerpolicy="no-referrer"></script>',
-    'style': '<link rel="stylesheet" href="style.css">',
+    'style': '<link rel="stylesheet" href="style.css?v=0.15">',
     'favicon': '<link rel="icon" href="https://ai.ait.com.tr/wp-content/uploads/cropped-favicon_aiait-32x32.png" sizes="32x32" />'
 }
 
@@ -21,7 +21,7 @@ global styles
 
 header_items = {}
 
-default_script_sources = {"main": "<script src='js/main.js'></script>"}
+default_script_sources = {"main": "<script src='js/main.js?v=0.15'></script>"}
 
 script_sources = {}
 
