@@ -4,13 +4,15 @@ index_gen.add_script_source('seadragon-js-lib', '<script src="openseadragon.min.
 index_gen.add_script_source('seadragon', '<script src="js/seadragon.js"></script>')
 
 class ImageViewer(Element):
-    def __init__(self, id=None, value=None, hasButtons=True, ableToZoom=False, autoBind=True, tool=None):
+    def __init__(self, id=None, value=None, hasButtons=True, ableToZoom=False, autoBind=True, imageLoaded=None, tool=None):
         super().__init__(id=id, value=value, autoBind=autoBind)
         self.tag = "div"
         self.value_name = None
         self.hasButtons = hasButtons
         self.ableToZoom = ableToZoom
         self.tool = tool       
+        self.imageLoaded = imageLoaded
+        self.events["image-loaded"] = self.image_loaded
         
     @property
     def value(self):
@@ -30,6 +32,12 @@ class ImageViewer(Element):
         if self.ableToZoom is not None:
             self.queue_for_send(self.id, self.value_to_command("set-scroll-zoom", str(self.ableToZoom).lower()), "seadragon")
         return super().render()
+    
+    def image_loaded(self, id, value):
+        if self.imageLoaded is not None:
+            self.imageLoaded(id, value)
+        else :
+            print("image_loaded")
 
     def closeImage(self):
         self.send(self.id, self.value_to_command("close", None), "seadragon")
