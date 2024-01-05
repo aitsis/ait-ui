@@ -27,12 +27,8 @@ event_handlers["init-seadragon"] = function (id, value, event_name) {
         viewer: viewer
     };
 
-    // Add an event handler for the "open" event
     viewer.addHandler('open', function(event) {
-        // The image is now fully loaded and ready to be displayed
         clientEmit(id, {"message": "Image loaded"}, "image-loaded");
-        // You can perform additional actions here
-        // For example, access viewer properties or manipulate the UI
     });
 
     function on_mouse_move(mousePosition) {

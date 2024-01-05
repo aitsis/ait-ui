@@ -8,8 +8,7 @@ class ImageCropper(Element):
         super().__init__(id=id, value=value, autoBind=autoBind)
         self.tag = "canvas"
         self.value_name = None
-        self.imageLoaded = imageLoaded
-        self.events["image-loaded"] = self.image_loaded
+        self.events["image-loaded"] = imageLoaded if imageLoaded is not None and callable else lambda id, value: None
 
     @property
     def value(self):
@@ -20,12 +19,6 @@ class ImageCropper(Element):
         self._value = value
         if self._value is not None:
             self.send(self.id, self.value_to_command("loadImage", self._value), "image-cropper")
-
-    def image_loaded(self, id, value):
-        if self.imageLoaded is not None:
-            self.imageLoaded(id, value)
-        else :
-            print("image_loaded fabric")
 
     def render(self):
         if self.id is not None:
